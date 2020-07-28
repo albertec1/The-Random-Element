@@ -32,8 +32,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new j1Textures();
 	scene = new j1Scene();
 	audio = new j1Audio();
+	map = new j1Map();
 
-	//map = new j1Map();
 	//coll = new j1Collision();
 	//player = new j1Player();
 	//pathfinding = new j1PathFinding();
@@ -48,9 +48,10 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(scene);
+	AddModule(map);
 
 	//AddModule(coll);
-	//AddModule(map);
+	
 	//AddModule(pathfinding);
 	//AddModule(manager);
 	//AddModule(player);

@@ -12,7 +12,7 @@ class j1Render;
 class j1Textures;
 class j1Audio;
 class j1Scene;
-//class j1Map;
+class j1Map;
 //class j1Collision;
 //class j1Player;
 //class j1PathFinding;
@@ -87,10 +87,10 @@ public:
 	j1Textures*			tex;
 	j1Audio*			audio;
 	j1Scene*			scene;
-	//j1Map*				map;
+	j1Map*				map;
 	//j1Collision*		coll;
 	//j1Player*			player;
-	//j1PathFinding*		pathfinding;
+	//j1PathFinding*	pathfinding;
 	//j1EntityManager*	manager;
 	//j1FadeToBlack		fade;
 
