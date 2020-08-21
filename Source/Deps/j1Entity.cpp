@@ -2,9 +2,15 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "p2Log.h"
+#include "SDL/include/SDL.h"
 
 
 j1Entity::j1Entity(iPoint pos, ENTITY_TYPE type) : starting_position(pos), type(type), entity_texture(nullptr), entity_collider(nullptr)
+{
+	flipped = false;
+}
+
+j1Entity::~j1Entity()
 {
 	return;
 }

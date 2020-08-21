@@ -12,6 +12,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Collision.h"
+#include "j1EntityManager.h"
 
 #include "Brofiler/Brofiler/Brofiler.h"
 
@@ -31,6 +32,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map =		new j1Map();
 	scene =		new j1Scene();
 	coll =		new j1Collision();
+	manager =	new j1EntityManager();
 	//-----
 
 	// AddModule() for every Object created before
@@ -42,6 +44,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(scene);
 	AddModule(coll);
+	AddModule(manager);
 
 	// render last to swap buffer
 	AddModule(render);

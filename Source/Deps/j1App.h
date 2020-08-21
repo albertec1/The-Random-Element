@@ -12,6 +12,7 @@ class j1Textures;
 class j1Map;
 class j1Scene;
 class j1Collision;
+class j1EntityManager;
 //---
 
 class j1App
@@ -74,6 +75,7 @@ public:
 	j1Map*				map;
 	j1Scene*			scene;
 	j1Collision*		coll;
+	j1EntityManager*	manager;
 	//-----
 private:
 

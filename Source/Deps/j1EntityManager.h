@@ -5,9 +5,12 @@
 struct SDL_Rect;
 struct Collider;
 struct SDL_Texture;
+struct j1EntityPlayer;
 
 class j1EntityManager : public j1Module
 {
+public:
+
 	j1EntityManager();
 
 	~j1EntityManager();
@@ -33,4 +36,5 @@ public:
 
 public:
 	p2List<j1Entity*>		entities;
+	j1EntityPlayer*			player;
 };

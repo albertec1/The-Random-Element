@@ -36,25 +36,11 @@ struct PlayerInput
 class j1EntityPlayer : public j1MovingEntity
 {
 public:
-
-	enum class CurrentState
-	{
-		ST_UNKNOWN,
-		ST_IDLE,
-		ST_LEFT_W,
-		ST_LEFT_R,
-		ST_RIGHT_W,
-		ST_RIGHT_R,
-		ST_JUMPING,
-		ST_SLIDING,
-		ST_CLIMBING,
-		ST_DYING,
-	};
-
-public:
 	j1EntityPlayer(iPoint pos, ENTITY_TYPE type);
 
 	~j1EntityPlayer();
+
+	bool Start();
 
 	bool Awake(pugi::xml_node& node);
 
@@ -62,9 +48,7 @@ public:
 
 	bool Update(float dt, bool doLogic);
 
-	bool Start();
-
-	bool Draw();
+	bool CleanUp();
 
 	void OnCollision(Collider* c1, Collider* c2);
 
@@ -73,7 +57,7 @@ public:
 	//PLAYER
 	iPoint			size;
 	PlayerInput		player_input;
-	CurrentState	player_state;
+	ENTITY_STATES	player_state;
 
 	//Texture
 	SDL_Texture* Graphics = nullptr;

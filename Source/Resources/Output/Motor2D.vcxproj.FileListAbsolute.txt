@@ -1,2 +1,4 @@
 D:\Documents\GitHub\The-Random-Element - REMAKE\Source\Resources\Output\Random Element Project - REMAKE.exe
 D:\Documents\GitHub\The-Random-Element - REMAKE\Source\Resources\Output\Random Element Project - REMAKE.pdb
+D:\Documents\GitHub\The-random-element\Source\Resources\Output\Random Element Project - REMAKE.exe
+D:\Documents\GitHub\The-random-element\Source\Resources\Output\Random Element Project - REMAKE.pdb

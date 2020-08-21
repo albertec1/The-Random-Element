@@ -7,22 +7,24 @@
 struct Collider;
 struct SDL_Texture;
 
-enum class ENTITY_STATES
-{
-	ST_UNKNOWN,
-	ST_IDLE,
-	ST_LEFT_W,
-	ST_LEFT_R,
-	ST_RIGHT_W,
-	ST_RIGHT_R,
-	ST_JUMPING,
-	ST_SLIDING,
-	ST_CLIMBING,
-	ST_DYING,
-};
-
 class j1MovingEntity : public j1Entity
 {
+public:
+
+	enum class ENTITY_STATES
+	{
+		ST_UNKNOWN,
+		ST_IDLE,
+		ST_LEFT_W,
+		ST_LEFT_R,
+		ST_RIGHT_W,
+		ST_RIGHT_R,
+		ST_JUMPING,
+		ST_SLIDING,
+		ST_CLIMBING,
+		ST_DYING,
+	};
+
 public:
 	j1MovingEntity(iPoint pos, ENTITY_TYPE type);
 
@@ -40,8 +42,6 @@ public:
 
 	virtual bool Draw();
 
-	virtual void OnCollision(Collider* c1, Collider* c2);
-
 	virtual const iPoint GetCurrentPosition()
 	{
 		return current_position;
@@ -53,6 +53,7 @@ protected:
 	fPoint			starting_acceleration;
 	fPoint			current_velocity;
 	fPoint			current_acceleration;
+	fPoint			gravity;
 
 	ENTITY_STATES	state;
 

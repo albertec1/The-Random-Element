@@ -2,30 +2,37 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "p2Log.h"
+#include "j1MovingEntity.h"
 
 
-j1Entity::j1Entity(iPoint pos, ENTITY_TYPE type) : starting_position(pos), type(type), entity_texture(nullptr), entity_collider(nullptr)
+j1MovingEntity::j1MovingEntity(iPoint pos, ENTITY_TYPE type) : j1Entity(pos, type)
+{
+	state = ENTITY_STATES::ST_IDLE;
+	return;
+}
+
+j1MovingEntity::~j1MovingEntity()
 {
 	return;
 }
 
-bool j1Entity::PreUpdate()
+bool j1MovingEntity::PreUpdate()
 {
 	return true;
 }
 
-bool j1Entity::Update(float dt)
+bool j1MovingEntity::Update(float dt)
 {
 	return true;
 }
 
-bool j1Entity::Start()
+bool j1MovingEntity::Start()
 {
 	flipped = false;
 	return true;
 }
 
-bool j1Entity::Draw()
+bool j1MovingEntity::Draw()
 {
 	bool ret = false;
 
@@ -37,21 +44,12 @@ bool j1Entity::Draw()
 	return ret;
 }
 
-bool j1Entity::PostUpdate()
+bool j1MovingEntity::PostUpdate()
 {
 	return true;
 }
 
-bool j1Entity::CleanUp()
+bool j1MovingEntity::CleanUp()
 {
 	return true;
-}
-
-//save?
-
-//load?
-
-void j1Entity::OnCollision(Collider* c1, Collider* c2)
-{
-	return;
 }

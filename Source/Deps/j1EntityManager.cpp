@@ -4,6 +4,7 @@
 #include "j1Map.h"
 #include "j1Collision.h"
 #include "j1Scene.h"
+#include "j1EntityPlayer.h"
 
 j1EntityManager::j1EntityManager()
 {
@@ -18,6 +19,8 @@ j1EntityManager::~j1EntityManager()
 bool j1EntityManager::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
+
+	player = (j1EntityPlayer*)CreateEntity(ENTITY_TYPE::PLAYER, {0,0});
 
 	for (p2List_item<j1Entity*>* item = entities.start; item != nullptr; item = item->next)
 	{
@@ -123,24 +126,19 @@ j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, iPoint initPos)
 	return ret;
 }
 
+bool j1EntityManager::DestroyEntity(j1Entity* entity)
+{
+	p2List_item<j1Entity*>* item = nullptr; item->data = entity;
+	entities.del(item);
+
+	entity = nullptr;
+
+	return true;
+}
+
 void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 {
 	{
-		/*
-		En vista de que esta función ha sido un fracaso, voy a seguir los siguientes pasos para mejorarla:
-
-		1. Crear una función en el modulo de colidiones para cada lado de un collider, por ejemplo:
-			bool canCollide_right(uint tile_gid)
-			{
-			bool ret = false;
-				if (tiene una tile en la derecha en la capa de colliders &&
-				esta es un collider de tipo WALL o CLIMB_WALL)
-				{
-					ret = true;
-				}
-				return ret;
-			}
-		*/
 		if (c1->type == PLAYER)
 		{
 			iPoint wall_position = App->map->WorldToMap(c2->rect.x, c2->rect.y);
@@ -154,7 +152,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 					if (c2->type == WALL)
 					{
 						j1Entity* callback = (j1Entity*)c1->callback;
-						callback->CurrentPosition.y = c2->rect.y - c1->rect.h;
+						callback->current_position.y = c2->rect.y - c1->rect.h;
 					}
 				}
 			}
@@ -167,7 +165,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 					if (c2->type == WALL)
 					{
 						j1Entity* callback = (j1Entity*)c1->callback;
-						callback->CurrentPosition.y = c2->rect.y + c2->rect.h;
+						callback->current_position.y = c2->rect.y + c2->rect.h;
 					}
 				}
 			}
@@ -178,7 +176,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				if (App->coll->canCollide_right(tileid))
 				{
 					j1Entity* callback = (j1Entity*)c1->callback;
-					callback->CurrentPosition.x = c2->rect.x + c2->rect.w;
+					callback->current_position.x = c2->rect.x + c2->rect.w;
 				}
 			}
 
@@ -188,7 +186,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				if (App->coll->canCollide_left(tileid))
 				{
 					j1Entity* callback = (j1Entity*)c1->callback;
-					callback->CurrentPosition.x = c2->rect.x - c1->rect.w;
+					callback->current_position.x = c2->rect.x - c1->rect.w;
 				}
 			}
 		}
@@ -204,7 +202,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				if (App->coll->canCollide_top(tileid))
 				{
 					j1Entity* callback = (j1Entity*)c2->callback;
-					callback->CurrentPosition.y = c1->rect.y - c2->rect.h;
+					callback->current_position.y = c1->rect.y - c2->rect.h;
 				}
 			}
 
@@ -214,7 +212,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				if (App->coll->canCollide_bottom(tileid))
 				{
 					j1Entity* callback = (j1Entity*)c2->callback;
-					callback->CurrentPosition.y = c1->rect.y + c1->rect.h;
+					callback->current_position.y = c1->rect.y + c1->rect.h;
 				}
 			}
 
@@ -224,7 +222,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				if (App->coll->canCollide_right(tileid))
 				{
 					j1Entity* callback = (j1Entity*)c2->callback;
-					callback->CurrentPosition.x = c1->rect.x + c1->rect.w;
+					callback->current_position.x = c1->rect.x + c1->rect.w;
 				}
 			}
 
@@ -234,7 +232,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				if (App->coll->canCollide_left(tileid))
 				{
 					j1Entity* callback = (j1Entity*)c2->callback;
-					callback->CurrentPosition.x = c1->rect.x - c2->rect.w;
+					callback->current_position.x = c1->rect.x - c2->rect.w;
 				}
 			}
 		}
