@@ -43,6 +43,9 @@
     <ClCompile Include="j1EntityPlayer.cpp">
       <Filter>Development\Modules\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="j1MovingEntity.cpp">
+      <Filter>Development\Modules\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="p2Defs.h">
@@ -103,6 +106,9 @@
       <Filter>Development\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="j1EntityPlayer.h">
+      <Filter>Development\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="j1MovingEntity.h">
       <Filter>Development\Modules\Entities</Filter>
     </ClInclude>
   </ItemGroup>

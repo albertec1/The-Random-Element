@@ -1,10 +1,12 @@
 
 #include "j1EntityPlayer.h"
+#include "j1MovingEntity.h"
+#include "j1Collision.h"
 #include "PugiXml/src/pugixml.hpp"
 
-class j1EntityPlayer::j1EntityPlayer(iPoint pos, ENTITY_TYPE type) : j1Entity(pos, type)
+class j1EntityPlayer::j1EntityPlayer(iPoint pos, ENTITY_TYPE type) : j1MovingEntity(pos, type)
 {
-	bool j1EntityPlayer::Awake(pugi::xml_node & node)
+	bool j1EntityPlayer::Awake(pugi::xml_node& node)
 	{
 		//Player loaded from xml
 		pugi::xml_node colliders = node.child("player").child("colliders");

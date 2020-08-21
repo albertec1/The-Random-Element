@@ -99,6 +99,7 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="j1Render.cpp" />
+    <ClCompile Include="j1MovingEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Collision.h" />
@@ -106,6 +107,7 @@
     <ClInclude Include="j1EntityManager.h" />
     <ClInclude Include="j1EntityPlayer.h" />
     <ClInclude Include="j1Map.h" />
+    <ClInclude Include="j1MovingEntity.h" />
     <ClInclude Include="j1Scene.h" />
     <ClInclude Include="j1Textures.h" />
     <ClInclude Include="j1Input.h" />

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "j1Module.h"
+#include "SDL/include/SDL.h"
 #include "p2Point.h"
 
 struct Collider;
@@ -18,6 +19,8 @@ class j1Entity : public j1Module
 {
 public:
 	j1Entity(iPoint pos, ENTITY_TYPE type);
+
+	~j1Entity();
 
 	virtual bool Start();
 
@@ -53,17 +56,15 @@ protected:
 	Collider*		entity_collider;
 
 	iPoint			starting_position;
-	fPoint			starting_velocity;
-	fPoint			starting_acceleration;
 	iPoint			current_position;
-	fPoint			current_velocity;
-	fPoint			current_acceleration;
 
 	SDL_Texture*	entity_texture;
 	SDL_Rect		entity_rect;
 
 	iPoint			sprite_size;
 	bool			flipped;
+
+	//save and load?
 
 	friend class j1EntityManager;
 };

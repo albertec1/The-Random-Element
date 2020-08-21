@@ -3,6 +3,7 @@
 #include "p2Point.h"
 #include "j1EntityManager.h"
 #include "j1Entity.h"
+#include "j1MovingEntity.h"
 
 class SDL_Texture;
 
@@ -32,7 +33,7 @@ struct PlayerInput
 	bool D_GOD_enabled;		//Right
 };
 
-class j1EntityPlayer : public j1Entity
+class j1EntityPlayer : public j1MovingEntity
 {
 public:
 
@@ -52,6 +53,8 @@ public:
 
 public:
 	j1EntityPlayer(iPoint pos, ENTITY_TYPE type);
+
+	~j1EntityPlayer();
 
 	bool Awake(pugi::xml_node& node);
 
