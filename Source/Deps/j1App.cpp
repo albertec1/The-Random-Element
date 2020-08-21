@@ -4,67 +4,53 @@
 #include "p2Defs.h"
 #include "p2Log.h"
 
+#include "j1App.h"
 #include "j1Window.h"
 #include "j1Input.h"
 #include "j1Render.h"
 #include "j1Textures.h"
-#include "j1Audio.h"
-#include "j1Scene.h"
 #include "j1Map.h"
-#include "j1App.h"
+#include "j1Scene.h"
 #include "j1Collision.h"
-#include "j1Player.h"
-#include "j1FadeToBlack.h"
-#include "j1Pathfinding.h"
-#include "j1EntityManager.h"
 
 #include "Brofiler/Brofiler/Brofiler.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
+	dt = 0;
 	frames = 0;
 	want_to_save = want_to_load = false;
+	allow_debug_log = true;
 
-	input = new j1Input();
-	win = new j1Window();
-	render = new j1Render();
-	tex = new j1Textures();
-	scene = new j1Scene();
-	audio = new j1Audio();
-	map = new j1Map();
+	//class Objects are created here
+	win =		new j1Window();
+	input =		new j1Input();
+	render =	new j1Render();
+	tex =		new j1Textures();
+	map =		new j1Map();
+	scene =		new j1Scene();
+	coll =		new j1Collision();
+	//-----
 
-	//coll = new j1Collision();
-	//player = new j1Player();
-	//pathfinding = new j1PathFinding();
-	//manager = new j1EntityManager();
-	//fade = new j1FadeToBlack();
-
+	// AddModule() for every Object created before
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
-
-	AddModule(input);
 	AddModule(win);
+	AddModule(input);
 	AddModule(tex);
-	AddModule(audio);
-	AddModule(scene);
 	AddModule(map);
-
-	//AddModule(coll);
-	
-	//AddModule(pathfinding);
-	//AddModule(manager);
-	//AddModule(player);
-	//AddModule(fade);
+	AddModule(scene);
+	AddModule(coll);
 
 	// render last to swap buffer
 	AddModule(render);
+	//-----
 }
 
-// Destructor
 j1App::~j1App()
 {
-	// release modules
+	//Release modules
 	p2List_item<j1Module*>* item = modules.end;
 
 	while (item != NULL)
@@ -82,7 +68,6 @@ void j1App::AddModule(j1Module* module)
 	modules.add(module);
 }
 
-// Called before render is available
 bool j1App::Awake()
 {
 	pugi::xml_document	config_file;
@@ -95,7 +80,7 @@ bool j1App::Awake()
 
 	if (config.empty() == false)
 	{
-		// self-config
+		//self-config
 		ret = true;
 		app_config = config.child("app");
 		title.create(app_config.child("title").child_value());
@@ -106,9 +91,10 @@ bool j1App::Awake()
 	{
 		p2List_item<j1Module*>* item;
 		item = modules.start;
-
+		
 		while (item != NULL && ret == true)
 		{
+			//ret = Awake the current module->(pass the config child node which shares name with the current module)
 			ret = item->data->Awake(config.child(item->data->name.GetString()));
 			item = item->next;
 		}
@@ -117,7 +103,20 @@ bool j1App::Awake()
 	return ret;
 }
 
-// Called before the first frame
+pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
+{
+	pugi::xml_node ret;
+	pugi::xml_parse_result result = config_file.load_file("config.xml");
+
+	if (result == NULL)
+		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
+
+	else
+		ret = config_file.child("config");
+
+	return ret;
+}
+
 bool j1App::Start()
 {
 	bool ret = true;
@@ -132,14 +131,12 @@ bool j1App::Start()
 
 	return ret;
 }
-
-// Called each loop iteration
 bool j1App::Update()
 {BROFILER_CATEGORY("UpdateApp", Profiler::Color::MediumSpringGreen)
 	bool ret = true;
 	PrepareUpdate();
-
-	if (input->GetWindowEvent(WE_QUIT) == true)
+	
+	if (input->GetWindowEvent(j1WindowEvent::WE_QUIT) == true)
 		ret = false;
 
 	if (ret == true)
@@ -150,42 +147,14 @@ bool j1App::Update()
 
 	if (ret == true)
 		ret = PostUpdate();
-
+		
 	FinishUpdate();
 	return ret;
 }
 
-// ---------------------------------------------
-pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
-{
-	pugi::xml_node ret;
-	pugi::xml_parse_result result = config_file.load_file("config.xml");
-
-	if (result == NULL)
-		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
-	else
-		ret = config_file.child("config");
-
-	return ret;
-}
-
-// ---------------------------------------------
 void j1App::PrepareUpdate()
-{
-}
+{}
 
-// ---------------------------------------------
-void j1App::FinishUpdate()
-{BROFILER_CATEGORY("FinishApp", Profiler::Color::Aqua)
-
-	if (want_to_save == true)
-		SavegameNow();
-
-	if (want_to_load == true)
-		LoadGameNow();
-}
-
-// Call modules before each loop iteration
 bool j1App::PreUpdate()
 {BROFILER_CATEGORY("PreUpdateApp", Profiler::Color::DarkRed)
 	bool ret = true;
@@ -197,17 +166,16 @@ bool j1App::PreUpdate()
 	{
 		pModule = item->data;
 
-		if (pModule->active == false) {
+		if (pModule->active == false)
 			continue;
-		}
 
 		ret = item->data->PreUpdate();
 	}
 
 	return ret;
+
 }
 
-// Call modules on each loop iteration
 bool j1App::DoUpdate()
 {BROFILER_CATEGORY("DoUpdateApp", Profiler::Color::Blue)
 	bool ret = true;
@@ -219,17 +187,15 @@ bool j1App::DoUpdate()
 	{
 		pModule = item->data;
 
-		if (pModule->active == false) {
+		if (pModule->active == false)
 			continue;
-		}
-
+		
 		ret = item->data->Update(dt);
 	}
 
 	return ret;
 }
 
-// Call modules after each loop iteration
 bool j1App::PostUpdate()
 {
 	bool ret = true;
@@ -250,7 +216,16 @@ bool j1App::PostUpdate()
 	return ret;
 }
 
-// Called before quitting
+void j1App::FinishUpdate()
+{BROFILER_CATEGORY("FinishApp", Profiler::Color::Aqua)
+
+	if (want_to_save == true)
+		SaveGameNow();
+
+	if (want_to_load == true)
+		LoadGameNow();
+}
+
 bool j1App::CleanUp()
 {
 	bool ret = true;
@@ -272,7 +247,6 @@ int j1App::GetArgc() const
 	return argc;
 }
 
-// ---------------------------------------
 const char* j1App::GetArgv(int index) const
 {
 	if (index < argc)
@@ -281,13 +255,11 @@ const char* j1App::GetArgv(int index) const
 		return NULL;
 }
 
-// ---------------------------------------
 const char* j1App::GetTitle() const
 {
 	return title.GetString();
 }
 
-// ---------------------------------------
 const char* j1App::GetOrganization() const
 {
 	return organization.GetString();
@@ -320,74 +292,10 @@ void j1App::GetSaveGames(p2List<p2SString>& list_to_fill) const
 
 bool j1App::LoadGameNow()
 {
-	bool ret = false;
-
-	pugi::xml_document data;
-	pugi::xml_node root;
-
-	pugi::xml_parse_result result = data.load_file(load_game.GetString());
-
-	if (result != NULL)
-	{
-		LOG("Loading new Game State from %s...", load_game.GetString());
-
-		root = data.child("game_state");
-
-		p2List_item<j1Module*>* item = modules.start;
-		ret = true;
-
-		while (item != NULL && ret == true)
-		{
-			ret = item->data->Load(root.child(item->data->name.GetString()));
-			item = item->next;
-		}
-
-		data.reset();
-		if (ret == true)
-			LOG("...finished loading");
-		else
-			LOG("...loading process interrupted with error on module %s", (item != NULL) ? item->data->name.GetString() : "unknown");
-	}
-	else
-		LOG("Could not parse game state xml file %s. pugi error: %s", load_game.GetString(), result.description());
-
-	want_to_load = false;
-	return ret;
+	return true;
 }
 
-bool j1App::SavegameNow() const
+bool j1App::SaveGameNow() const
 {
-	bool ret = true;
-
-	LOG("Saving Game State to %s...", save_game.GetString());
-
-	// xml object were we will store all data
-	pugi::xml_document data;
-	pugi::xml_node root;
-
-	root = data.append_child("game_state");
-
-	p2List_item<j1Module*>* item = modules.start;
-
-	while (item != NULL && ret == true)
-	{
-		ret = item->data->Save(root.append_child(item->data->name.GetString()));
-		item = item->next;
-	}
-
-	if (ret == true)
-	{
-		std::stringstream stream;
-		data.save(stream);
-
-		// we are done, so write data to disk
-		//fs->Save(save_game.GetString(), stream.str().c_str(), stream.str().length());
-		LOG("... finished saving", save_game.GetString());
-	}
-	else
-		LOG("Save process halted from an error in module %s", (item != NULL) ? item->data->name.GetString() : "unknown");
-
-	data.reset();
-	want_to_save = false;
-	return ret;
+	return true;
 }

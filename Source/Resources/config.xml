@@ -4,15 +4,8 @@
   <app framerate_cap="10">
     <title>Game Development Testbed</title>
     <organization>UPC</organization>
+    <folder>maps/</folder>
   </app>
-	
-  <renderer>
-    <vsync value="true"/>
-  </renderer>
-
-  <fonts>
-    <default_font file="fonts/open_sans/OpenSans-Regular.ttf" size="32"/>
-  </fonts>
 
   <window>
     <resolution width="1280" height="720" scale="1"/>
@@ -21,13 +14,25 @@
     <resizable value="false"/>
     <fullscreen_window value="false"/>
   </window>
-
-  <file_system>
-    <path>data.zip</path>
-  </file_system>
+	
+  <renderer>
+    <vsync value="true"/>
+  </renderer>
 
   <map>
     <folder>maps/</folder>
   </map>
+
+  <scene>
+    <camera initial_pos_x="0" initial_pos_y="-310"/>
+  </scene>
+  <fonts>
+    <default_font file="fonts/open_sans/OpenSans-Regular.ttf" size="32"/>
+  </fonts>
+
+  <file_system>
+    <path>data.zip</path>
+  </file_system>
+ 
 
 </config>

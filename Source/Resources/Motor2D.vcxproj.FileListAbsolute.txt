@@ -1,3 +1,0 @@
-D:\Documents\GitHub\The-Random-Element\Source\Resources\.pdb
-D:\Documents\GitHub\The-Random-Element\Source\Resources\Random Element Project\.exe
-D:\Documents\GitHub\The-Random-Element\Source\Resources\Random Element Project\.pdb

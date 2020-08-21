@@ -1,9 +1,7 @@
-#ifndef __J1ENTITY__
-#define __J1ENTITY__
+#pragma once
 
 #include "j1Module.h"
 #include "p2Point.h"
-#include "SDL/include/SDL.h"
 
 struct Collider;
 struct SDL_Texture;
@@ -13,9 +11,9 @@ enum class ENTITY_TYPE
 	PLAYER,
 	FLYING_ENEMY,
 	WALKING_ENEMY,
-	CASH_BAG,
-	UNKNOWN_TYPE
+	UNKNOWN_TYPE,
 };
+
 class j1Entity : public j1Module
 {
 public:
@@ -25,15 +23,11 @@ public:
 
 	virtual bool PreUpdate();
 
-	virtual bool Update(float dt, bool doLogic);
+	virtual bool Update(float dt);
 
 	virtual bool PostUpdate();
 
 	virtual bool CleanUp();
-
-	//save?
-
-	//load?
 
 	virtual bool Draw();
 
@@ -41,29 +35,35 @@ public:
 
 	virtual const Collider* GetCollider()
 	{
-		return EntityCollider;
+		return entity_collider;
 	}
 
-	virtual const iPoint GetPosition()
+	virtual const iPoint GetStartingPosition()
 	{
-		return StartingPosition;
+		return starting_position;
 	}
 
-	virtual void SetTexture(SDL_Texture* texture)
+	virtual void SetTexture(SDL_Texture* texture) 
 	{
-		EntityTexture = texture;
+		entity_texture = texture;
 	}
 
 protected:
-	ENTITY_TYPE		Type;
-	Collider*		EntityCollider;
-	iPoint			StartingPosition;
-	SDL_Texture*	EntityTexture;
-	SDL_Rect		EntityRect;
+	ENTITY_TYPE		type;
+	Collider*		entity_collider;
+
+	iPoint			starting_position;
+	fPoint			starting_velocity;
+	fPoint			starting_acceleration;
+	iPoint			current_position;
+	fPoint			current_velocity;
+	fPoint			current_acceleration;
+
+	SDL_Texture*	entity_texture;
+	SDL_Rect		entity_rect;
+
 	iPoint			sprite_size;
 	bool			flipped;
 
 	friend class j1EntityManager;
 };
-
-#endif __J1ENTITY__

@@ -1,43 +1,22 @@
-#ifndef __j1SCENE_H__
-#define __j1SCENE_H__
+#pragma once
 
 #include "j1Module.h"
-#include "j1EntityManager.h"
-#include "j1EntityPlayer.h"
-
-struct SDL_Texture;
+#include "p2Point.h"
 
 class j1Scene : public j1Module
 {
 public:
 
 	j1Scene();
-
-	// Destructor
 	virtual ~j1Scene();
 
-	// Called before render is available
-	bool Awake();
-
-	// Called before the first frame
+	bool Awake(pugi::xml_node& config);
 	bool Start();
-
-	// Called before all Updates
 	bool PreUpdate();
-
-	// Called each loop iteration
 	bool Update(float dt);
-
-	// Called before all Updates
 	bool PostUpdate();
-
-	// Called before quitting
 	bool CleanUp();
 
-private:
-	SDL_Texture* debug_tex;
-	uint i = 0; // PF test
-	uint j = 0; // PF test
+public:
+	p2Point<int> camera_init_pos;
 };
-
-#endif // __j1SCENE_H__

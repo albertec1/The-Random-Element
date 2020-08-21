@@ -1,13 +1,12 @@
-#ifndef __j1ENTITYPLAYER_H__
-#define __j1ENTITYPLAYER_H__
+#pragma once
 
 #include "p2Point.h"
+#include "j1EntityManager.h"
 #include "j1Entity.h"
-#include "Animation.h"
-#include "j1EntityMovable_Ground.h"
-#include "j1Input.h"
 
-struct Player_Input
+class SDL_Texture;
+
+struct PlayerInput
 {
 	//TODO://SHORTCUTS //player only
 	bool F1_enabled;	//START LEVEL 1 (falta)
@@ -33,8 +32,24 @@ struct Player_Input
 	bool D_GOD_enabled;		//Right
 };
 
-class j1EntityPlayer : public j1EntityMovable_ground
+class j1EntityPlayer : public j1Entity
 {
+public:
+
+	enum class CurrentState
+	{
+		ST_UNKNOWN,
+		ST_IDLE,
+		ST_LEFT_W,
+		ST_LEFT_R,
+		ST_RIGHT_W,
+		ST_RIGHT_R,
+		ST_JUMPING,
+		ST_SLIDING,
+		ST_CLIMBING,
+		ST_DYING,
+	};
+
 public:
 	j1EntityPlayer(iPoint pos, ENTITY_TYPE type);
 
@@ -51,56 +66,34 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 
 public:
-	
-	//PLAYER
-	//iPoint			Size;				EntityMovable inherited property -- Size
-	//SDL_Rect		PlayerRect;				EntityMovable inherited property -- EntityRect
-	Player_Input	PlayerInput;
-	//Current_State	PlayerState;			EntityMovable inherited property -- EntityState
 
-	//POSITION
-	//iPoint		CurrentPosition;		EntityMovable inherited property -- CurrentPosition
-	//iPoint		StartingPosition;		Entity inherited property		 -- StartingPosition
-	iPoint			ActualizedPosition;		//Needed in EntityMovable?
-	//float			PlayerVel_w;			EntityMovable inherited property -- velocity
-	float			PlayerVel_r;
-	//SDL_Texture*	Graphics = nullptr;		Entity inherited property -- EntityTexture (also set to nullptr)
+	//PLAYER
+	iPoint			size;
+	PlayerInput		player_input;
+	CurrentState	player_state;
+
+	//Texture
+	SDL_Texture* Graphics = nullptr;
 
 	//ANIMATION
 	//Draw diferents animations
-	//Animation*	current_animation;		EntityMovable inherited property -- current_animation
-	//SDL_Rect		rotating_animation;		EntityMovable inherited property -- rotating_animation
-	//bool			flipped = false;		EntityMovable inherited property -- flipped (also set to false)
+	//Animation*	current_animation;		
+	//SDL_Rect		rotating_animation;		
+	//bool			flipped = false;		
 	//Idle---
-	//Animation		idle;					EntityMovable inherited property -- idle
-	//Walking---
-	//Animation		walking;				EntityMovable inherited property -- walking
+	//Animation		idle;					
 	//Running---
-	Animation		running;
-	//Sliding---
-	Animation		sliding;
-	float			Slide_distance;
-	//Climbing---
-	Animation		climbing;
+	//Animation		running;
 	//Dying---
-	//Animation		dying;					EntityMovable inherited property -- dying
+	//Animation		dying;
 	//Jumping---
-	Animation		jumping;				
-	float			Gravity;
-	float			falling_velocity;
-	bool			in_land;
-	bool			falling;
-	bool			jump_available;
-	bool			mid_air;
-	bool			jump_ended;
+	//Animation		jumping;
+
 	void			grounded();
 	void			jump();
-	
+
 	//SHORTCUTS
 	bool God_Mode = false;
-
-	//Colliders---
-	//Collider*		PlayerCollider;			EntityMovable inherited property -- EntityCollider
 
 	bool lateral_collision_left = false;
 	bool lateral_collision_right = false;
@@ -111,4 +104,3 @@ public:
 	uint CLIMB_WALL_id;
 	uint BONUS_id;
 };
-#endif __j1ENTITYPLAYER_H__

@@ -1,23 +1,22 @@
-#ifndef __j1INPUT_H__
-#define __j1INPUT_H__
+#pragma once
 
 #include "j1Module.h"
 
-//#define NUM_KEYS 352
+#define NUM_KEYS 352	
 #define NUM_MOUSE_BUTTONS 5
-//#define LAST_KEYS_PRESSED_BUFFER 50
+#define LAST_KEYS_PASSED_BUFFER 50
 
 struct SDL_Rect;
 
-enum j1EventWindow
+enum class j1WindowEvent
 {
-	WE_QUIT = 0,
+	WE_QUIT = 0, 
 	WE_HIDE = 1,
 	WE_SHOW = 2,
 	WE_COUNT
 };
 
-enum j1KeyState
+enum class j1KeyState
 {
 	KEY_IDLE = 0,
 	KEY_DOWN,
@@ -27,28 +26,18 @@ enum j1KeyState
 
 class j1Input : public j1Module
 {
-
 public:
 
 	j1Input();
-
-	// Destructor
 	virtual ~j1Input();
 
-	// Called before render is available
-	bool Awake(pugi::xml_node&);
-
-	// Called before the first frame
+	bool Awake(pugi::xml_node& config);
 	bool Start();
-
-	// Called each loop iteration
 	bool PreUpdate();
-
-	// Called before quitting
 	bool CleanUp();
-
+	
 	// Gather relevant win events
-	bool GetWindowEvent(j1EventWindow ev);
+	bool GetWindowEvent(j1WindowEvent event);
 
 	// Check key states (includes mouse and joy buttons)
 	j1KeyState GetKey(int id) const
@@ -56,26 +45,24 @@ public:
 		return keyboard[id];
 	}
 
-	j1KeyState GetMouseButtonDown(int id) const
+	j1KeyState GetMouseButton(int id) const
 	{
-		return mouse_buttons[id - 1];
+		return mouse_buttons[id - 1]; 
 	}
 
-	// Check if a certain window event happened
+	// Check id a certain window event happened
 	bool GetWindowEvent(int code);
 
-	// Get mouse / axis position
-	void GetMousePosition(int &x, int &y);
+	// Get Mouse / Axis position
+	void GetMousePosition(int& x, int& y);
 	void GetMouseMotion(int& x, int& y);
-	j1KeyState*	keyboard;
+	j1KeyState* keyboard;
 
 private:
-	bool		windowEvents[WE_COUNT];
+	bool		window_events[(int)j1WindowEvent::WE_COUNT];
 	j1KeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
 	int			mouse_motion_x;
 	int			mouse_motion_y;
 	int			mouse_x;
 	int			mouse_y;
 };
-
-#endif // __j1INPUT_H__

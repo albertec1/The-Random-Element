@@ -1,5 +1,4 @@
-#ifndef __j1TEXTURES_H__
-#define __j1TEXTURES_H__
+#pragma once
 
 #include "j1Module.h"
 #include "p2List.h"
@@ -36,5 +35,3 @@ public:
 	p2List<SDL_Texture*>	textures;
 };
 
-
-#endif // __j1TEXTURES_H__

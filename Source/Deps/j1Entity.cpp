@@ -1,19 +1,10 @@
-#ifndef __J1ENTITY_CPP__
-#define __J1ENTITY_CPP__
-
 #include "j1Entity.h"
-#include "p2Defs.h"
-#include "p2Log.h"
 #include "j1App.h"
-#include "j1Textures.h"
-#include "j1Map.h"
-#include "j1Input.h"
-#include "j1Scene.h"
-#include "j1Audio.h"
 #include "j1Render.h"
-#include "j1Window.h"
+#include "p2Log.h"
 
-j1Entity::j1Entity(iPoint pos, ENTITY_TYPE type) : StartingPosition(pos), Type(type), EntityTexture(nullptr), EntityCollider(nullptr)
+
+j1Entity::j1Entity(iPoint pos, ENTITY_TYPE type) : starting_position(pos), type(type), entity_texture(nullptr), entity_collider(nullptr)
 {
 	return;
 }
@@ -23,7 +14,7 @@ bool j1Entity::PreUpdate()
 	return true;
 }
 
-bool j1Entity::Update(float dt, bool doLogic)
+bool j1Entity::Update(float dt)
 {
 	return true;
 }
@@ -38,7 +29,7 @@ bool j1Entity::Draw()
 {
 	bool ret = false;
 
-	if (ret = App->render->Blit(EntityTexture, StartingPosition.x, StartingPosition.y, &EntityRect, flipped) == 0)
+	if (ret = App->render->Blit(entity_texture, starting_position.x, starting_position.y, &entity_rect, flipped) == 0)
 	{
 		LOG("Blit error: Entity Texture");
 	}
@@ -60,9 +51,7 @@ bool j1Entity::CleanUp()
 
 //load?
 
-void j1Entity::OnCollision(Collider* c1, Collider* c2) //collisions must be managed from the Entity manager
+void j1Entity::OnCollision(Collider* c1, Collider* c2) 
 {
 	return;
 }
-
-#endif __J1ENTITY_CPP__

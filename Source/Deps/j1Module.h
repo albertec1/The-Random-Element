@@ -1,16 +1,13 @@
-// ----------------------------------------------------
-// j1Module.h
-// Interface for all engine modules
-// ----------------------------------------------------
+#pragma once
 
-#ifndef __j1MODULE_H__
-#define __j1MODULE_H__
+//This is j1Module.h, the interface for all engine modules
+//---------------------------------------------------------
 
 #include "p2SString.h"
 #include "PugiXml\src\pugixml.hpp"
 
 class j1App;
-class Collider; //forward declaration for the ds
+//class Collider;
 
 class j1Module
 {
@@ -72,11 +69,9 @@ public:
 
 public:
 
-	p2SString	name;
-	bool		active;
+	p2SString name;
+	bool active;
 
-	// Callbacks ---
-	virtual void OnCollision(Collider* c1, Collider* c2) {}
+	//Callbacks ---
+	//virtual void OnCollision(Collider* c1, Collider* c2) {}
 };
-
-#endif // __j1MODULE_H__

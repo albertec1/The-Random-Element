@@ -6,7 +6,7 @@
 
 //Brofiler
 #include "Brofiler/Brofiler/Brofiler.h"
-#pragma comment( lib, "Brofiler/Brofiler/ProfilerCore32.lib" )
+#pragma comment( lib, "Brofiler/Brofiler/ProfilerCore32.lib")
 
 // This is needed here because SDL redefines main function
 // do not add any other libraries here, instead put them in their modules
@@ -14,7 +14,7 @@
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
 
-enum MainState
+enum class MainState
 {
 	CREATE = 1,
 	AWAKE,
@@ -29,88 +29,86 @@ j1App* App = NULL;
 
 int main(int argc, char* args[])
 {
-	LOG("Engine starting ... %d");
+	LOG("Engine strarting ... %d");
 
 	MainState state = MainState::CREATE;
 	int result = EXIT_FAILURE;
 
-	while (state != EXIT)
+	while (state != MainState::EXIT)
 	{BROFILER_FRAME("Main_thread")
 		switch (state)
 		{
-
-			// Allocate the engine --------------------------------------------
-		case CREATE:
-			LOG("CREATION PHASE ===============================");
+			//Allocte the engine ---------------------------------------
+		case MainState::CREATE:
+			LOG("CREATION PHASE =======================================");
 
 			App = new j1App(argc, args);
 
 			if (App != NULL)
-				state = AWAKE;
+				state = MainState::AWAKE;
 			else
-				state = FAIL;
+				state = MainState::FAIL;
 
 			break;
 
-			// Awake all modules -----------------------------------------------
-		case AWAKE:
-			LOG("AWAKE PHASE ===============================");
+			//Awake all modules------------------------------------------
+		case MainState::AWAKE:
+			LOG("AWAKE PHASE ============================================");
 			if (App->Awake() == true)
-				state = START;
+				state = MainState::START;
 			else
 			{
 				LOG("ERROR: Awake failed");
-				state = FAIL;
+				state = MainState::FAIL;
 			}
 
 			break;
 
-			// Call all modules before first frame  ----------------------------
-		case START:
-			LOG("START PHASE ===============================");
+			// Call all moules before first frame --------------------------
+		case MainState::START:
+			LOG("START PHASE ===========================================");
 			if (App->Start() == true)
 			{
-				state = LOOP;
-				LOG("UPDATE PHASE ===============================");
+				state = MainState::LOOP;
+				LOG("UPDATE PHASE ===========================================");
 			}
 			else
 			{
-				state = FAIL;
-				LOG("ERROR: Start failed");
+				LOG("ERROR: Start Failed");
+				state = MainState::FAIL;
 			}
-			break;
 
-			// Loop all modules until we are asked to leave ---------------------
-		case LOOP:
+			// Loop all modules until we are asked to leave -----------------
+		case MainState::LOOP:
 			if (App->Update() == false)
-				state = CLEAN;
+				state = MainState::CLEAN;
 			break;
 
-			// Cleanup allocated memory -----------------------------------------
-		case CLEAN:
-			LOG("CLEANUP PHASE ===============================");
+			// Clean up allocated memory -------------------------------------
+		case MainState::CLEAN:
+			LOG("CLEANUP PHASE ===========================================");
 			if (App->CleanUp() == true)
 			{
 				RELEASE(App);
 				result = EXIT_SUCCESS;
-				state = EXIT;
+				state = MainState::EXIT;
 			}
 			else
-				state = FAIL;
+				state = MainState::FAIL;
 
 			break;
 
-			// Exit with errors and shame ---------------------------------------
-		case FAIL:
-			LOG("Exiting with errors :(");
+			// Exit with errors ---------------------------------------------
+		case MainState::FAIL:
+			LOG("Exiting with errors =====================================");
 			result = EXIT_FAILURE;
-			state = EXIT;
+			state = MainState::EXIT;
 			break;
 		}
 	}
 
 	LOG("... Bye! :)\n");
-
-	// Dump memory leaks
+	
+	//Dump memory leaks
 	return result;
 }

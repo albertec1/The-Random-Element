@@ -1,55 +1,41 @@
-#ifndef __j1APP_H__
-#define __j1APP_H__
+#pragma once
 
 #include "p2List.h"
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
 
-// Modules
+// Forward declaration of every module
 class j1Window;
 class j1Input;
 class j1Render;
 class j1Textures;
-class j1Audio;
-class j1Scene;
 class j1Map;
-//class j1Collision;
-//class j1Player;
-//class j1PathFinding;
-//class j1EntityManager;
-//class j1FadeToBlack;
+class j1Scene;
+class j1Collision;
+//---
 
 class j1App
 {
 public:
 
-	// Constructor
 	j1App(int argc, char* args[]);
-
-	// Destructor
 	virtual ~j1App();
 
-	// Called before render is available
 	bool Awake();
-
-	// Called before the first frame
 	bool Start();
-
-	// Called each loop iteration
 	bool Update();
-
-	// Called before quitting
 	bool CleanUp();
 
-	// Add a new module to handle
+	// Add a new module 
 	void AddModule(j1Module* module);
 
-	// Exposing some properties for reading
+	// Expose some properties for reading
 	int GetArgc() const;
 	const char* GetArgv(int index) const;
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 
+	//Save andl load methods
 	void LoadGame(const char* file);
 	void SaveGame(const char* file) const;
 	void GetSaveGames(p2List<p2SString>& list_to_fill) const;
@@ -76,24 +62,19 @@ private:
 
 	// Load / Save
 	bool LoadGameNow();
-	bool SavegameNow() const;
+	bool SaveGameNow() const;
 
 public:
 
-	// Modules
+	//Modules:
 	j1Window*			win;
 	j1Input*			input;
 	j1Render*			render;
 	j1Textures*			tex;
-	j1Audio*			audio;
-	j1Scene*			scene;
 	j1Map*				map;
-	//j1Collision*		coll;
-	//j1Player*			player;
-	//j1PathFinding*	pathfinding;
-	//j1EntityManager*	manager;
-	//j1FadeToBlack		fade;
-
+	j1Scene*			scene;
+	j1Collision*		coll;
+	//-----
 private:
 
 	p2List<j1Module*>	modules;
@@ -109,8 +90,9 @@ private:
 	bool				want_to_load;
 	p2SString			load_game;
 	mutable p2SString	save_game;
+public: 
+
+	bool				allow_debug_log;
 };
 
-extern j1App* App; //needed?
-
-#endif
+extern j1App* App;
