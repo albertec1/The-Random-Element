@@ -1,4 +1,7 @@
 #pragma once
+
+#define MAX_VELOCITY 15
+
 #include "j1Entity.h"
 #include "p2List.h"
 

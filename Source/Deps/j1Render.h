@@ -31,6 +31,10 @@ public:
 	bool DrawCircle(int x1, int y1, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
 	iPoint ScreenToWorld(int x, int y) const;
 
+	//Camera
+	void CheckCamera(iPoint player_position);
+	SDL_Rect camera_boundaries;
+
 	void SetBackgroundColor(SDL_Color color);
 
 public:

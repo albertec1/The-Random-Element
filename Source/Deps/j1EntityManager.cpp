@@ -8,7 +8,7 @@
 
 j1EntityManager::j1EntityManager()
 {
-	name.create("entityManager");
+	name.create("EntityManager");
 }
 
 j1EntityManager::~j1EntityManager()
@@ -59,7 +59,7 @@ bool j1EntityManager::Update(float dt)
 
 	for (p2List_item<j1Entity*>* EntityIterator = entities.start; EntityIterator != nullptr; EntityIterator = EntityIterator->next)
 	{
-		ret = EntityIterator->data->Update(dt);
+		ret = EntityIterator->data->Update(dt, false);
 		if (ret == false)
 		{
 			LOG("Entity update error");
@@ -111,7 +111,7 @@ j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, iPoint initPos)
 	j1Entity* ret = nullptr;
 	switch (type)
 	{
-	//case ENTITY_TYPE::PLAYER:			ret = new j1EntityPlayer(initPos, type); break;
+	case ENTITY_TYPE::PLAYER:			ret = new j1EntityPlayer(initPos, type); break;
 	//case ENTITY_TYPE::WALKING_ENEMY:	ret = new j1EntityMovable_ground(initPos, type); break;
 	case ENTITY_TYPE::UNKNOWN_TYPE:		ret = nullptr; break;
 	}
@@ -138,104 +138,124 @@ bool j1EntityManager::DestroyEntity(j1Entity* entity)
 
 void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 {
+	
+	if (c1->type == PLAYER)
 	{
-		if (c1->type == PLAYER)
+		iPoint wall_position = App->map->WorldToMap(c2->rect.x, c2->rect.y);
+		uint tileid = App->map->metadata->GetLayerPositon(wall_position.x, wall_position.y);
+
+		if (c1->rect.y < (c2->rect.y + c2->rect.h) && c1->rect.y < c2->rect.y
+			&& (c1->rect.y + c1->rect.h) >= c2->rect.y && (c1->rect.y + c1->rect.h) < (c2->rect.y + c2->rect.h) && App->coll->canCollide_top(tileid)) //Player collides from top
 		{
-			iPoint wall_position = App->map->WorldToMap(c2->rect.x, c2->rect.y);
-			uint tileid = App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y);
-
-			if (c1->rect.y < (c2->rect.y + c2->rect.h) && c1->rect.y < c2->rect.y
-				&& (c1->rect.y + c1->rect.h) >= c2->rect.y && (c1->rect.y + c1->rect.h) < (c2->rect.y + c2->rect.h)) //Collision from top
+			if (c2->type == WALL || c2->type == PLATFORM)
 			{
-				if (App->coll->canCollide_top(tileid))
-				{
-					if (c2->type == WALL)
-					{
-						j1Entity* callback = (j1Entity*)c1->callback;
-						callback->current_position.y = c2->rect.y - c1->rect.h;
-					}
-				}
-			}
+				j1EntityPlayer* callback = (j1EntityPlayer*)c1->callback;
+				callback->current_position.y = c2->rect.y - c2->rect.h;
 
-			else if (c1->rect.y > c2->rect.y && c1->rect.y < (c2->rect.y + c2->rect.h) &&
-				(c1->rect.y + c1->rect.h)>(c2->rect.y + c2->rect.h) && (c1->rect.y + c1->rect.h) > c2->rect.y)//collision from bottom
-			{
-				if (App->coll->canCollide_bottom(tileid))
+				if (player->jumping == false)
 				{
-					if (c2->type == WALL)
-					{
-						j1Entity* callback = (j1Entity*)c1->callback;
-						callback->current_position.y = c2->rect.y + c2->rect.h;
-					}
-				}
-			}
-
-			else if (c1->rect.x > c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) &&
-				(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) > (c2->rect.x + c2->rect.w)) //collision from right side
-			{
-				if (App->coll->canCollide_right(tileid))
-				{
-					j1Entity* callback = (j1Entity*)c1->callback;
-					callback->current_position.x = c2->rect.x + c2->rect.w;
-				}
-			}
-
-			else if (c1->rect.x < c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) &&
-				(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) < (c2->rect.x + c2->rect.w))//collision from left side
-			{
-				if (App->coll->canCollide_left(tileid))
-				{
-					j1Entity* callback = (j1Entity*)c1->callback;
-					callback->current_position.x = c2->rect.x - c1->rect.w;
+					if (player->jump_available == false)
+						player->jump_available = true;
 				}
 			}
 		}
 
-		if (c2->type == PLAYER)
+		else if (c1->rect.x > c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) &&
+			(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) > (c2->rect.x + c2->rect.w) && App->coll->canCollide_right(tileid)) //Player collides from right side
 		{
-			iPoint wall_position = App->map->WorldToMap(c2->rect.x, c2->rect.y);
-			uint tileid = App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y);
-
-			if (c2->rect.y < (c1->rect.y + c1->rect.h) && c2->rect.y < c1->rect.y &&
-				(c2->rect.y + c2->rect.h) >= c1->rect.y && (c2->rect.y + c2->rect.h) < (c1->rect.y + c1->rect.h)) //Collision from top
+			if (c2->type == WALL)
 			{
-				if (App->coll->canCollide_top(tileid))
+				j1EntityPlayer* callback = (j1EntityPlayer*)c1->callback;
+				callback->current_position.x = c2->rect.x + c2->rect.w;
+				player->current_acceleration.x = 0;
+			}
+		}
+
+		else if (c1->rect.x < c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) &&
+			(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) < (c2->rect.x + c2->rect.w) && App->coll->canCollide_left(tileid))//Player collides from left side
+		{
+			if (c2->type == WALL)
+			{
+				j1EntityPlayer* callback = (j1EntityPlayer*)c1->callback;
+				callback->current_position.x = c2->rect.x - c1->rect.w;
+				player->current_acceleration.x = 0;	
+			}		
+		}			
+
+		else if (c1->rect.y > c2->rect.y && c1->rect.y < (c2->rect.y + c2->rect.h) &&
+			(c1->rect.y + c1->rect.h)>(c2->rect.y + c2->rect.h) && (c1->rect.y + c1->rect.h) > c2->rect.y && App->coll->canCollide_bottom(tileid))//Player collides from bottom
+		{
+			if (c2->type == WALL)
+			{
+				j1EntityPlayer* callback = (j1EntityPlayer*)c1->callback;
+				callback->current_position.y = c2->rect.y + c2->rect.h;
+			}
+		}
+
+	}
+
+	if (c2->type == PLAYER)
+	{
+		iPoint wall_position = App->map->WorldToMap(c1->rect.x, c1->rect.y);
+		uint tileid = App->map->metadata->GetLayerPositon(wall_position.x, wall_position.y);
+
+		if (c2->rect.y < (c1->rect.y + c1->rect.h) && c2->rect.y < c1->rect.y &&
+			(c2->rect.y + c2->rect.h) >= c1->rect.y && (c2->rect.y + c2->rect.h) < (c1->rect.y + c1->rect.h) && App->coll->canCollide_top(tileid)) //Player collides from top
+		{
+			if (c2->type == WALL || c2->type == PLATFORM)
+			{
+				j1EntityPlayer* callback = (j1EntityPlayer*)c2->callback;
+				callback->current_position.y = c1->rect.y - c1->rect.h;
+
+				if (player->jumping == false)
 				{
-					j1Entity* callback = (j1Entity*)c2->callback;
-					callback->current_position.y = c1->rect.y - c2->rect.h;
+					if (player->jump_available == false)
+						player->jump_available = true;
+
+					if (player->jump_available == true)
+					{
+						player->current_velocity.y = 0;
+						player->current_acceleration.y = 0;
+					}
+
 				}
 			}
+		}
 
-			else if (c2->rect.y > c1->rect.y && c2->rect.y < (c1->rect.y + c1->rect.h) &&
-				(c2->rect.y + c2->rect.h)>(c1->rect.y + c1->rect.h) && (c2->rect.y + c2->rect.h) > c1->rect.y)//collison from bottom
+		else if (c2->rect.x > c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
+			(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) > (c1->rect.x + c1->rect.w) && App->coll->canCollide_right(tileid)) //Player collides from right side
+		{
+			if (c2->type == WALL)
 			{
-				if (App->coll->canCollide_bottom(tileid))
-				{
-					j1Entity* callback = (j1Entity*)c2->callback;
-					callback->current_position.y = c1->rect.y + c1->rect.h;
-				}
+				j1EntityPlayer* callback = (j1EntityPlayer*)c2->callback;
+				callback->current_position.x = c1->rect.x + c1->rect.w;
+				player->current_acceleration.x = 0;
 			}
+		}
 
-			else if (c2->rect.x > c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
-				(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) > (c1->rect.x + c1->rect.w)) //collision from right side
+		else if (c2->rect.x < c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
+			(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) < (c1->rect.x + c1->rect.w) && App->coll->canCollide_left(tileid))//Player collides from left side
+		{
+			if (c2->type == WALL)
 			{
-				if (App->coll->canCollide_right(tileid))
-				{
-					j1Entity* callback = (j1Entity*)c2->callback;
-					callback->current_position.x = c1->rect.x + c1->rect.w;
-				}
+				j1EntityPlayer* callback = (j1EntityPlayer*)c2->callback;
+				callback->current_position.x = c1->rect.x - c2->rect.w;
+				player->current_acceleration.x = 0;
 			}
+		}
 
-			else if (c2->rect.x < c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
-				(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) < (c1->rect.x + c1->rect.w))//collision from left side
+		else if (c2->rect.y > c1->rect.y && c2->rect.y < (c1->rect.y + c1->rect.h) &&
+			(c2->rect.y + c2->rect.h)>(c1->rect.y + c1->rect.h) && (c2->rect.y + c2->rect.h) > c1->rect.y && App->coll->canCollide_bottom(tileid))//Player collides from bottom
+		{
+			if (c2->type == WALL)
 			{
-				if (App->coll->canCollide_left(tileid))
-				{
-					j1Entity* callback = (j1Entity*)c2->callback;
-					callback->current_position.x = c1->rect.x - c2->rect.w;
-				}
+				j1EntityPlayer* callback = (j1EntityPlayer*)c2->callback;
+				callback->current_position.y = c1->rect.y + c1->rect.h;
+				player->current_velocity.y = 0;
+				player->current_acceleration.y = 0;
 			}
 		}
 	}
+	
 
 } 

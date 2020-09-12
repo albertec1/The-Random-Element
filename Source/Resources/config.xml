@@ -12,7 +12,8 @@
     <fullscreen value="false"/>
     <borderless value="false"/>
     <resizable value="false"/>
-    <fullscreen_window value="false"/>
+    <fullscreen_window value="true"/>
+    <debug_log value="false"/>
   </window>
 	
   <renderer>
@@ -23,9 +24,17 @@
     <folder>maps/</folder>
   </map>
 
-  <scene>
-    <camera initial_pos_x="0" initial_pos_y="-310"/>
-  </scene>
+  <SceneManager>
+    <scene1>
+      <path value="first-map-v01"/>
+      <camera initial_pos_x="0" initial_pos_y="0"/>
+    </scene1>
+    <scene2>
+      <path value="second-map-v01"/>
+      <camera initial_pos_x="0" initial_pos_y="0"/>
+    </scene2> 
+  </SceneManager>
+  
   <fonts>
     <default_font file="fonts/open_sans/OpenSans-Regular.ttf" size="32"/>
   </fonts>
@@ -33,6 +42,30 @@
   <file_system>
     <path>data.zip</path>
   </file_system>
- 
 
-</config>
+  <EntityManager>
+    <player>
+      <player_stats>
+        <character_width value="32"/>
+        <character_height value="32"/>
+        <initial_pos_x value="498"/>
+        <initial_pos_y value="700"/>
+        <gravity value="4.0f"/>
+        <movement_speed value="10"/>
+        <special_range value="128"/>
+        <texture_path value="spritesheets/character-spritesheet.png"/>
+      </player_stats>
+      <sprites>
+        <animation            name ="craft"   coll="0" row="0" width="32" height="32" collumns="6" frames="6" speed="1" loop="true"/>
+        <animation            name ="die"     coll="0" row="1" width="32" height="32" collumns="6" frames="6" speed="1" loop="false"/>
+        <animation            name ="hurt"    coll="0" row="2" width="32" height="32" collumns="3" frames="3" speed="1" loop="false"/>
+        <animation            name ="idle"    coll="0" row="3" width="32" height="32" collumns="4" frames="4" speed="1" loop="true"/>
+        <animation            name ="jump"    coll="0" row="4" width="32" height="32" collumns="6" frames="6" speed="0.4" loop="true"/>
+        <animation            name ="run"     coll="0" row="5" width="32" height="32" collumns="6" frames="6" speed="1" loop="true"/>
+        <animation            name ="fall"    coll="0" row="6" width="32" height="32" collumns="1" frames="1" speed="1" loop="true"/>
+        <animation            name ="special" coll="0" row="7" width="32" height="32" collumns="6" frames="6" speed="1" loop="false"/>
+        </sprites>
+    </player>
+  </EntityManager> 
+
+</config>        

@@ -3,6 +3,7 @@
 #include "j1Module.h"
 #include "p2Point.h"
 #include "j1Entity.h"
+#include "j1Animation.h"
 
 struct Collider;
 struct SDL_Texture;
@@ -15,14 +16,23 @@ public:
 	{
 		ST_UNKNOWN,
 		ST_IDLE,
-		ST_LEFT_W,
-		ST_LEFT_R,
-		ST_RIGHT_W,
-		ST_RIGHT_R,
-		ST_JUMPING,
-		ST_SLIDING,
-		ST_CLIMBING,
-		ST_DYING,
+		ST_IDLE_FLIPPED,
+		ST_LEFT,
+		ST_AIR_LEFT,
+		ST_RIGHT,
+		ST_AIR_RIGHT,
+		ST_JUMP,
+		ST_JUMP_LEFT,
+		ST_JUMP_RIGHT,
+		ST_LEFT_JUMPING,
+		ST_RIGHT_JUMPING,
+		ST_AIR,
+		ST_AIR_FLIPPED,
+		ST_DO_SPECIAL_LEFT,
+		ST_DO_SPECIAL_RIGHT,
+		ST_SPECIAL_LEFT,
+		ST_SPECIAL_RIGHT,
+		ST_DEAD,
 	};
 
 public:
@@ -47,6 +57,11 @@ public:
 		return current_position;
 	}
 
+	void Animate(p2SString name, int coll, int row, const int width,
+		const int height, const int collumns, const int frames, float speed, bool loop);
+	
+	Animation* GetAnimation(p2SString name);
+
 protected:
 
 	fPoint			starting_velocity;
@@ -54,7 +69,15 @@ protected:
 	fPoint			current_velocity;
 	fPoint			current_acceleration;
 	fPoint			gravity;
+	float			movement_speed;
 
+	//ANIMATION
+	p2SString			texture_path;
+	p2List<Animation*>	animations;
+	Animation*			current_animation;		
+	SDL_Rect			rotating_animation;		
+	bool				flipped = false;
+	
 	ENTITY_STATES	state;
 
 	//pathfind?

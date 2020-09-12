@@ -6,6 +6,8 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1Entity.h"
+#include "j1EntityManager.h"
+#include "j1EntityPlayer.h"
 
 j1Collision::j1Collision()
 {
@@ -90,16 +92,14 @@ bool j1Collision::PostUpdate()
 
 			c2 = colliders[k];
 
-			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type])
+			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type]) //what if we put the matrix check before looking if they actually collide? performance improvement?
 			{
 				if (c1->type == PLAYER || c2->type == PLAYER)
 				{
-					/*if (App->manager->Player->God_Mode == false)
+					if (App->manager->player->god_mode == false)
 					{
 						App->manager->OnCollision(c1, c2);
-					}*/
-
-					LOG("Player Collision!");
+					}
 				}
 				else
 				{
@@ -118,63 +118,47 @@ bool j1Collision::PostUpdate()
 bool j1Collision::canCollide_right(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
 {
 	bool ret = false;
-	if (App->map->Metadata->data[tile_id] != NULL)
+
+	if (App->map->metadata->data[tile_id + 1] == NULL)
 	{
-		if (App->map->Metadata->data[tile_id + 1] != NULL)
-		{
-			if (App->map->Metadata->data[tile_id + 1] == WALL_ID)
-			{
-				ret = true;
-			}
-		}
+		ret = true;
 	}
+	
 	return ret;
 }
 bool j1Collision::canCollide_left(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
 {
 	bool ret = false;
-	if (App->map->Metadata->data[tile_id] != NULL)
+	
+	if (App->map->metadata->data[tile_id - 1] == NULL)
 	{
-		if (App->map->Metadata->data[tile_id - 1] != NULL)
-		{
-			if (App->map->Metadata->data[tile_id - 1] == WALL_ID )
-			{
-				ret = true;
-			}
-		}
+		ret = true;		
 	}
+	
 	return ret;
 }
 
 bool j1Collision::canCollide_top(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
 {
 	bool ret = false;
-	if (App->map->Metadata->data[tile_id] != NULL)
+
+	if (App->map->metadata->data[tile_id - App->map->metadata->width] == NULL)
 	{
-		if (App->map->Metadata->data[tile_id - App->map->Metadata->width] != NULL)
-		{
-			if (App->map->Metadata->data[tile_id - App->map->Metadata->width] == WALL_ID)
-			{
-				ret = true;
-			}
-		}
+		ret = true;		
 	}
+
 	return ret;
 }
 
 bool j1Collision::canCollide_bottom(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
 {
 	bool ret = false;
-	if (App->map->Metadata->data[tile_id] != NULL)
+
+	if (App->map->metadata->data[tile_id + App->map->metadata->width] == NULL)
 	{
-		if (App->map->Metadata->data[tile_id + App->map->Metadata->width] != NULL)
-		{
-			if (App->map->Metadata->data[tile_id + App->map->Metadata->width] == WALL_ID)
-			{
-				ret = true;
-			}
-		}
+		ret = true;
 	}
+
 	return ret;
 }
 
@@ -263,10 +247,12 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 	// Return true if there is an overlap
 	// between argument "r" and property "rect"                                                                                                              
 
-	if (((r.x + r.w) >= (rect.x)) && ((r.x) <= (rect.x + rect.w))
-		&& ((r.y + r.h) >= (rect.y)) && ((r.y) <= (rect.y + rect.h)))
+	if (((r.x + r.w) > (rect.x)) && ((r.x) < (rect.x + rect.w))
+		&& ((r.y + r.h) > (rect.y)) && ((r.y) < (rect.y + rect.h)))
 	{
 		return true;
 	}
+
+
 	return false;
 }

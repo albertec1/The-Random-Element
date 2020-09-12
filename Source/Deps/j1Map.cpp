@@ -333,6 +333,7 @@ void j1Map::Draw()
 
 		if (current_layer->data->properties.Get("Navigation") == 1)
 		{
+			metadata = current_layer->data;
 			for (int y = 0; y < data.map_height; ++y)
 			{
 				for (int x = 0; x < data.map_width; ++x)

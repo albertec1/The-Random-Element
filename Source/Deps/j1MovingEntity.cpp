@@ -32,11 +32,37 @@ bool j1MovingEntity::Start()
 	return true;
 }
 
+void j1MovingEntity::Animate(p2SString name, int coll, int row, const int width, const int height, const int collumns, const int frames, float speed, bool loop)
+{
+	Animation* anim = new Animation(name, speed, loop);
+	for (int i = 0; i < frames; i++)
+	{
+		anim->PushBack({ width * coll, height * row, width, height });
+		coll++;
+		if (coll == collumns)
+		{
+			coll = 0;
+			row++;
+		}
+	}
+	animations.add(anim);
+}
+
+Animation* j1MovingEntity::GetAnimation(p2SString name)
+{
+	for (p2List_item<Animation*>* animation = animations.start; animation != nullptr; animation = animation->next)
+		if (name == animation->data->name)
+			return animation->data;
+
+	return nullptr;
+}
+
 bool j1MovingEntity::Draw()
 {
 	bool ret = false;
+	rotating_animation = current_animation->GetCurrentFrame(); 
 
-	if (ret = App->render->Blit(entity_texture, current_position.x, current_position.y, &entity_rect, flipped) == 0)
+ 	if (ret = App->render->Blit(entity_texture, current_position.x, current_position.y, &rotating_animation, flipped) == 0)
 	{
 		LOG("Blit error: Entity Texture");
 	}

@@ -10,9 +10,11 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
-#include "j1Scene.h"
+#include "j1SceneManager.h"
 #include "j1Collision.h"
 #include "j1EntityManager.h"
+
+#include "j1Timer.h"
 
 #include "Brofiler/Brofiler/Brofiler.h"
 
@@ -22,17 +24,16 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	dt = 0;
 	frames = 0;
 	want_to_save = want_to_load = false;
-	allow_debug_log = true;
 
 	//class Objects are created here
-	win =		new j1Window();
-	input =		new j1Input();
-	render =	new j1Render();
-	tex =		new j1Textures();
-	map =		new j1Map();
-	scene =		new j1Scene();
-	coll =		new j1Collision();
-	manager =	new j1EntityManager();
+	win =			new j1Window();
+	input =			new j1Input();
+	render =		new j1Render();
+	tex =			new j1Textures();
+	map =			new j1Map();
+	scene_manager =	new j1SceneManager();
+	coll =			new j1Collision();
+	manager =		new j1EntityManager();
 	//-----
 
 	// AddModule() for every Object created before
@@ -42,7 +43,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(input);
 	AddModule(tex);
 	AddModule(map);
-	AddModule(scene);
+	AddModule(scene_manager);
 	AddModule(coll);
 	AddModule(manager);
 
@@ -88,6 +89,7 @@ bool j1App::Awake()
 		app_config = config.child("app");
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
+		allow_debug_log = app_config.child("debug_log").attribute("value").as_bool(true);
 	}
 
 	if (ret == true)
@@ -156,7 +158,13 @@ bool j1App::Update()
 }
 
 void j1App::PrepareUpdate()
-{}
+{
+	frame_count++;
+	last_sec_frame_count++;
+
+	dt = frame_time.ReadSec();
+	frame_time.Start();
+}
 
 bool j1App::PreUpdate()
 {BROFILER_CATEGORY("PreUpdateApp", Profiler::Color::DarkRed)
@@ -176,7 +184,6 @@ bool j1App::PreUpdate()
 	}
 
 	return ret;
-
 }
 
 bool j1App::DoUpdate()
@@ -227,6 +234,13 @@ void j1App::FinishUpdate()
 
 	if (want_to_load == true)
 		LoadGameNow();
+
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
 }
 
 bool j1App::CleanUp()

@@ -94,14 +94,19 @@
     <ClCompile Include="j1Map.cpp" />
     <ClCompile Include="j1Scene.cpp" />
     <ClCompile Include="j1Textures.cpp" />
+    <ClCompile Include="j1Timer.cpp" />
     <ClCompile Include="p2Log.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="j1Render.cpp" />
     <ClCompile Include="j1MovingEntity.cpp" />
+    <ClCompile Include="j1Scene2.cpp" />
+    <ClCompile Include="j1SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="j1Scene2.h" />
+    <ClInclude Include="j1Animation.h" />
     <ClInclude Include="j1Collision.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1EntityManager.h" />
@@ -112,6 +117,7 @@
     <ClInclude Include="j1Textures.h" />
     <ClInclude Include="j1Input.h" />
     <ClInclude Include="j1Render.h" />
+    <ClInclude Include="j1Timer.h" />
     <ClInclude Include="j1Window.h" />
     <ClInclude Include="j1App.h" />
     <ClInclude Include="j1Module.h" />
@@ -123,6 +129,7 @@
     <ClInclude Include="p2SString.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
+    <ClInclude Include="j1SceneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

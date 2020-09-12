@@ -26,7 +26,7 @@ public:
 
 	virtual bool PreUpdate();
 
-	virtual bool Update(float dt);
+	virtual bool Update(float dt, bool do_logic);
 
 	virtual bool PostUpdate();
 
@@ -60,6 +60,7 @@ protected:
 
 	SDL_Texture*	entity_texture;
 	SDL_Rect		entity_rect;
+	iPoint			rect_size;
 
 	iPoint			sprite_size;
 	bool			flipped;

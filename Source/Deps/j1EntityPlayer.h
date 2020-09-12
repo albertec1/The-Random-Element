@@ -23,7 +23,7 @@ struct PlayerInput
 	bool A_enabled;		//Left
 	bool S_enabled;		//Slide (has to press a direction in order to slide)
 	bool D_enabled;		//Right
-	bool Shift_enabled;	//Run
+	bool K_enabled;		//Special
 	bool Space_enabled;	//Jump
 
 	//GODMODE //player only
@@ -48,46 +48,33 @@ public:
 
 	bool Update(float dt, bool doLogic);
 
+	bool PostUpdate();
+
 	bool CleanUp();
 
 	void OnCollision(Collider* c1, Collider* c2);
 
+	int DoSpecialLeft();
+
+	int DoSpecialRight();
+
 public:
 
 	//PLAYER
-	iPoint			size;
 	PlayerInput		player_input;
 	ENTITY_STATES	player_state;
 
 	//Texture
-	SDL_Texture* Graphics = nullptr;
-
-	//ANIMATION
-	//Draw diferents animations
-	//Animation*	current_animation;		
-	//SDL_Rect		rotating_animation;		
-	//bool			flipped = false;		
-	//Idle---
-	//Animation		idle;					
-	//Running---
-	//Animation		running;
-	//Dying---
-	//Animation		dying;
-	//Jumping---
-	//Animation		jumping;
-
-	void			grounded();
-	void			jump();
+	SDL_Texture*	graphics = nullptr;
 
 	//SHORTCUTS
-	bool God_Mode = false;
+	bool god_mode = false;
 
-	bool lateral_collision_left = false;
-	bool lateral_collision_right = false;
-	bool top_collision = false;
-	bool bottom_collision = false;
+	bool jump_available = false;
+	bool jumping = false;
 
-	uint WALL_id;
-	uint CLIMB_WALL_id;
-	uint BONUS_id;
+	uint max_special_range;
+	uint special_distance;
+	float special_timer;
+	bool special_last_frame;
 };

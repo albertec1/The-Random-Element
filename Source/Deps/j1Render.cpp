@@ -1,6 +1,8 @@
 #include "p2Defs.h"
 #include "p2Log.h"
 #include "j1App.h"
+#include "j1EntityManager.h"
+#include "j1EntityPlayer.h"
 #include "j1Window.h"
 #include "j1Render.h"
 
@@ -37,17 +39,21 @@ bool j1Render::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		camera.w = App->win->screen_surface->w;
-		camera.h = App->win->screen_surface->h;
+		camera.w = App->win->screen_surface->w / App->win->GetScale();
+		camera.h = App->win->screen_surface->h / App->win->GetScale();
 		camera.x = 0;
 		camera.y = 0;
 	}
-
+	
 	return ret;
 }
 bool j1Render::Start()
 {
-	LOG("Render Start");
+	LOG("Render Start"); 
+	camera.x = -App->manager->player->GetCurrentPosition().x + camera.w * 0.3;
+	camera.y = -App->manager->player->GetCurrentPosition().y + camera.h * 0.66;
+	camera_boundaries.w = camera.w * 0.25;
+	camera_boundaries.h = camera.h * 0.33;
 	// back background
 	SDL_RenderGetViewport(renderer, &viewport);
 	return true;
@@ -55,6 +61,10 @@ bool j1Render::Start()
 bool j1Render::PreUpdate()
 {
 	SDL_RenderClear(renderer);
+	camera_boundaries.x = -camera.x + camera.w * 0.33;
+	camera_boundaries.y = -camera.y + camera.h * 0.40;
+
+	//DrawQuad(camera_boundaries, 20, 50, 90);
 	return true;
 }
 bool j1Render::Update(float dt)
@@ -63,6 +73,20 @@ bool j1Render::Update(float dt)
 }
 bool j1Render::PostUpdate()
 {
+	//camera things
+	iPoint player_position = App->manager->player->GetCurrentPosition();
+	if (camera_boundaries.x > (player_position.x / App->win->GetScale()))
+		camera.x  += (camera_boundaries.x - (player_position.x / App->win->GetScale()));
+
+	if ((camera_boundaries.x + camera_boundaries.w) < ((player_position.x / App->win->GetScale()) + 32))
+		camera.x -= (((player_position.x / App->win->GetScale()) + 32)-(camera_boundaries.x + camera_boundaries.w));
+
+	if (camera_boundaries.y > player_position.y / (App->win->GetScale()))
+		camera.y += (camera_boundaries.y - (player_position.y / App->win->GetScale()));
+
+	if ((camera_boundaries.y + camera_boundaries.h) < ((player_position.y / App->win->GetScale()) + 32))
+		camera.y -= (((player_position.y / App->win->GetScale()) + 32) - (camera_boundaries.y + camera_boundaries.h));
+
 	/*Is it needed every frame??*/SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
 	return true;
@@ -101,7 +125,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	SDL_Rect sprites;
 	if (flip)
 	{
-		sprites.x = (int)(camera.x * speed) + x * scale + 48;
+		sprites.x = (int)(camera.x * speed) + x * scale + 40;
 		sprites.y = (int)(camera.y * speed) + y * scale;
 	}
 	else

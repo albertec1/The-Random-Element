@@ -3,6 +3,7 @@
 #include "p2List.h"
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "j1Timer.h"
 
 // Forward declaration of every module
 class j1Window;
@@ -10,7 +11,7 @@ class j1Input;
 class j1Render;
 class j1Textures;
 class j1Map;
-class j1Scene;
+class j1SceneManager;
 class j1Collision;
 class j1EntityManager;
 //---
@@ -73,7 +74,7 @@ public:
 	j1Render*			render;
 	j1Textures*			tex;
 	j1Map*				map;
-	j1Scene*			scene;
+	j1SceneManager*		scene_manager;
 	j1Collision*		coll;
 	j1EntityManager*	manager;
 	//-----
@@ -81,7 +82,6 @@ private:
 
 	p2List<j1Module*>	modules;
 	uint				frames;
-	float				dt;
 	int					argc;
 	char**				args;
 
@@ -92,8 +92,18 @@ private:
 	bool				want_to_load;
 	p2SString			load_game;
 	mutable p2SString	save_game;
+
+	//Timer----
+	j1Timer				startup_time;
+	j1Timer				frame_time;
+	j1Timer				last_sec_frame_time;
+	uint				last_sec_frame_count = 0;
+	uint				prev_last_sec_frame_count = 0;
+
 public: 
 
+	float				frame_count;
+	float				dt;
 	bool				allow_debug_log;
 };
 
