@@ -38,9 +38,8 @@ public:
 	const char* GetOrganization() const;
 
 	//Save andl load methods
-	void LoadGame(const char* file);
-	void SaveGame(const char* file) const;
-	void GetSaveGames(p2List<p2SString>& list_to_fill) const;
+	void LoadGame();
+	void SaveGame() const;
 
 private:
 
@@ -90,8 +89,8 @@ private:
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
-	p2SString			load_game;
-	mutable p2SString	save_game;
+	//p2SString			load_game;
+	//mutable p2SString	save_game;
 
 	//Timer----
 	j1Timer				startup_time;
@@ -102,6 +101,7 @@ private:
 
 public: 
 
+	mutable bool		save_document_full;
 	float				frame_count;
 	float				dt;
 	bool				allow_debug_log;

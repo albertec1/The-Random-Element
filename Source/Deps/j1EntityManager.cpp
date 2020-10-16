@@ -129,12 +129,26 @@ j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, iPoint initPos)
 bool j1EntityManager::DestroyEntity(j1Entity* entity)
 {
 	p2List_item<j1Entity*>* item = nullptr; item->data = entity;
+
+	item->data->CleanUp();
 	entities.del(item);
 
 	entity = nullptr;
 
 	return true;
 }
+
+bool j1EntityManager::DestroyAllEntities()
+{
+	for (p2List_item<j1Entity*>* item = entities.start; entities.count() > 0; item = item->next)
+	{
+		item->data->CleanUp();
+		entities.del(item);
+	}
+	return true;
+}
+
+
 
 void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 {
@@ -255,7 +269,60 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				player->current_acceleration.y = 0;
 			}
 		}
-	}
-	
-
+	}	
 } 
+
+bool j1EntityManager::Save(pugi::xml_node& data)
+{
+	pugi::xml_node node = data.append_child("entity_manager");
+	pugi::xml_node ent_node = node.append_child("entity");
+
+	for (p2List_item<j1Entity*>* entity = entities.start; entity != nullptr; entity = entity->next)
+	{
+		pugi::xml_node data = ent_node.append_child("data");
+		data.append_attribute("x").set_value(entity->data->current_position.x);
+		data.append_attribute("y").set_value(entity->data->current_position.y);
+		data.append_attribute("type").set_value((int)entity->data->type);
+
+		/*pugi::xml_node restore = ent_node.append_child("restore");
+		restore.append_attribute("to_delete").set_value(entity->to_delete);
+		restore.append_attribute("health").set_value(entity->health);*/
+	}
+
+	pugi::xml_node end = ent_node.append_child("data");
+	end.append_attribute("x").set_value(-1);	// after the last child, I create another one with the "x" attribute set to -1 
+												//(which would never happen under normal circumstances) to indicate where to stop loading entities
+
+	return true;
+}
+
+bool j1EntityManager::Load(pugi::xml_node& data)
+{
+	if (App->save_document_full == true)
+	{
+		
+		pugi::xml_node node = data.child("entity_manager").child("entity");
+
+		for (node; node != NULL; node = node.next_sibling("entity"))
+		{
+			pugi::xml_node data = node.child("data");
+
+			float x = data.attribute("x").as_float();
+			float y = data.attribute("y").as_float();
+			ENTITY_TYPE type = (ENTITY_TYPE)data.attribute("type").as_int();
+			
+			if (x == -1)
+			{
+				break;
+			}
+
+			j1Entity* entity = CreateEntity(type, { (int)x, (int)y });
+
+			//pugi::xml_node restore = node.child("restore");
+			//entity->to_delete = restore.attribute("to_delete").as_bool;
+			//entity->health = restore.attribute("health").as_bool;
+
+		}
+	}
+	return true;
+}

@@ -311,7 +311,6 @@ void j1Map::Draw()
 	{
 		if (current_layer->data->properties.Get("Draw") == 1 || debug_metadata == true)
 		{
-
 			for (int y = 0; y < data.map_height; ++y)
 			{
 				for (int x = 0; x < data.map_width; ++x)
@@ -349,13 +348,13 @@ void j1Map::Draw()
 							tile_rect.x = pos.x;
 							tile_rect.y = pos.y;
 
-							if (tile_id == WALL_ID)
+							if (tile_id == WALL_ID || tile_id == 121)
 								App->coll->AddCollider(tile_rect, COLLIDER_TYPE::WALL);
 
-							else if (tile_id == PLATFORM_ID)
+							else if (tile_id == PLATFORM_ID || tile_id == 122)
 								App->coll->AddCollider(tile_rect, COLLIDER_TYPE::PLATFORM);
 
-							else if (tile_id == BONUS_ID)
+							else if (tile_id == BONUS_ID || tile_id == 125)
 								App->coll->AddCollider(tile_rect, COLLIDER_TYPE::BONUS);
 						}
 					}

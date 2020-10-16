@@ -12,7 +12,7 @@
     <fullscreen value="false"/>
     <borderless value="false"/>
     <resizable value="false"/>
-    <fullscreen_window value="true"/>
+    <fullscreen_window value="false"/>
     <debug_log value="false"/>
   </window>
 	
@@ -28,10 +28,12 @@
     <scene1>
       <path value="first-map-v01"/>
       <camera initial_pos_x="0" initial_pos_y="0"/>
+      <id value="1"/>
     </scene1>
     <scene2>
       <path value="second-map-v01"/>
       <camera initial_pos_x="0" initial_pos_y="0"/>
+      <id value="2"/>
     </scene2> 
   </SceneManager>
   

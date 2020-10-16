@@ -101,10 +101,23 @@ bool j1Render::CleanUp()
 //Load / Save
 bool j1Render::Load(pugi::xml_node& data)
 {
+	if (App->save_document_full == true)
+	{
+		pugi::xml_node node = data.child("render").child("camera");
+
+		camera.x = node.attribute("x").as_int();
+		camera.y = node.attribute("y").as_int();
+	}
 	return true;
 }
-bool j1Render::Save(pugi::xml_node&) const
+bool j1Render::Save(pugi::xml_node& data) const
 {
+	pugi::xml_node node = data.append_child("render");
+	pugi::xml_node cam_node = node.append_child("camera");
+
+	cam_node.append_attribute("x").set_value(camera.x);
+	cam_node.append_attribute("y").set_value(camera.y);
+
 	return true;
 }
 

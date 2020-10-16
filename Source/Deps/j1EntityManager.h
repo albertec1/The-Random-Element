@@ -31,10 +31,16 @@ public:
 	bool DrawEntity();
 
 	bool CleanUp();
+
+	bool Save(pugi::xml_node& data);
+
+	bool Load(pugi::xml_node& data);
+
 public:
 
 	j1Entity* CreateEntity(ENTITY_TYPE type, iPoint initPos);
 	bool DestroyEntity(j1Entity* entity);
+	bool DestroyAllEntities();
 	void OnCollision(Collider* c1, Collider* c2);
 
 public:

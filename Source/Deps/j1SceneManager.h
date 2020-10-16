@@ -2,6 +2,7 @@
 
 #include "j1Module.h"
 #include "p2Point.h"
+#include "p2List.h"
 
 //Scenes
 class j1Scene;
@@ -42,8 +43,3 @@ private:
 	p2SString	scene1_path;
 	p2SString	scene2_path;
 };
-
-//Since scenes are modules, I should do like the App list but only updating the scene with
-//the number of the scene that has to be updated
-
-//change current_scene to change the scene number that will update.

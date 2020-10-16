@@ -22526,7 +22526,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="4" name="Metadata" width="250" height="45" opacity="0.61">
+ <layer id="4" name="Metadata" width="250" height="45" visible="0" opacity="0.61">
   <properties>
    <property name="Draw" type="int" value="0"/>
    <property name="Navigation" type="int" value="1"/>

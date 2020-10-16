@@ -24,6 +24,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	dt = 0;
 	frames = 0;
 	want_to_save = want_to_load = false;
+	save_document_full = false;
 
 	//class Objects are created here
 	win =			new j1Window();
@@ -229,6 +230,11 @@ bool j1App::PostUpdate()
 void j1App::FinishUpdate()
 {BROFILER_CATEGORY("FinishApp", Profiler::Color::Aqua)
 
+	if (input->GetKey(SDL_SCANCODE_S) == j1KeyState::KEY_DOWN)
+		SaveGame();
+	if (input->GetKey(SDL_SCANCODE_L) == j1KeyState::KEY_DOWN)
+		LoadGame();
+
 	if (want_to_save == true)
 		SaveGameNow();
 
@@ -239,7 +245,7 @@ void j1App::FinishUpdate()
 	{
 		last_sec_frame_time.Start();
 		prev_last_sec_frame_count = last_sec_frame_count;
-		last_sec_frame_count = 0;
+		last_sec_frame_count = 0;	
 	}
 }
 
@@ -283,36 +289,50 @@ const char* j1App::GetOrganization() const
 }
 
 // Load / Save
-void j1App::LoadGame(const char* file)
-{
-	// we should be checking if that file actually exist
-	// from the "GetSaveGames" list
-	want_to_load = true;
-	//load_game.create("%s%s", fs->GetSaveDirectory(), file);
-}
 
-// ---------------------------------------
-void j1App::SaveGame(const char* file) const
+void j1App::SaveGame() const
 {
-	// we should be checking if that file actually exist
-	// from the "GetSaveGames" list ... should we overwrite ?
-
 	want_to_save = true;
-	//save_game.create(file);
 }
 
-// ---------------------------------------
-void j1App::GetSaveGames(p2List<p2SString>& list_to_fill) const
+void j1App::LoadGame()
 {
-	// need to add functionality to file_system module for this to work
-}
-
-bool j1App::LoadGameNow()
-{
-	return true;
+	if (save_document_full == true)
+	{
+		want_to_load = true;
+	}
 }
 
 bool j1App::SaveGameNow() const
 {
-	return true;
+	bool ret = true;
+
+	pugi::xml_document save_doc;
+	pugi::xml_parse_result result = save_doc.load("save-doc.xml");
+	save_doc.reset();
+	pugi::xml_node node = save_doc.append_child("game");
+	 
+	App->render->Save(node);
+	App->manager->Save(node);
+
+	save_doc.save_file("save-doc.xml");
+	save_document_full = true;
+	want_to_save = false;
+
+	return ret;
+}
+
+bool j1App::LoadGameNow()
+{
+	bool ret = false;
+
+	pugi::xml_document save_doc;
+	pugi::xml_parse_result result = save_doc.load_file("save_game.xml");
+
+	pugi::xml_node node = save_doc.child("game");
+
+	App->render->Load(node);
+	App->manager->Load(node);
+
+	return ret;
 }
