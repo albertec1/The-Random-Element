@@ -3,7 +3,9 @@
  <tileset firstgid="1" name="woods tileset day" tilewidth="32" tileheight="32" tilecount="60" columns="10">
   <image source="test-tileset-v00.png" width="320" height="192"/>
  </tileset>
- <tileset firstgid="61" source="../../../../Development-Project/SantaRules/Game/maps/woods tileset night.tsx"/>
+ <tileset firstgid="61" name="woods tileset night" tilewidth="32" tileheight="32" tilecount="60" columns="10">
+  <image source="test-tileset.png" width="320" height="192"/>
+ </tileset>
  <tileset firstgid="121" name="metadata" tilewidth="32" tileheight="32" spacing="1" tilecount="9" columns="3">
   <image source="metadata_small.png" width="99" height="99"/>
  </tileset>
@@ -27021,7 +27023,7 @@
    <tile gid="12"/>
   </data>
  </layer>
- <layer id="3" name="metadata" width="300" height="45" visible="0">
+ <layer id="3" name="metadata" width="300" height="45">
   <properties>
    <property name="Draw" type="int" value="0"/>
    <property name="Navigation" type="int" value="1"/>
