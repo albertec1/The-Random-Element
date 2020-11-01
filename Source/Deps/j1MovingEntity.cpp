@@ -7,6 +7,7 @@
 
 j1MovingEntity::j1MovingEntity(iPoint pos, ENTITY_TYPE type) : j1Entity(pos, type)
 {
+	current_position = starting_position;
 	state = ENTITY_STATES::ST_IDLE;
 	return;
 }

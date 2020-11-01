@@ -327,12 +327,14 @@ bool j1App::LoadGameNow()
 	bool ret = false;
 
 	pugi::xml_document save_doc;
-	pugi::xml_parse_result result = save_doc.load_file("save_game.xml");
+	pugi::xml_parse_result result = save_doc.load_file("save-doc.xml");
 
 	pugi::xml_node node = save_doc.child("game");
 
 	App->render->Load(node);
 	App->manager->Load(node);
+
+	want_to_load = false;
 
 	return ret;
 }

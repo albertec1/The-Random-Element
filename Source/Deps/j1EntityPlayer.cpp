@@ -527,7 +527,7 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 		break;
 
 	case ENTITY_STATES::ST_RIGHT:
-		if (App->allow_debug_log == true)
+ 		if (App->allow_debug_log == true)
 			LOG("MOVING RIGHT");
 
 		current_velocity.x = movement_speed;
@@ -759,4 +759,13 @@ int j1EntityPlayer::DoSpecialRight()
 		}
 	}
 	return ret;
+}
+
+void j1EntityPlayer::ResetPlayerAT(int x, int y)
+{
+	current_acceleration = { 0,0 };
+	current_velocity = { 0,0 };
+	current_position = { x, y };
+
+	player_state = ENTITY_STATES::ST_IDLE;
 }

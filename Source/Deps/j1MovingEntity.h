@@ -55,6 +55,12 @@ public:
 	virtual const iPoint GetCurrentPosition()
 	{
 		return current_position;
+	} 
+
+	virtual void SetCurrentPosition(int x, int y)
+	{
+		current_position.x = x;
+		current_position.y = y;
 	}
 
 	void Animate(p2SString name, int coll, int row, const int width,
@@ -62,7 +68,7 @@ public:
 	
 	Animation* GetAnimation(p2SString name);
 
-protected:
+public:
 
 	fPoint			starting_velocity;
 	fPoint			starting_acceleration;

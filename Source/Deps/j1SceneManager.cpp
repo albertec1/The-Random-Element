@@ -10,7 +10,7 @@ j1SceneManager::j1SceneManager()
 {
 	name.create("SceneManager");
 	
-	current_scene = 1; //config plz
+	current_scene = 0; //config plz
 	scene1 = new j1Scene();
 	scene2 = new j1Scene2();
 

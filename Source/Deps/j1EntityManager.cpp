@@ -300,7 +300,6 @@ bool j1EntityManager::Load(pugi::xml_node& data)
 {
 	if (App->save_document_full == true)
 	{
-		
 		pugi::xml_node node = data.child("entity_manager").child("entity");
 
 		for (node; node != NULL; node = node.next_sibling("entity"))
@@ -316,8 +315,10 @@ bool j1EntityManager::Load(pugi::xml_node& data)
 				break;
 			}
 
-			j1Entity* entity = CreateEntity(type, { (int)x, (int)y });
-
+			if (type == ENTITY_TYPE::PLAYER )
+			{
+				player->ResetPlayerAT(x, y);
+			}
 			//pugi::xml_node restore = node.child("restore");
 			//entity->to_delete = restore.attribute("to_delete").as_bool;
 			//entity->health = restore.attribute("health").as_bool;

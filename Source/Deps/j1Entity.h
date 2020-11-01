@@ -51,7 +51,7 @@ public:
 		entity_texture = texture;
 	}
 
-protected:
+public:
 	ENTITY_TYPE		type;
 	Collider*		entity_collider;
 

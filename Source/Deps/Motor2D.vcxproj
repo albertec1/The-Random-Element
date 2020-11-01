@@ -131,6 +131,9 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="j1SceneManager.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Resources\save-doc.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

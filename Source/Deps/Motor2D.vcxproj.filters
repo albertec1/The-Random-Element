@@ -159,4 +159,9 @@
       <UniqueIdentifier>{97469898-f55b-4ef0-8b0e-5d9e9cc67458}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Resources\save-doc.xml">
+      <Filter>Development\Tools</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>

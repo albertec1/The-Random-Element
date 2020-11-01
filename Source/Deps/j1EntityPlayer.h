@@ -58,6 +58,8 @@ public:
 
 	int DoSpecialRight();
 
+	void ResetPlayerAT(int x, int y);
+
 public:
 
 	//PLAYER
