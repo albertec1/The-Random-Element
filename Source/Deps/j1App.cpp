@@ -163,6 +163,46 @@ void j1App::PrepareUpdate()
 	frame_count++;
 	last_sec_frame_count++;
 
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	float avg_fps = float(frame_count) / startup_time.ReadSec();
+	float seconds_since_startup = startup_time.ReadSec();
+	uint32 last_frame_ms = frame_time.Read();
+	uint32 frames_on_last_update = prev_last_sec_frame_count;
+
+	static char title[256];
+	char* cap = "OFF";
+	char* vsync = "OFF";
+
+	/*if (fpscap)
+		cap = "ON";*/
+	/*else
+		cap = "OFF";*/
+
+	/*if ((App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) && framerate_cap > 10)
+		framerate_cap -= 10;
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
+		framerate_cap += 10;*/
+
+sprintf_s(title, 256, "The Random Element || FPS: %02u / EstFPS: %02u/ Av.FPS: %.2f / Last Frame Ms: %02u / Cap: %s / dt: %f / Camera.x: %d / Camera.y: %d",
+		frames_on_last_update, framerate_cap, avg_fps, last_frame_ms, cap, dt, App->render->camera.x, App->render->camera.y);
+
+	App->win->SetTitle(title);
+
+	//LOG("Last frame ms %d", last_frame_ms);
+	//App->win->SetTitle(App->input->GetText().GetString());
+	if ((framerate_cap > 0) && fpscap)
+	{
+		if ((last_frame_ms < (1000 / framerate_cap))) {
+			SDL_Delay((1000 / framerate_cap) - last_frame_ms);
+		}
+	}
+
 	dt = frame_time.ReadSec();
 	frame_time.Start();
 }

@@ -97,6 +97,7 @@
     <ClCompile Include="j1Timer.cpp" />
     <ClCompile Include="p2Log.cpp" />
     <ClCompile Include="j1App.cpp" />
+    <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="j1Render.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="p2List.h" />
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="p2SString.h" />
+    <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="j1SceneManager.h" />

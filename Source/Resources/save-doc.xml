@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <game>
 	<render>
-		<camera x="-90" y="-339" />
+		<camera x="-151" y="-371" />
 	</render>
 	<entity_manager>
 		<entity>
-			<data x="544" y="832" type="0" />
+			<data x="861" y="864" type="0" />
 			<data x="-1" />
 		</entity>
 	</entity_manager>

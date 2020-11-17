@@ -102,9 +102,14 @@ private:
 public: 
 
 	mutable bool		save_document_full;
-	float				frame_count;
-	float				dt;
 	bool				allow_debug_log;
+
+	uint32				framerate_cap = 144;
+	bool				fpscap = true;
+	uint64				frame_count = 0;
+	float dt = 0.1f;
+	uint32 getFpsCap() { return framerate_cap; };
+	void setFpsCap(uint64 fps);
 };
 
 extern j1App* App;
