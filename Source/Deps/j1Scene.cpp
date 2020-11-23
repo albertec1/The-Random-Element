@@ -3,6 +3,7 @@
 #include "j1Map.h"
 #include "j1Input.h"
 #include "j1Render.h"
+#include "j1SceneManager.h"
 #include "p2Log.h"
 
 j1Scene::j1Scene()
@@ -22,6 +23,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 
 bool j1Scene::Start()
 {
+	App->scene_manager->SetBackgroundImages("background-forest-night");
 	App->map->Load("first-map-v01.tmx");
 	App->render->camera.x = camera_init_pos.x;
 	App->render->camera.y = camera_init_pos.y;

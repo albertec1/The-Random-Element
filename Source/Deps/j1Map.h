@@ -141,7 +141,6 @@ private:
 	bool SetCollisionLayout(pugi::xml_node& node);
 
 	TilesetData* GetTilesetFromTileId(int id) const;
-
 public:
 
 	MapData		data;
@@ -150,11 +149,9 @@ public:
 	uint		win_height = 0;
 	bool		drawLayer;
 	bool		debug_metadata;
-
-
 private:
 
 	pugi::xml_document	map_file;
-	p2SString			folder;
 	bool				map_loaded;
+	p2SString			folder;
 };

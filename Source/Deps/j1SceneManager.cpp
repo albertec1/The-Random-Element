@@ -1,5 +1,6 @@
 #include "j1SceneManager.h"
 #include "j1App.h"
+#include "j1Textures.h"
 #include "j1Scene.h"
 #include "j1Scene2.h"
 #include "j1Input.h"
@@ -25,6 +26,7 @@ j1SceneManager::~j1SceneManager()
 
 bool j1SceneManager::Awake(pugi::xml_node& config)
 {
+	folder_path = config.attribute("folder").as_string();
 	scene1_path = config.child("scene1").child("path").attribute("value").as_string();
 	scene2_path = config.child("scene2").child("path").attribute("value").as_string();
 	
@@ -191,4 +193,40 @@ void j1SceneManager::AddScene(j1Module* scene)
 {
 	scene->Init();
 	scenes.add(scene);
+}
+
+void j1SceneManager::SetBackgroundImages(const char* path)
+{	
+	if (path != nullptr)
+	{
+		p2SString full_path(folder_path.GetString());
+		full_path += path;
+		
+		BackgroundTextures.clear();
+		BackgroundTextures.add(App->tex->Load(full_path.GetString()));
+	}
+}
+
+void j1SceneManager::SetBackgroundImages()
+{
+	if (path != nullptr)
+	{
+		p2SString full_path(folder_path.GetString());
+		full_path += path;
+
+		BackgroundTextures.clear();
+		BackgroundTextures.add(App->tex->Load(full_path.GetString()));
+	}
+}
+
+void j1SceneManager::DrawBackground()
+{
+	if (!BackgroundHasParallax)
+	{
+		App->render->Blit(Background);
+	}
+	else
+	{
+
+	}
 }
