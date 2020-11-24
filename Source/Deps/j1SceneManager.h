@@ -3,12 +3,13 @@
 #include "j1Module.h"
 #include "p2Point.h"
 #include "p2List.h"
+
 #include <vector>
+#include "SDL_image/include/SDL_image.h"
 
 //Scenes
 class j1Scene;
 class j1Scene2;
-class SDL_Texture;
 
 class j1SceneManager : public j1Module
 {
@@ -49,6 +50,8 @@ public:
 	j1Scene* scene1;
 	j1Scene2* scene2;
 
+	bool backgroundHasParallax = false;
+
 private:
 	p2List<j1Module*> scenes;
 	int current_scene;
@@ -57,6 +60,5 @@ private:
 	p2SString	scene1_path;
 	p2SString	scene2_path;
 
-	bool BackgroundHasParallax = false;
 	p2List<SDL_Texture*> BackgroundTextures;
 };

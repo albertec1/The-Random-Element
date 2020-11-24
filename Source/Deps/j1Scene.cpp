@@ -18,6 +18,9 @@ bool j1Scene::Awake(pugi::xml_node& config)
 {
 	camera_init_pos.x = config.child("camera").attribute("initial_pos_x").as_int(0);
 	camera_init_pos.y = config.child("camera").attribute("initial_pos_y").as_int(0);
+	App->scene_manager->backgroundHasParallax = config.child("parallax").attribute("value").as_bool(false);
+	//bool fullscreen =							config.child("fullscreen").attribute("value").as_bool(false);
+
 	return true;
 }
 

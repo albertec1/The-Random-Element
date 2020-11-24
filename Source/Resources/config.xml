@@ -30,7 +30,6 @@
       <path value="first-map-v01"/>
       <camera initial_pos_x="0" initial_pos_y="0"/>
       <id value="1"/>
-      <background_image_1 value ="big-background.png"/>
     </scene1>
     <scene2>
       <path value="second-map-v01"/>

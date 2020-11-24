@@ -1,4 +1,5 @@
 #include "j1SceneManager.h"
+
 #include "j1App.h"
 #include "j1Textures.h"
 #include "j1Scene.h"
@@ -203,27 +204,28 @@ void j1SceneManager::SetBackgroundImages(const char* path)
 		full_path += path;
 		
 		BackgroundTextures.clear();
-		BackgroundTextures.add(App->tex->Load(full_path.GetString()));
+		SDL_Texture* tex = App->tex->Load(full_path.GetString());
+		BackgroundTextures.add(tex);
 	}
 }
 
-void j1SceneManager::SetBackgroundImages()
+void j1SceneManager::SetBackgroundImages(p2List<const char*> path_list)
 {
-	if (path != nullptr)
-	{
-		p2SString full_path(folder_path.GetString());
-		full_path += path;
-
-		BackgroundTextures.clear();
-		BackgroundTextures.add(App->tex->Load(full_path.GetString()));
-	}
+//	if (path != nullptr)
+//	{
+//		p2SString full_path(folder_path.GetString());
+//		full_path += path;
+//
+//		BackgroundTextures.clear();
+//		BackgroundTextures.add(App->tex->Load(full_path.GetString()));
+//	}
 }
 
 void j1SceneManager::DrawBackground()
 {
-	if (!BackgroundHasParallax)
+	if (!backgroundHasParallax)
 	{
-		App->render->Blit(Background);
+		App->render->Blit(*BackgroundTextures[0], 0, 0,);
 	}
 	else
 	{
