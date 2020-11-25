@@ -4,6 +4,7 @@
 #include "j1Input.h"
 #include "j1Render.h"
 #include "j1SceneManager.h"
+#include "Pathfinding.h"
 #include "p2Log.h"
 
 j1Scene::j1Scene()
@@ -18,18 +19,22 @@ bool j1Scene::Awake(pugi::xml_node& config)
 {
 	camera_init_pos.x = config.child("camera").attribute("initial_pos_x").as_int(0);
 	camera_init_pos.y = config.child("camera").attribute("initial_pos_y").as_int(0);
-	App->scene_manager->backgroundHasParallax = config.child("parallax").attribute("value").as_bool(false);
-	//bool fullscreen =							config.child("fullscreen").attribute("value").as_bool(false);
-
 	return true;
 }
 
 bool j1Scene::Start()
 {
-	App->scene_manager->SetBackgroundImages("background-forest-night");
+	App->scene_manager->SetBackgroundImages("big-background.png");
 	App->map->Load("first-map-v01.tmx");
+
+	int w = 0; int h = 0;
+	uchar* data = NULL;
+	if (App->map->SetPathTiles(&w, &h, &data))
+		App->pathfinding->SetMap(w, h, data);
+
 	App->render->camera.x = camera_init_pos.x;
 	App->render->camera.y = camera_init_pos.y;
+
 	return true;
 }
 
@@ -40,8 +45,6 @@ bool j1Scene::PreUpdate()
 
 bool j1Scene::Update(float dt)
 {
-	App->map->Draw();
-
 	if (App->input->GetKey(SDL_SCANCODE_UP) == j1KeyState::KEY_REPEAT)
 		App->render->camera.y += 10;
 
@@ -62,12 +65,57 @@ bool j1Scene::Update(float dt)
 			App->map->debug_metadata = false;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F2) == j1KeyState::KEY_UP)
+	{
+		App->map->debug_pathtiles = !(App->map->debug_pathtiles);
+	}
+
+	App->map->Draw();
+
+	if (pathList.count() > 0)
+	{
+		int i = 0;
+		for (p2List_item<iPoint>* item = pathList.start; item != nullptr; item = item->next)
+		{
+			i += 5;
+			iPoint pos = App->map->MapToWorld(item->data.x, item->data.y);
+			App->render->DrawQuad({ pos.x, pos.y, 32, 32 }, (255 - i), 255, 0, 255, true, true);
+		}
+	}
 
 	return true;
 }
 
 bool j1Scene::PostUpdate()
 {
+	//--- Debug Pathfinding ---//
+	int x, y;
+
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p.x, p.y); //current mouse position
+
+	if (App->input->GetKey(SDL_SCANCODE_P) == j1KeyState::KEY_UP)
+	{
+		if (origin_selected == true)
+		{
+			LOG("path dest selected. p: %d, %d", p.x, p.y);
+			App->pathfinding->CreatePath(origin, p);	
+			App->pathfinding->CopyPathList(&pathList);
+
+			origin_selected = false;
+		}
+		else
+		{
+			origin = p;
+			origin_selected = true;
+			LOG("path start selected. origin: %d, %d", origin.x, origin.y);
+		}
+	}
+	return true;
+
+	//--- End Debug Pathfinding ---//
+
 	return true;
 }
 

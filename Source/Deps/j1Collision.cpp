@@ -196,11 +196,13 @@ Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Entity* 
 
 void j1Collision::DebugDraw()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F2) == j1KeyState::KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_F2) == j1KeyState::KEY_DOWN)
 		debug = !debug;
 
 	if (debug == false)
-		return;
+		return;*/
+
+	debug = true;
 
 	Uint8 alpha = 80;
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)

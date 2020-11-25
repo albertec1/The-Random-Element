@@ -225,7 +225,7 @@ void j1SceneManager::DrawBackground()
 {
 	if (!backgroundHasParallax)
 	{
-		App->render->Blit(*BackgroundTextures[0], 0, 0,);
+		//Fill a blit(...) with info of the picture taken from the tiled map directly.
 	}
 	else
 	{

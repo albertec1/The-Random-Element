@@ -64,7 +64,8 @@ struct MapLayer
 
 	inline uint Get(int x, int y) const
 	{
-		return data[(y * width) + x];
+		uint ret = data[(y * width) + x];
+		return ret;
 	}
 
 	inline uint GetLayerPositon(int x, int y) const
@@ -131,27 +132,30 @@ public:
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
-private:
+	bool SetPathTiles(int* w, int* h, uchar** buffer);
 
+private:
 	bool LoadMap();
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TilesetData* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TilesetData* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
-	bool SetCollisionLayout(pugi::xml_node& node);
-
+	bool SetCollisionLayout();
+	
 	TilesetData* GetTilesetFromTileId(int id) const;
-public:
 
-	MapData		data;
+public:
+	MapData		mapdata;
 	MapLayer*	metadata;
 	uint		win_width = 0;
 	uint		win_height = 0;
 	bool		drawLayer;
 	bool		debug_metadata;
-private:
+	bool		debug_pathtiles;
 
+private:
 	pugi::xml_document	map_file;
 	bool				map_loaded;
 	p2SString			folder;
+
 };

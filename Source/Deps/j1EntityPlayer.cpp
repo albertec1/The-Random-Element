@@ -728,7 +728,7 @@ int j1EntityPlayer::DoSpecialLeft()
 	int ret = 0; 
 
 	iPoint teleport_destination = App->map->WorldToMap(current_position.x - max_special_range, current_position.y);
-	int tile_width = App->map->data.tile_width;
+	int tile_width = App->map->mapdata.tile_width;
 
 	for (teleport_destination; teleport_destination.x < current_position.x; teleport_destination.x += 1)
 	{

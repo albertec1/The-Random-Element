@@ -2,11 +2,11 @@
 
 #include "j1Module.h"
 #include "p2Point.h"
+#include "p2List.h"
 
 class j1Scene : public j1Module
 {
 public:
-
 	j1Scene();
 	virtual ~j1Scene();
 
@@ -18,5 +18,10 @@ public:
 	bool CleanUp();
 
 public:
+
 	p2Point<int> camera_init_pos;
+	bool origin_selected = false;
+	iPoint origin;
+	p2List<iPoint> pathList; //private?
+
 };

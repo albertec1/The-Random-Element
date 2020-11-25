@@ -13,6 +13,7 @@
 #include "j1SceneManager.h"
 #include "j1Collision.h"
 #include "j1EntityManager.h"
+#include "Pathfinding.h"
 
 #include "j1Timer.h"
 
@@ -35,6 +36,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	scene_manager =	new j1SceneManager();
 	coll =			new j1Collision();
 	manager =		new j1EntityManager();
+	pathfinding =	new Pathfinding();
 	//-----
 
 	// AddModule() for every Object created before
@@ -47,6 +49,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene_manager);
 	AddModule(coll);
 	AddModule(manager);
+	AddModule(pathfinding);
 
 	// render last to swap buffer
 	AddModule(render);
@@ -90,7 +93,7 @@ bool j1App::Awake()
 		app_config = config.child("app");
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
-		allow_debug_log = app_config.child("debug_log").attribute("value").as_bool(true);
+		allow_debug_log = app_config.child("debug_log").attribute("value").as_bool(false);
 	}
 
 	if (ret == true)

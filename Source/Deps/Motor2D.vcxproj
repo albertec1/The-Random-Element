@@ -97,6 +97,7 @@
     <ClCompile Include="j1Timer.cpp" />
     <ClCompile Include="p2Log.cpp" />
     <ClCompile Include="j1App.cpp" />
+    <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="j1Window.cpp" />
@@ -106,6 +107,7 @@
     <ClCompile Include="j1SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Color.h" />
     <ClInclude Include="j1Scene2.h" />
     <ClInclude Include="j1Animation.h" />
     <ClInclude Include="j1Collision.h" />
@@ -128,6 +130,7 @@
     <ClInclude Include="p2List.h" />
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="p2SString.h" />
+    <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />

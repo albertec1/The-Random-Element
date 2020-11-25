@@ -14,6 +14,7 @@ class j1Map;
 class j1SceneManager;
 class j1Collision;
 class j1EntityManager;
+class Pathfinding;
 //---
 
 class j1App
@@ -68,21 +69,22 @@ private:
 public:
 
 	//Modules:
-	j1Window*			win;
-	j1Input*			input;
-	j1Render*			render;
-	j1Textures*			tex;
-	j1Map*				map;
-	j1SceneManager*		scene_manager;
-	j1Collision*		coll;
-	j1EntityManager*	manager;
+	j1Window* win;
+	j1Input* input;
+	j1Render* render;
+	j1Textures* tex;
+	j1Map* map;
+	j1SceneManager* scene_manager;
+	j1Collision* coll;
+	j1EntityManager* manager;
+	Pathfinding* pathfinding;
 	//-----
 private:
 
 	p2List<j1Module*>	modules;
 	uint				frames;
 	int					argc;
-	char**				args;
+	char** args;
 
 	p2SString			title;
 	p2SString			organization;
@@ -99,7 +101,7 @@ private:
 	uint				last_sec_frame_count = 0;
 	uint				prev_last_sec_frame_count = 0;
 
-public: 
+public:
 
 	mutable bool		save_document_full;
 	bool				allow_debug_log;
