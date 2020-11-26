@@ -377,15 +377,14 @@ bool j1Map::SetPathTiles(int* w, int* h, uchar** buffer)
 					int i = (y * current_layer->data->width) + x;
 
 					int tile_id = current_layer->data->Get(x, y);
-					if (tile_id > 0)
+
+					TilesetData* tileset = GetTilesetFromTileId(tile_id);
+					if (tileset != nullptr)
 					{
-						TilesetData* tileset = GetTilesetFromTileId(tile_id);
-						if (tileset != nullptr)
-						{
-							if (tile_id - tileset->firstgid != 0)
-								map[i] = (tile_id - tileset->firstgid) > 0 ? 1 : 0;
-						}
+						if (tile_id - tileset->firstgid != 0)
+							map[i] = (tile_id - tileset->firstgid) > 0 ? 1 : 0;
 					}
+
 				}
 			}
 

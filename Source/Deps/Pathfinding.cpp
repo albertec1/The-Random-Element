@@ -48,7 +48,6 @@ void Pathfinding::SetMap(uint width, uint height, uchar* data)
 bool Pathfinding::IsWalkable(const iPoint& pos) const
 {
 	uchar t = GetTileAt(pos);
-    LOG("t: %d", t);
 	return t != INVALID_WALK_CODE && t > 0;
 }
 
@@ -58,10 +57,6 @@ uchar Pathfinding::GetTileAt(const iPoint& pos) const
 	if (CheckBoundaries(pos))
 	{
 		uchar ret = map[(pos.y * width) + pos.x];
-		for (int i = 0; i < 150; i++)
-		{
-			LOG("tile %d = %d", i, map[i]);
-		}
 		return ret;
 	}
 
@@ -198,7 +193,9 @@ int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 	if (IsWalkable(origin) != false && IsWalkable(destination) != false)
 	{
+		if (App->allow_debug_log == true)
 		LOG("origin and destination walkable");
+
 		// TODO 2: Create two lists: open, close
 		PathList open;
 		open.list.clear();
@@ -218,7 +215,9 @@ int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 			open.list.del(open.GetNodeLowestScore());
 
+			if (App->allow_debug_log == true)
 			LOG("Added-> X:%d, Y:%d", current->data.pos.x, current->data.pos.y);
+
 			// TODO 4: If we just added the destination, we are done!
 			if (current->data.pos == destination)
 			{
@@ -251,7 +250,10 @@ int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			// TODO 5: Fill a list of all adjacent nodes
 			PathList adjacent_nodes;
 			current->data.FindWalkableAdjacents(adjacent_nodes);
+
+			if (App->allow_debug_log == true)
 			LOG("adjacents found: %d", adjacent_nodes.list.count());
+
 			// TODO 6: Iterate adjancent nodes:
 			p2List_item<PathNode>* nodeIt = adjacent_nodes.list.start;
 			// ignore nodes in the closed list

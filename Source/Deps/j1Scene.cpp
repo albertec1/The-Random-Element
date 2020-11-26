@@ -99,7 +99,9 @@ bool j1Scene::PostUpdate()
 	{
 		if (origin_selected == true)
 		{
+			if (App->allow_debug_log == true)
 			LOG("path dest selected. p: %d, %d", p.x, p.y);
+
 			App->pathfinding->CreatePath(origin, p);	
 			App->pathfinding->CopyPathList(&pathList);
 
@@ -109,6 +111,8 @@ bool j1Scene::PostUpdate()
 		{
 			origin = p;
 			origin_selected = true;
+
+			if (App->allow_debug_log == true)
 			LOG("path start selected. origin: %d, %d", origin.x, origin.y);
 		}
 	}
