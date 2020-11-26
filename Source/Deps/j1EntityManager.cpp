@@ -1,10 +1,11 @@
 #include "j1EntityManager.h"
-#include "p2Log.h" 
 #include "j1Entity.h"
+#include "j1EntityPlayer.h"
+#include "AutonomousEntity.h"
+#include "p2Log.h" 
 #include "j1Map.h"
 #include "j1Collision.h"
 #include "j1Scene.h"
-#include "j1EntityPlayer.h"
 
 j1EntityManager::j1EntityManager()
 {
@@ -107,12 +108,13 @@ bool j1EntityManager::CleanUp()
 
 j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, iPoint initPos)
 {
-	static_assert((INT)ENTITY_TYPE::UNKNOWN_TYPE == 3, "CODE NEEDS UPDATE");
+	static_assert((INT)ENTITY_TYPE::UNKNOWN_TYPE == 4, "CODE NEEDS UPDATE");
 	j1Entity* ret = nullptr;
 	switch (type)
 	{
 	case ENTITY_TYPE::PLAYER:			ret = new j1EntityPlayer(initPos, type); break;
-	//case ENTITY_TYPE::WALKING_ENEMY:	ret = new j1EntityMovable_ground(initPos, type); break;
+	case ENTITY_TYPE::GROUND_ENEMY:		ret = new AutonomousEntity(initPos, type); break;
+	case ENTITY_TYPE::AIR_ENEMY:		ret = new AutonomousEntity(initPos, type); break;
 	case ENTITY_TYPE::UNKNOWN_TYPE:		ret = nullptr; break;
 	}
 

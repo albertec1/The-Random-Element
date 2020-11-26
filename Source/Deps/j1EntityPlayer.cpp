@@ -115,10 +115,16 @@ bool j1EntityPlayer::PreUpdate()
 
 		player_input.K_enabled = App->input->keyboard[SDL_SCANCODE_K] == j1KeyState::KEY_DOWN;
 
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == j1KeyState::KEY_REPEAT || App->input->keyboard[SDL_SCANCODE_SPACE] == j1KeyState::KEY_DOWN)
+		/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == j1KeyState::KEY_REPEAT || App->input->keyboard[SDL_SCANCODE_SPACE] == j1KeyState::KEY_DOWN)
 			player_input.Space_enabled = true;
 		else if (App->input->keyboard[SDL_SCANCODE_SPACE] == j1KeyState::KEY_UP)
+			player_input.Space_enabled = false;*/
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == j1KeyState::KEY_DOWN)
+			player_input.Space_enabled = true;
+		else
 			player_input.Space_enabled = false;
+
 	}
 	else
 	{

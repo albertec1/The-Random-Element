@@ -37,9 +37,6 @@
     <ClCompile Include="j1Entity.cpp">
       <Filter>Development\Modules\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="j1EntityManager.cpp">
-      <Filter>Development\Modules\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="j1EntityPlayer.cpp">
       <Filter>Development\Modules\Entities</Filter>
     </ClCompile>
@@ -57,6 +54,13 @@
     </ClCompile>
     <ClCompile Include="PerfTimer.cpp">
       <Filter>Development\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinding.cpp" />
+    <ClCompile Include="j1EntityManager.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="AutonomousEntity.cpp">
+      <Filter>Development\Modules\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +118,6 @@
     <ClInclude Include="j1Entity.h">
       <Filter>Development\Modules\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="j1EntityManager.h">
-      <Filter>Development\Modules\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="j1EntityPlayer.h">
       <Filter>Development\Modules\Entities</Filter>
     </ClInclude>
@@ -137,6 +138,14 @@
     </ClInclude>
     <ClInclude Include="PerfTimer.h">
       <Filter>Development\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Pathfinding.h" />
+    <ClInclude Include="j1EntityManager.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="AutonomousEntity.h">
+      <Filter>Development\Modules\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
