@@ -102,7 +102,7 @@ bool j1Scene::PostUpdate()
 			if (App->allow_debug_log == true)
 			LOG("path dest selected. p: %d, %d", p.x, p.y);
 
-			App->pathfinding->CreatePath(origin, p);	
+			App->pathfinding->CreatePath(origin, p, ENTITY_TYPE::DEBUG);	
 			App->pathfinding->CopyPathList(&pathList);
 
 			origin_selected = false;

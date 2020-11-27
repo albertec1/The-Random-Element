@@ -136,7 +136,7 @@ PathNode::PathNode(const PathNode& node) : g(node.g), h(node.h), pos(node.pos), 
 // PathNode -------------------------------------------------------------------------
 // Fills a list (PathList) of all valid adjacent pathnodes
 // ----------------------------------------------------------------------------------
-uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
+uint PathNode::FindWalkableAdjacents(PathList& list_to_fill, ENTITY_TYPE constraint) const
 {
 	iPoint cell;
 	uint before = list_to_fill.list.count();
@@ -144,22 +144,30 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 	// north
 	cell.create(pos.x, pos.y + 1);
 	if (App->pathfinding->IsWalkable(cell))
+	{
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+	}
 
 	// south
 	cell.create(pos.x, pos.y - 1);
 	if (App->pathfinding->IsWalkable(cell))
+	{
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+	}
 
 	// east
 	cell.create(pos.x + 1, pos.y);
 	if (App->pathfinding->IsWalkable(cell))
+	{
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+	}
 
 	// west
 	cell.create(pos.x - 1, pos.y);
 	if (App->pathfinding->IsWalkable(cell))
+	{
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+	}
 
 	return list_to_fill.list.count();
 }
@@ -186,7 +194,7 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 // Actual A* algorithm: return number of steps in the creation of the path or -1 ----
 // ----------------------------------------------------------------------------------
-int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination)
+int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination, ENTITY_TYPE constraint)
 {
 	// TODO 1: if origin or destination are not walkable, return -1
 	bool ret = -1;
@@ -249,7 +257,7 @@ int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			}
 			// TODO 5: Fill a list of all adjacent nodes
 			PathList adjacent_nodes;
-			current->data.FindWalkableAdjacents(adjacent_nodes);
+			current->data.FindWalkableAdjacents(adjacent_nodes, constraint);
 
 			if (App->allow_debug_log == true)
 			LOG("adjacents found: %d", adjacent_nodes.list.count());

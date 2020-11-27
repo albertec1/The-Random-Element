@@ -108,7 +108,7 @@ bool j1EntityManager::CleanUp()
 
 j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, iPoint initPos)
 {
-	static_assert((INT)ENTITY_TYPE::UNKNOWN_TYPE == 4, "CODE NEEDS UPDATE");
+	static_assert((INT)ENTITY_TYPE::UNKNOWN_TYPE == 5, "CODE NEEDS UPDATE");
 	j1Entity* ret = nullptr;
 	switch (type)
 	{

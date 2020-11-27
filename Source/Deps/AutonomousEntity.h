@@ -29,27 +29,28 @@ public:
 	
 public:
 
-	void GoTo(fPoint destination, ENTITY_TYPE type);
-	void Chase(int range, int enemy);
+	int FindDistanceToPlayer();
+	void GoTo(iPoint destination, ENTITY_TYPE type);
+	void Chase(int range);
 	void Move(float dt);
 	void NextStep();
 
-	inline fPoint GetDestination()
+	inline iPoint GetDestination()
 	{
-		if (path.count() != 0)
-			return path.end->data;
+		if (path->count() != 0)
+			return path->end->data;
 		return destination;
 	}
 
-	inline void SetDestination(fPoint destination)
+	inline void SetDestination(iPoint destination)
 	{
 		this->destination = destination;
 	}
 
 	inline void ResetPath()
 	{
-		if (path.count() != 0)
-			path.clear();
+		if (path->count() != 0)
+			path->clear();
 		destination = { 0,0 };
 	}
 
@@ -60,9 +61,13 @@ public:
 	//animation methods and variables inherited too
 
 	//pathfind! ---
-	fPoint destination;
-	p2List<fPoint> path;
-	j1Entity* path_target;
+	iPoint destination;
+	p2List<iPoint>* path;
+	j1Entity* target;
+	int pathfindingRange;
+	int entityReach;
+
+	j1Entity* player;
 	
 	friend class j1EntityManager;
 };

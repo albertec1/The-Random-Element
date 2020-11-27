@@ -34,11 +34,6 @@ bool j1Entity::Start()
 bool j1Entity::Draw()
 {
 	bool ret = false;
-	/*/
-	if (ret = App->render->Blit(entity_texture, starting_position.x, starting_position.y, &entity_rect, flipped) == 0)
-	{
-		LOG("Blit error: Entity Texture");
-	}*/
 
 	return ret;
 }
