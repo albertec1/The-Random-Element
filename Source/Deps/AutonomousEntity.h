@@ -19,7 +19,7 @@ public:
 
 	virtual bool PreUpdate();
 
-	virtual bool Update(float dt);
+	virtual bool Update(float dt, bool doLogic);
 
 	virtual bool PostUpdate();
 
@@ -37,8 +37,8 @@ public:
 
 	inline iPoint GetDestination()
 	{
-		if (path->count() != 0)
-			return path->end->data;
+		if (pathPtr->count() != 0)
+			return pathPtr->end->data;
 		return destination;
 	}
 
@@ -49,23 +49,27 @@ public:
 
 	inline void ResetPath()
 	{
-		if (path->count() != 0)
-			path->clear();
+		if (pathPtr->count() != 0)
+			pathPtr->clear();
 		destination = { 0,0 };
 	}
 
 
 public:
 
-	//"transform" variables (pos vel and acc) inherited 
+	//all "transform" variables (pos vel and acc) inherited except:
+	float current_movementSpeed = 0;
+
 	//animation methods and variables inherited too
 
 	//pathfind! ---
 	iPoint destination;
-	p2List<iPoint>* path;
+	p2List<iPoint> path;
+	p2List<iPoint>* pathPtr;
 	j1Entity* target;
 	int pathfindingRange;
 	int entityReach;
+	
 
 	j1Entity* player;
 	

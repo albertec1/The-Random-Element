@@ -54,7 +54,7 @@
         <initial_pos_x value="498"/>
         <initial_pos_y value="700"/>
         <gravity value="4.0f"/>
-        <movement_speed value="10"/>
+        <movement_speed value="120"/>
         <special_range value="128"/>
         <texture_path value="spritesheets/character-spritesheet.png"/>
       </player_stats>
@@ -67,8 +67,20 @@
         <animation            name ="run"     coll="0" row="5" width="32" height="32" collumns="6" frames="6" speed="1" loop="true"/>
         <animation            name ="fall"    coll="0" row="6" width="32" height="32" collumns="1" frames="1" speed="1" loop="true"/>
         <animation            name ="special" coll="0" row="7" width="32" height="32" collumns="6" frames="6" speed="1" loop="false"/>
-        </sprites>
+       </sprites>
     </player>
+    <autonomousEntity>
+      <entity_stats>
+        <character_width value="32"/>
+        <character_height value="32"/>
+        <initial_pos_x value="750"/>
+        <initial_pos_y value="550"/>
+        <gravity value="4.0f"/>
+        <movement_speed value="100"/>
+        <special_range value="128"/>
+        <texture_path value="spritesheets/character-spritesheet.png"/>
+      </entity_stats>
+     </autonomousEntity>
   </EntityManager> 
 
 </config>        

@@ -17,9 +17,21 @@ Pathfinding::~Pathfinding()
 	RELEASE_ARRAY(map);
 }
 
-bool Pathfinding::Update()
+bool Pathfinding::Update(float dt)
 {
-
+	if (debug_pathList)
+	{
+		if (path_list.count() > 0)
+		{
+			int i = 0;
+			for (p2List_item<iPoint>* item = path_list.start; item != nullptr; item = item->next)
+			{
+				i += 5;
+				iPoint pos = App->map->MapToWorld(item->data.x, item->data.y);
+				App->render->DrawQuad({ pos.x, pos.y, 32, 32 }, (255 - i), 255, 0, 150, true, true);
+			}
+		}
+	}
 	return true;
 }
 
@@ -75,10 +87,10 @@ const p2DynArray<iPoint>* Pathfinding::GetLastPath() const
 {
 	return &last_path;
 }
-
+ 
 void Pathfinding::CopyPathList(p2List<iPoint>* empty_list)
 {
-	empty_list->clear();
+  	empty_list->clear();
 	for (p2List_item<iPoint>* item = path_list.start; item != nullptr; item = item->next)
 	{
 		empty_list->add(item->data);
@@ -201,7 +213,7 @@ int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination, ENT
 
 	if (IsWalkable(origin) != false && IsWalkable(destination) != false)
 	{
-		if (App->allow_debug_log == true)
+		//if (App->allow_debug_log == true)
 		LOG("origin and destination walkable");
 
 		// TODO 2: Create two lists: open, close
@@ -223,7 +235,7 @@ int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination, ENT
 
 			open.list.del(open.GetNodeLowestScore());
 
-			if (App->allow_debug_log == true)
+			//if (App->allow_debug_log == true)
 			LOG("Added-> X:%d, Y:%d", current->data.pos.x, current->data.pos.y);
 
 			// TODO 4: If we just added the destination, we are done!

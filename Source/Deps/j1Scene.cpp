@@ -70,18 +70,12 @@ bool j1Scene::Update(float dt)
 		App->map->debug_pathtiles = !(App->map->debug_pathtiles);
 	}
 
-	App->map->Draw();
-
-	if (pathList.count() > 0)
+	if (App->input->GetKey(SDL_SCANCODE_F3) == j1KeyState::KEY_UP)
 	{
-		int i = 0;
-		for (p2List_item<iPoint>* item = pathList.start; item != nullptr; item = item->next)
-		{
-			i += 5;
-			iPoint pos = App->map->MapToWorld(item->data.x, item->data.y);
-			App->render->DrawQuad({ pos.x, pos.y, 32, 32 }, (255 - i), 255, 0, 255, true, true);
-		}
+		App->pathfinding->debug_pathList = !(App->pathfinding->debug_pathList);
 	}
+
+	App->map->Draw();
 
 	return true;
 }

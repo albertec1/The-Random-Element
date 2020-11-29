@@ -26,7 +26,7 @@ public:
 	~Pathfinding();
 
 	// Debug update
-	bool Update();
+	bool Update(float dt);
 
 	// Called before quitting
 	bool CleanUp();
@@ -50,6 +50,8 @@ public:
 	uchar GetTileAt(const iPoint& pos) const;
 
 	void CopyPathList(p2List<iPoint>* given_list);
+public:
+	bool debug_pathList = true;
 
 private:
 

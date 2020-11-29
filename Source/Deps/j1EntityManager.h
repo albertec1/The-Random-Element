@@ -9,6 +9,7 @@ struct SDL_Rect;
 struct Collider;
 struct SDL_Texture;
 struct j1EntityPlayer;
+struct AutonomousEntity;
 
 class j1EntityManager : public j1Module
 {
@@ -46,4 +47,5 @@ public:
 public:
 	p2List<j1Entity*>		entities;
 	j1EntityPlayer*			player;
+	AutonomousEntity*		enemy;
 };

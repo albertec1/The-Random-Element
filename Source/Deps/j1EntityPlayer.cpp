@@ -500,7 +500,6 @@ bool j1EntityPlayer::PreUpdate()
 bool j1EntityPlayer::Update(float dt, bool doLogic)
 {
 	//MOVEMENT THROUGH STATES
-	movement_speed = movement_speed * dt;
 	switch (state)
 	{
 	case ENTITY_STATES::ST_IDLE:
@@ -527,7 +526,7 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 		if (App->allow_debug_log == true)
 			LOG("MOVING LEFT");
 
-		current_velocity.x = -movement_speed;
+		current_velocity.x = -movement_speed * dt;
 
 		flipped = true;
 		current_animation = GetAnimation("run");
@@ -537,7 +536,7 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
  		if (App->allow_debug_log == true)
 			LOG("MOVING RIGHT");
 
-		current_velocity.x = movement_speed;
+		current_velocity.x = movement_speed * dt;
 
 		flipped = false;
 		current_animation = GetAnimation("run");
