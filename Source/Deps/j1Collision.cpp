@@ -63,12 +63,17 @@ bool j1Collision::PostUpdate()
 	bool ret = true;
 
 	// Remove all colliders scheduled for deletion 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	for (uint i = 2; i < MAX_COLLIDERS; ++i)
 	{
-		if (colliders[i] != nullptr && colliders[i]->to_delete == true)
+		if (colliders[i] != nullptr)
 		{
+			uint debug = i;
+			if (colliders[i]->to_delete == true)
+			{
 			delete colliders[i];
 			colliders[i] = nullptr;
+
+			}
 		}
 	}
 

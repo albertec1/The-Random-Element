@@ -14,7 +14,6 @@ struct AutonomousEntity;
 class j1EntityManager : public j1Module
 {
 public:
-
 	j1EntityManager();
 
 	~j1EntityManager();
@@ -38,7 +37,6 @@ public:
 	bool Load(pugi::xml_node& data);
 
 public:
-
 	j1Entity* CreateEntity(ENTITY_TYPE type, iPoint initPos);
 	bool DestroyEntity(j1Entity* entity);
 	bool DestroyAllEntities();
@@ -47,5 +45,6 @@ public:
 public:
 	p2List<j1Entity*>		entities;
 	j1EntityPlayer*			player;
-	AutonomousEntity*		enemy;
+	AutonomousEntity*		airEnemy;
+	AutonomousEntity*		groundEnemy;
 };

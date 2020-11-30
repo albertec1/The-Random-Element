@@ -5,6 +5,7 @@
 #include "p2Point.h"
 #include "j1Map.h"
 #include "j1Render.h"
+#include "j1Collision.h"
 
 Pathfinding::Pathfinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH), width(0), height(0)
 {
@@ -150,37 +151,131 @@ PathNode::PathNode(const PathNode& node) : g(node.g), h(node.h), pos(node.pos), 
 // ----------------------------------------------------------------------------------
 uint PathNode::FindWalkableAdjacents(PathList& list_to_fill, ENTITY_TYPE constraint) const
 {
+	
 	iPoint cell;
 	uint before = list_to_fill.list.count();
 
-	// north
-	cell.create(pos.x, pos.y + 1);
-	if (App->pathfinding->IsWalkable(cell))
+	if (constraint == ENTITY_TYPE::AIR_ENEMY || constraint == ENTITY_TYPE::UNDERGROUND_ENEMY)
 	{
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
-	}
+		// north
+		cell.create(pos.x, pos.y - 1);
+		if (App->pathfinding->IsWalkable(cell))
+		{
+			list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		}
+		// south
+		cell.create(pos.x, pos.y + 1);
+		if (App->pathfinding->IsWalkable(cell))
+		{
+			list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		}
+		// east
+		cell.create(pos.x + 1, pos.y);
+		if (App->pathfinding->IsWalkable(cell))
+		{
+			list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		}
+		// west
 
-	// south
-	cell.create(pos.x, pos.y - 1);
-	if (App->pathfinding->IsWalkable(cell))
+		cell.create(pos.x - 1, pos.y);
+		if (App->pathfinding->IsWalkable(cell))
+		{
+			list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		}
+	}
+	else
 	{
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
-	}
+		uint tileId = 0;
+		bool fall = false;
+		tileId = App->map->metadata->GetLayerPositon(this->pos.x, this->pos.y);
+		if (App->coll->canCollide_bottom(tileId)) //fall until touching the ground
+			fall = true;
 
-	// east
-	cell.create(pos.x + 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell))
-	{
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
-	}
+		if (fall) //keep falling if the previous tile was at the air 
+		{
+			// south
+			cell.create(pos.x, pos.y + 1);
+			if (App->pathfinding->IsWalkable(cell))
+			{
+				list_to_fill.list.add(PathNode(-1, -1, cell, this));
+			}
+		}
+		else
+		{
+			// south
+			cell.create(pos.x, pos.y + 1);
+			if (App->pathfinding->IsWalkable(cell))
+			{
+				tileId = App->map->metadata->GetLayerPositon(cell.x, cell.y);
+				if (!App->coll->canCollide_bottom(tileId)) //if there is a collider under the tile means it is right above the ground
+					list_to_fill.list.add(PathNode(-1, -1, cell, this)); //so we add it to the list
+			}
+			// east
+			cell.create(pos.x + 1, pos.y);
+			if (App->pathfinding->IsWalkable(cell))
+			{
+				tileId = App->map->metadata->GetLayerPositon(cell.x, cell.y);
+				if (!App->coll->canCollide_bottom(tileId)) //if it is at the ground, add it
+				{
+					list_to_fill.list.add(PathNode(-1, -1, cell, this));
+				}
+				else
+				{
+					bool ground = false;
+					for (int i = 5; i >= 0; i--) //if it is not, see if it is possible to descend (maximum depth of the fall 5 tiles)
+					{
+						tileId = App->map->metadata->GetLayerPositon(cell.x, cell.y + i);
+						if (!App->coll->canCollide_bottom(tileId))
+						{
+							ground = true;
+						}
+						else
+						{
+							if (ground == true)
+							{
+								//if 
+								list_to_fill.list.add(PathNode(-1, -1, cell, this));
+							}
+							ground = false;
+						}
+					}
+				}
+			}	
+			// west
+			cell.create(pos.x - 1, pos.y);
+			if (App->pathfinding->IsWalkable(cell))
+			{
+				tileId = App->map->metadata->GetLayerPositon(cell.x, cell.y);
+				if (!App->coll->canCollide_bottom(tileId))
+				{
+					list_to_fill.list.add(PathNode(-1, -1, cell, this));
+				}
+				else
+				{
+					bool ground = false;
+					for (int i = 5; i >= 0; i--) //if it is not, see if it is possible to descend (maximum depth of the fall 5 tiles)
+					{
+						tileId = App->map->metadata->GetLayerPositon(cell.x, cell.y + i);
+						if (!App->coll->canCollide_bottom(tileId))
+						{
+							ground = true;
+						}
+						else
+						{
+							if (ground == true)
+							{
+								//if 
+								list_to_fill.list.add(PathNode(-1, -1, cell, this));
+							}
+							ground = false;
+						}
+					}
+				}
 
-	// west
-	cell.create(pos.x - 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell))
-	{
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+			}
+		}
 	}
-
+	
 	return list_to_fill.list.count();
 }
 

@@ -76,7 +76,7 @@
         <initial_pos_x value="750"/>
         <initial_pos_y value="550"/>
         <gravity value="4.0f"/>
-        <movement_speed value="100"/>
+        <movement_speed value="150"/>
         <special_range value="128"/>
         <texture_path value="spritesheets/character-spritesheet.png"/>
       </entity_stats>

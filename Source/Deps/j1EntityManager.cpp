@@ -21,9 +21,11 @@ bool j1EntityManager::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
 
-	player = (j1EntityPlayer*)CreateEntity(ENTITY_TYPE::PLAYER, { 0,0 });
+	player = (j1EntityPlayer*)CreateEntity(ENTITY_TYPE::PLAYER, { 0, 0 });
 
-	enemy = (AutonomousEntity*)CreateEntity(ENTITY_TYPE::AIR_ENEMY, { 0,0 });
+	//airEnemy = (AutonomousEntity*)CreateEntity(ENTITY_TYPE::AIR_ENEMY, { 750, 550 });
+
+	groundEnemy = (AutonomousEntity*)CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 798, 865 });
 
 	for (p2List_item<j1Entity*>* item = entities.start; item != nullptr; item = item->next)
 	{

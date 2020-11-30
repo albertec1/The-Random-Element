@@ -1,6 +1,8 @@
 #pragma once
   
-#define MAX_COLLIDERS 2000
+#define MAX_COLLIDERS 3000
+#define MAXMAX_COLLIDERS 3010
+
 
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
@@ -24,7 +26,7 @@ enum COLLIDER_TYPE
 struct Collider
 {
 	SDL_Rect rect;
-	bool to_delete = false;
+	bool to_delete;
 	COLLIDER_TYPE type;
 	j1Entity* callback = nullptr;
 
@@ -32,7 +34,9 @@ struct Collider
 		rect(rectangle),
 		type(type),
 		callback(callback)
-	{};
+	{
+		to_delete = false;
+	};
 
 	void SetPos(int x, int y)
 	{
