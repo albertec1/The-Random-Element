@@ -133,6 +133,7 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 	bool SetPathTiles(int* w, int* h, uchar** buffer);
+	SDL_Rect MapCulling(iPoint size, int extra_x, int extra_y);
 
 private:
 	bool LoadMap();

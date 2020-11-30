@@ -43,6 +43,11 @@ j1Collision::j1Collision()
 
 	win_width = 0;
 	win_height = 0;
+
+	for (int i = 0; i < MAX_COLLIDERS; i++)
+	{
+		colliders[i] = new Collider[i];
+	}
 }
 
 j1Collision::~j1Collision()
@@ -63,19 +68,15 @@ bool j1Collision::PostUpdate()
 	bool ret = true;
 
 	// Remove all colliders scheduled for deletion 
-	for (uint i = 2; i < MAX_COLLIDERS; ++i)
+	/*for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		if (colliders[i] != nullptr)
-		{
-			uint debug = i;
 			if (colliders[i]->to_delete == true)
 			{
-			delete colliders[i];
-			colliders[i] = nullptr;
-
+				delete colliders[i];
+				colliders[i] = nullptr;
 			}
-		}
-	}
+	}*/
 
 	// Calculate collisions
 	Collider* c1;
@@ -97,7 +98,7 @@ bool j1Collision::PostUpdate()
 
 			c2 = colliders[k];
 
-			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type]) //what if we put the matrix check before looking if they actually collide? performance improvement?
+			if (c1->CheckCollision(c2->rect) == true) //what if we put the matrix check before looking if they actually collide? performance improvement?
 			{
 				if (c1->type == PLAYER || c2->type == PLAYER)
 				{
@@ -111,8 +112,7 @@ bool j1Collision::PostUpdate()
 					LOG("Collision!");
 					/*c1->callback->OnCollision(c1, c2);
 					c2->callback->OnCollision(c2, c1);*/
-				}
-					
+				}					
 			}
 		}
 	}
@@ -183,15 +183,30 @@ bool j1Collision::CleanUp()
 	return true;
 }
 
-Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Entity* callback)
+Collider* j1Collision::AddCollider(SDL_Rect _rect, COLLIDER_TYPE _type, j1Entity*_callback)
 {
 	Collider* ret = nullptr;
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	/*for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		if (colliders[i] == nullptr)
 		{
+
 			ret = colliders[i] = new Collider(rect, type, callback);
+			break;
+		}
+	}*/
+
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	{
+		if (colliders[i]->active == false)
+		{
+			colliders[i]->rect = _rect;
+			colliders[i]->type = _type;
+			colliders[i]->callback = _callback;
+			colliders[i]->active = true;
+
+			ret = colliders[i];
 			break;
 		}
 	}
@@ -247,6 +262,24 @@ void j1Collision::DebugDraw()
 
 		}
 	}
+}
+
+Collider::Collider()
+{
+	rect = { 0,0,0,0 };
+	type = COLLIDER_TYPE::COLLIDER_NONE;
+	callback = nullptr;
+	to_delete = false;
+	active = false;
+}
+
+Collider::Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Entity* callback) :
+	rect(rectangle),
+	type(type),
+	callback(callback)
+{
+	to_delete = false;
+	active = true;
 }
 
 bool Collider::CheckCollision(const SDL_Rect& r) const

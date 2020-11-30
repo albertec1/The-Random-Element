@@ -2,7 +2,7 @@
   
 #define MAX_COLLIDERS 3000
 #define MAXMAX_COLLIDERS 3010
-
+#define DOLOGIC_TIME 10
 
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
@@ -27,16 +27,12 @@ struct Collider
 {
 	SDL_Rect rect;
 	bool to_delete;
+	bool active;
 	COLLIDER_TYPE type;
 	j1Entity* callback = nullptr;
 
-	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Entity* calback = nullptr):
-		rect(rectangle),
-		type(type),
-		callback(callback)
-	{
-		to_delete = false;
-	};
+	Collider();
+	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Entity* calback = nullptr);
 
 	void SetPos(int x, int y)
 	{
@@ -59,7 +55,6 @@ public:
 
 
 	bool Awake(pugi::xml_node& node);
-	bool Update();
 	bool PostUpdate();
 	bool CleanUp();
 

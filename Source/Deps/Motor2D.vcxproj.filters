@@ -165,9 +165,6 @@
     <Filter Include="Development\Tools">
       <UniqueIdentifier>{bfa0eb71-f8f9-4c51-8fc5-a19d28c9db0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Development\Tools\XML">
-      <UniqueIdentifier>{ce495796-2f24-44cc-a752-06fc2cf23847}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Development\Modules">
       <UniqueIdentifier>{ca447f3e-d425-4f0c-92f7-61eb714b5bd4}</UniqueIdentifier>
     </Filter>
@@ -176,6 +173,9 @@
     </Filter>
     <Filter Include="Development\Modules\Entities">
       <UniqueIdentifier>{97469898-f55b-4ef0-8b0e-5d9e9cc67458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Tools\XML">
+      <UniqueIdentifier>{ce495796-2f24-44cc-a752-06fc2cf23847}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

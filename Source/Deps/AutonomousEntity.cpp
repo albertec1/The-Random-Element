@@ -66,20 +66,24 @@ bool AutonomousEntity::Update(float dt, bool doLogic)
 {
 	if (dt != 0.0f)
 	{
-		if (FindDistanceToPlayer() <= entityReach)
-			target = player;
-		
-		Chase(pathfindingRange);
-
-		if (destination != current_position)
-			Move(dt);
-		else
+		if (doLogic)
 		{
-			NextStep();
+			if (FindDistanceToPlayer() <= entityReach)
+				target = player;
 
-			if (target != nullptr)
+			Chase(pathfindingRange);
+
+
+			if (destination != current_position)
+				Move(dt);
+			else
 			{
-				//attack
+				NextStep();
+
+				if (target != nullptr)
+				{
+					//attack
+				}
 			}
 		}
 	}
@@ -124,6 +128,8 @@ void AutonomousEntity::GoTo(iPoint destination, ENTITY_TYPE type)
 		if (pathSize > 0)
 		{
 			App->pathfinding->CopyPathList(pathPtr); // CopyPathList already clears the path inside.
+			path = *pathPtr;
+			pathPtr = &path;
 			if (pathPtr->end != nullptr)
 			{
 				this->destination = App->map->MapToWorld(pathPtr->end->data.x, pathPtr->end->data.y); //set the destination

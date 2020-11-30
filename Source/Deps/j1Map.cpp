@@ -299,8 +299,6 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 	return ret;
 }
 
-//crear la función de load pathtiles
-
 bool j1Map::SetCollisionLayout()
 {
 	bool ret = false;
@@ -399,6 +397,47 @@ bool j1Map::SetPathTiles(int* w, int* h, uchar** buffer)
 	return ret;
 }
 
+SDL_Rect j1Map::MapCulling(iPoint size, int extra_x, int extra_y)
+{
+	SDL_Rect ret;
+	iPoint cam = { App->render->camera.x, App->render->camera.y };
+	iPoint end = cam;
+	cam.x /= -App->win->GetScale();
+	cam.y /= -App->win->GetScale();
+	cam = WorldToMap(cam.x, cam.y);
+	cam.x -= extra_x * App->win->GetScale();
+	cam.y -= extra_y * App->win->GetScale();
+
+	end.x /= -App->win->GetScale();
+	end.y /= -App->win->GetScale();
+	end.x += App->render->camera.w;
+	end.y += App->render->camera.h;
+	end = WorldToMap(end.x, end.y);
+	end.x += extra_x * App->win->GetScale();
+	end.y += extra_y * App->win->GetScale();
+
+	if (cam.x < 0)
+		cam.x = 0;
+	else if (cam.x > size.x)
+		cam.x = size.x;
+	if (cam.y < 0)
+		cam.y = 0;
+	else if (cam.y > size.y)
+		cam.y = size.y;
+	if (end.x < 0)
+		end.x = 0;
+	else if (end.x > size.x)
+		end.x = size.x;
+	if (end.y < 0)
+		end.y = 0;
+	else if (end.y > size.y)
+		end.y = size.y;
+
+	ret = { cam.x, cam.y, end.x, end.y };
+
+	return ret;
+}
+
 void j1Map::Draw()
 {
 	if (map_loaded == false)
@@ -415,9 +454,9 @@ void j1Map::Draw()
 	{
 		if (current_layer->data->properties.Get("Draw") == 1)
 		{
-			for (int y = 0; y < mapdata.map_height; ++y)
-			{
-				for (int x = 0; x < mapdata.map_width; ++x)
+			SDL_Rect cam = MapCulling({ current_layer->data->width, current_layer->data->height }, 10, 30);
+			for (int y = cam.y; y < cam.h; y++)
+				for (int x = cam.x; x < cam.w; x++)
 				{
 					iPoint tileCoords = MapToWorld(x, y);
 					int tile_id = current_layer->data->Get(x, y);
@@ -431,7 +470,7 @@ void j1Map::Draw()
 						App->render->Blit(tileset->texture, pos.x, pos.y, &r);
 					}
 				}
-			}
+			
 		}	
 		if (current_layer->data->properties.Get("PathNodes") == 1 && debug_pathtiles)
 		{

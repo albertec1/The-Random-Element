@@ -47,4 +47,8 @@ public:
 	j1EntityPlayer*			player;
 	AutonomousEntity*		airEnemy;
 	AutonomousEntity*		groundEnemy;
+
+private:
+	bool doLogic;
+	float logicTimer;
 };

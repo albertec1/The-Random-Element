@@ -18,7 +18,7 @@ public:
 
 	void SetTitle(const char* new_title);
 	void GetWindowSize(uint& width, uint& height) const;
-	uint GetScale() const;
+	int GetScale() const;
 
 public:
 	SDL_Window* window;//The window we'll be rendering to
@@ -28,5 +28,5 @@ private:
 	p2SString		title;
 	uint			width;
 	uint			height;
-	uint			scale;
+	int			scale;
 };

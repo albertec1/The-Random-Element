@@ -66,7 +66,6 @@ public:
 
 	iPoint			sprite_size;
 	bool			flipped;
-
 	//save and load?
 
 	friend class j1EntityManager;

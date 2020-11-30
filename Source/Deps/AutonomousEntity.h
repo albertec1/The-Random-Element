@@ -70,7 +70,6 @@ public:
 	int pathfindingRange;
 	int entityReach;
 	
-
 	j1Entity* player;
 	
 	friend class j1EntityManager;

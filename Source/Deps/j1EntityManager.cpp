@@ -21,9 +21,12 @@ bool j1EntityManager::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
 
+	doLogic = false;
+	logicTimer = DOLOGIC_TIME;
+
 	player = (j1EntityPlayer*)CreateEntity(ENTITY_TYPE::PLAYER, { 0, 0 });
 
-	//airEnemy = (AutonomousEntity*)CreateEntity(ENTITY_TYPE::AIR_ENEMY, { 750, 550 });
+	airEnemy = (AutonomousEntity*)CreateEntity(ENTITY_TYPE::AIR_ENEMY, { 750, 550 });
 
 	groundEnemy = (AutonomousEntity*)CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 798, 865 });
 
@@ -62,9 +65,16 @@ bool j1EntityManager::Update(float dt)
 {
 	bool ret = true;
 
+	logicTimer -= dt;
+	if (logicTimer <= 0)
+	{
+		doLogic = true;
+		logicTimer = DOLOGIC_TIME;
+	}
+
 	for (p2List_item<j1Entity*>* EntityIterator = entities.start; EntityIterator != nullptr; EntityIterator = EntityIterator->next)
 	{
-		ret = EntityIterator->data->Update(dt, false);
+		ret = EntityIterator->data->Update(dt, doLogic);
 		if (ret == false)
 		{
 			LOG("Entity update error");
@@ -325,6 +335,7 @@ bool j1EntityManager::Load(pugi::xml_node& data)
 			{
 				player->ResetPlayerAT(x, y);
 			}
+
 			//pugi::xml_node restore = node.child("restore");
 			//entity->to_delete = restore.attribute("to_delete").as_bool;
 			//entity->health = restore.attribute("health").as_bool;
