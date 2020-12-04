@@ -4,6 +4,7 @@
 #include "j1Input.h"
 #include "j1Render.h"
 #include "j1SceneManager.h"
+#include "j1EntityManager.h"
 #include "Pathfinding.h"
 #include "p2Log.h"
 
@@ -24,7 +25,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 
 bool j1Scene::Start()
 {
-	App->scene_manager->SetBackgroundImages("big-background.png");
+	//App->scene_manager->SetBackgroundImages("big-background.png");
 	App->map->Load("first-map-v01.tmx");
 
 	int w = 0; int h = 0;
@@ -68,11 +69,12 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F2) == j1KeyState::KEY_UP)
 	{
 		App->map->debug_pathtiles = !(App->map->debug_pathtiles);
+		App->pathfinding->debug_pathList = !(App->pathfinding->debug_pathList);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F3) == j1KeyState::KEY_UP)
 	{
-		App->pathfinding->debug_pathList = !(App->pathfinding->debug_pathList);
+		App->manager->godMode = !(App->manager->godMode);
 	}
 
 	App->map->Draw();

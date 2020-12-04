@@ -46,7 +46,7 @@ j1Collision::j1Collision()
 
 	for (int i = 0; i < MAX_COLLIDERS; i++)
 	{
-		colliders[i] = new Collider[i];
+		colliders[i] = new Collider;
 	}
 }
 
@@ -68,19 +68,100 @@ bool j1Collision::PostUpdate()
 	bool ret = true;
 
 	// Remove all colliders scheduled for deletion 
+	//exclude colliders that are not in camera and colliders that are not entities.
 	/*for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
-		if (colliders[i] != nullptr)
-			if (colliders[i]->to_delete == true)
-			{
-				delete colliders[i];
-				colliders[i] = nullptr;
-			}
+		if (colliders[i]->active == true && colliders[i]->to_delete == true)
+		{
+			colliders[i]->active = false;
+		}
 	}*/
+	int width = App->map->metadata->width;
+	int height = App->map->metadata->height;
+	SDL_Rect cam = App->map->MapCulling({width, height }, 10, 10);
+	int i = 0;
+	for (int i = 0; i <= MAX_ENTITIES; i++)
+	{
+		if (colliders[i]->active == true)
+			if(colliders[i]->to_delete == true)
+			{
+				colliders[i]->active = false;
+			}
+	}
 
 	// Calculate collisions
 	Collider* c1;
 	Collider* c2;
+
+	i = 0;
+	int k = 0;
+	bool entitiesChecked = false;
+	bool entitiesChecked2 = false;
+
+	////for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	//for (int y = cam.y; y < cam.h; y++)
+	//	for (int x = 0; x < cam.w; x++)
+	//{
+	//		if (!entitiesChecked)
+	//		{
+	//			if (y == 0 && x == MAX_ENTITIES - 1)
+	//			{
+	//				x += cam.x;
+	//				entitiesChecked = true;
+	//			} //when entities finish, locate the x at the beggining of the screen
+	//		}
+	//		i = (y * width) + x; //check for every collider in the screen
+	//		
+	//			
+	//	if (i >= MAX_COLLIDERS)
+	//		continue;
+	//	if (colliders[i] == nullptr || colliders[i]->active == false)// skip empty colliders
+	//		continue;
+	//	c1 = colliders[i];
+
+	//	// avoid checking collisions already checked
+	//	for (int y2 = cam.y; y2 < cam.h; y2++)
+	//		for (int x2 = cam.x; x2 < cam.w; x2++)
+	//	{
+	//			if (!entitiesChecked2)
+	//			{
+	//				if (y2 == 0 && x2 == MAX_ENTITIES - 1)
+	//				{
+	//					x2 += cam.x;
+	//					entitiesChecked2 = true;
+	//				} //when entities finish, locate the x at the beggining of the screen
+	//			}
+
+	//		k = (y2 * width) + x2; //check for every collider in the screen
+	//			
+	//		if (k >= MAX_COLLIDERS)
+	//			continue;
+	//		if (colliders[k]->active == false || colliders[k] == nullptr )// skip empty or inactive colliders
+	//			continue;
+	//		if (x2 == x && y2 == y)
+	//			continue;
+
+	//		c2 = colliders[k];
+	//		App->render->DrawQuad(c2->rect, 200, 50, 0, 255);
+
+	//		if (c1->CheckCollision(c2->rect) == true) //what if we put the matrix check before looking if they actually collide? performance improvement?
+	//		{
+	//			if (c1->type == PLAYER || c2->type == PLAYER)
+	//			{
+	//				if (App->manager->player->god_mode == false)
+	//				{
+	//					App->manager->OnCollision(c1, c2);
+	//				}
+	//			}
+	//			else
+	//			{
+	//				LOG("Collision!");
+	//				/*c1->callback->OnCollision(c1, c2);
+	//				c2->callback->OnCollision(c2, c1);*/
+	//			}					
+	//		}
+	//	}
+	//}
 
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
@@ -112,11 +193,10 @@ bool j1Collision::PostUpdate()
 					LOG("Collision!");
 					/*c1->callback->OnCollision(c1, c2);
 					c2->callback->OnCollision(c2, c1);*/
-				}					
+				}
 			}
 		}
 	}
-
 	return ret;
 }
 
@@ -191,26 +271,45 @@ Collider* j1Collision::AddCollider(SDL_Rect _rect, COLLIDER_TYPE _type, j1Entity
 	{
 		if (colliders[i] == nullptr)
 		{
-
 			ret = colliders[i] = new Collider(rect, type, callback);
 			break;
 		}
 	}*/
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	if (_type == COLLIDER_TYPE::ENEMY || _type == COLLIDER_TYPE::PLAYER) //first ones are entity colliders
 	{
-		if (colliders[i]->active == false)
+		for (uint i = 0; i < MAX_ENTITIES; ++i)
 		{
-			colliders[i]->rect = _rect;
-			colliders[i]->type = _type;
-			colliders[i]->callback = _callback;
-			colliders[i]->active = true;
+			if (colliders[i]->active == false)
+			{
+				colliders[i]->rect = _rect;
+				colliders[i]->type = _type;
+				colliders[i]->callback = _callback;
+				colliders[i]->active = true;
+				colliders[i]->to_delete = false;
 
-			ret = colliders[i];
-			break;
+				ret = colliders[i];
+				break;
+			}
 		}
 	}
+	else
+	{
+		for (uint i = MAX_ENTITIES; i < MAX_COLLIDERS; ++i) //then normal colliders (walls, platforms, etc...)
+		{
+			if (colliders[i]->active == false)
+			{
+				colliders[i]->rect = _rect;
+				colliders[i]->type = _type;
+				colliders[i]->callback = _callback;
+				colliders[i]->active = true;
+				colliders[i]->to_delete = false;
 
+				ret = colliders[i];
+				break;
+			}
+		}
+	}
 	return ret;
 }
 

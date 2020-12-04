@@ -14,6 +14,7 @@ AutonomousEntity::AutonomousEntity(iPoint pos, ENTITY_TYPE type) : j1MovingEntit
 	target = nullptr;
 	starting_position.x = pos.x;
 	starting_position.y = pos.y;
+	pathPtr = nullptr;
 }
 
 AutonomousEntity::~AutonomousEntity()
@@ -70,9 +71,10 @@ bool AutonomousEntity::Update(float dt, bool doLogic)
 		{
 			if (FindDistanceToPlayer() <= entityReach)
 				target = player;
+			else
+				target = nullptr;
 
 			Chase(pathfindingRange);
-
 
 			if (destination != current_position)
 				Move(dt);
@@ -124,15 +126,13 @@ void AutonomousEntity::GoTo(iPoint destination, ENTITY_TYPE type)
 
 	if (distanceToPlayer <= pathfindingRange)
 	{
-		int pathSize = App->pathfinding->CreatePath(mapCurrentPosition, mapDestination, type);
-		if (pathSize > 0)
+	int pathSize = App->pathfinding->CreatePath(mapCurrentPosition, mapDestination, type);
+		if (pathSize > 1)
 		{
-			App->pathfinding->CopyPathList(pathPtr); // CopyPathList already clears the path inside.
-			path = *pathPtr;
-			pathPtr = &path;
-			if (pathPtr->end != nullptr)
+			App->pathfinding->GetLastPath(pathPtr); // CopyPathList already clears the path inside.
+			if (pathPtr->start != nullptr)
 			{
-				this->destination = App->map->MapToWorld(pathPtr->end->data.x, pathPtr->end->data.y); //set the destination
+				this->destination = App->map->MapToWorld(pathPtr->start->data.x, pathPtr->start->data.y); //set the destination
 			}
 			else
 				this->destination = current_position; //set the destination
@@ -159,7 +159,7 @@ void AutonomousEntity::Chase(int range)
 	{
 		if (pathPtr->count() != 0)
 		{
-			App->map->MapToWorld(pathPtr->end->data.x, pathPtr->end->data.y);
+			App->map->MapToWorld(pathPtr->start->data.x, pathPtr->start->data.y);
 			pathPtr->clear();
 		}
 	}
@@ -167,7 +167,7 @@ void AutonomousEntity::Chase(int range)
 
 void AutonomousEntity::Move(float dt)
 {
-	current_movementSpeed = movement_speed * dt;
+	normalized_movement_speed = movement_speed * dt;
 
 	if (type != ENTITY_TYPE::AIR_ENEMY) 
 	{
@@ -183,7 +183,7 @@ void AutonomousEntity::Move(float dt)
 	if (current_position.x < destination.x)
 	{
 		state = ENTITY_STATES::ST_RIGHT;
-		current_velocity.x = current_movementSpeed;
+		current_velocity.x = normalized_movement_speed;
 		current_velocity.y = 0;
 		if ((current_position.x + current_velocity.x) > destination.x)
 		{
@@ -194,7 +194,7 @@ void AutonomousEntity::Move(float dt)
 	else if (current_position.x > destination.x)
 	{
 		state = ENTITY_STATES::ST_LEFT;
-		current_velocity.x = -current_movementSpeed;
+		current_velocity.x = -normalized_movement_speed;
 		current_velocity.y = 0;
 		if ((current_position.x + current_velocity.x) < destination.x)
 		{
@@ -209,7 +209,7 @@ void AutonomousEntity::Move(float dt)
 			if (type == ENTITY_TYPE::AIR_ENEMY || type == ENTITY_TYPE::UNDERGROUND_ENEMY)
 			{
 				state = ENTITY_STATES::ST_DOWN;
-				current_velocity.y = current_movementSpeed;
+				current_velocity.y = normalized_movement_speed;
 				current_velocity.x = 0;
 			}
 			else
@@ -229,7 +229,7 @@ void AutonomousEntity::Move(float dt)
 		if (state == ENTITY_STATES::ST_IDLE)
 		{
 			state = ENTITY_STATES::ST_IDLE;
-			current_velocity.y = -current_movementSpeed;
+			current_velocity.y = -normalized_movement_speed;
 			current_velocity.x = 0;
 		}
 
@@ -250,7 +250,7 @@ void AutonomousEntity::NextStep()
 {
 	if (pathPtr->count() != 0)
 	{
-		destination = App->map->MapToWorld(pathPtr->end->data.x, pathPtr->end->data.y);
-		pathPtr->del(pathPtr->end);	
+		destination = App->map->MapToWorld(pathPtr->start->data.x, pathPtr->start->data.y);
+		pathPtr->del(pathPtr->start);	
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
   
-#define MAX_COLLIDERS 3000
-#define MAXMAX_COLLIDERS 3010
+#define MAX_COLLIDERS 3020
+#define MAX_ENTITIES 20
 #define DOLOGIC_TIME 10
 
 #include "SDL/include/SDL.h"

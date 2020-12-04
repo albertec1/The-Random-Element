@@ -52,14 +52,16 @@ bool j1SceneManager::Start()
 	j1Module* pModule = NULL;
 	int scene_number = 0;
 
-	for (p2List_item<j1Module*>* scene = scenes.start; scene != NULL; scene = scene->next)
+	for (p2List_item<j1Module*>* scene = scenes.start; scene != nullptr; scene = scene->next)
 	{
 		if (scene_number == current_scene)
 		{
+			if (scene == nullptr)
+				continue;
+
 			pModule = scene->data;
 
 			if (pModule->active == false)
-			
 				continue;
 
 			ret = scene->data->Start();

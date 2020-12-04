@@ -87,6 +87,9 @@ bool j1Render::PostUpdate()
 	if ((camera_boundaries.y + camera_boundaries.h) < ((player_position.y / App->win->GetScale()) + 32))
 		camera.y -= (((player_position.y / App->win->GetScale()) + 32) - (camera_boundaries.y + camera_boundaries.h));
 
+	if (camera.x > 0) { camera.x = 0; }
+	if (camera.y > 0) { camera.y = 0; }
+
 	/*Is it needed every frame??*/SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
 	return true;

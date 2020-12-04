@@ -24,7 +24,7 @@ bool j1EntityManager::Awake(pugi::xml_node& node)
 	doLogic = false;
 	logicTimer = DOLOGIC_TIME;
 
-	player = (j1EntityPlayer*)CreateEntity(ENTITY_TYPE::PLAYER, { 0, 0 });
+	player = (j1EntityPlayer*)CreateEntity(ENTITY_TYPE::PLAYER, { 498, 700});
 
 	airEnemy = (AutonomousEntity*)CreateEntity(ENTITY_TYPE::AIR_ENEMY, { 750, 550 });
 
@@ -164,11 +164,8 @@ bool j1EntityManager::DestroyAllEntities()
 	return true;
 }
 
-
-
 void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 {
-	
 	if (c1->type == PLAYER)
 	{
 		iPoint wall_position = App->map->WorldToMap(c2->rect.x, c2->rect.y);

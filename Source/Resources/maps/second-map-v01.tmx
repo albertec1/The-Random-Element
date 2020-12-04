@@ -27023,7 +27023,7 @@
    <tile gid="12"/>
   </data>
  </layer>
- <layer id="3" name="metadata" width="300" height="45" opacity="0.4">
+ <layer id="3" name="metadata" width="300" height="45" visible="0" opacity="0.4">
   <properties>
    <property name="Draw" type="int" value="0"/>
    <property name="Navigation" type="int" value="1"/>

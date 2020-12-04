@@ -18,6 +18,11 @@
 j1EntityPlayer::j1EntityPlayer(iPoint pos, ENTITY_TYPE type) : j1MovingEntity(pos, type)
 {
 	name.create("player");	
+	max_special_range = 0;
+	player_state = ENTITY_STATES::ST_UNKNOWN;
+	special_distance = 0;
+	special_last_frame = 0;
+	special_timer = 0;
 }
 
 j1EntityPlayer::~j1EntityPlayer()
@@ -47,8 +52,11 @@ bool j1EntityPlayer::Awake(pugi::xml_node& node)
 
 	texture_path =			player_stats.child("texture_path").attribute("value").as_string();
 
-	entity_collider = App->coll->AddCollider(entity_rect, COLLIDER_TYPE::PLAYER);
-	entity_collider->callback = this; 
+	entity_collider = App->coll->AddCollider(entity_rect, COLLIDER_TYPE::PLAYER, this);
+	if (entity_collider == nullptr)
+	{
+		
+	}
 	
 	pugi::xml_node spritesheet = node.child("player").child("sprites");
 	for (pugi::xml_node animation = spritesheet.child("animation"); animation; animation = animation.next_sibling("animation"))
@@ -88,6 +96,7 @@ bool j1EntityPlayer::Start()
 bool j1EntityPlayer::PreUpdate()
 {
 	bool ret = true;
+	god_mode = App->manager->godMode;
 	//SHORTCUTS INPUTS--- 
 	player_input.F1_enabled = App->input->keyboard[SDL_SCANCODE_F1] == j1KeyState::KEY_DOWN;
 	player_input.F2_enabled = App->input->keyboard[SDL_SCANCODE_F2] == j1KeyState::KEY_DOWN;
@@ -128,10 +137,27 @@ bool j1EntityPlayer::PreUpdate()
 	}
 	else
 	{
-	player_input.W_GOD_enabled = App->input->keyboard[SDL_SCANCODE_W] == j1KeyState::KEY_REPEAT;
-	player_input.A_GOD_enabled = App->input->keyboard[SDL_SCANCODE_A] == j1KeyState::KEY_REPEAT;
-	player_input.S_GOD_enabled = App->input->keyboard[SDL_SCANCODE_S] == j1KeyState::KEY_REPEAT;
-	player_input.D_GOD_enabled = App->input->keyboard[SDL_SCANCODE_D] == j1KeyState::KEY_REPEAT;
+		if (App->input->keyboard[SDL_SCANCODE_W] == j1KeyState::KEY_REPEAT || App->input->keyboard[SDL_SCANCODE_W] == j1KeyState::KEY_DOWN)
+			player_input.W_enabled = true;
+		else if (App->input->keyboard[SDL_SCANCODE_W] == j1KeyState::KEY_UP)
+			player_input.W_enabled = false;
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == j1KeyState::KEY_REPEAT || App->input->keyboard[SDL_SCANCODE_A] == j1KeyState::KEY_DOWN)
+			player_input.A_enabled = true;
+		else if (App->input->keyboard[SDL_SCANCODE_A] == j1KeyState::KEY_UP)
+			player_input.A_enabled = false;
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == j1KeyState::KEY_REPEAT || App->input->keyboard[SDL_SCANCODE_S] == j1KeyState::KEY_DOWN)
+			player_input.S_enabled = true;
+		else if (App->input->keyboard[SDL_SCANCODE_S] == j1KeyState::KEY_UP)
+			player_input.S_enabled = false;
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == j1KeyState::KEY_REPEAT || App->input->keyboard[SDL_SCANCODE_D] == j1KeyState::KEY_DOWN)
+			player_input.D_enabled = true;
+		else if (App->input->keyboard[SDL_SCANCODE_D] == j1KeyState::KEY_UP)
+			player_input.D_enabled = false;
+
+		player_input.K_enabled = App->input->keyboard[SDL_SCANCODE_K] == j1KeyState::KEY_DOWN;
 	}
 
 	//PLAYER STATES
@@ -494,11 +520,221 @@ bool j1EntityPlayer::PreUpdate()
 			break;
 		}	
 	}
+	else
+	{
+		current_position.x += current_velocity.x;
+		current_position.y += current_velocity.y;
+
+		switch (state)
+		{
+		case ENTITY_STATES::ST_IDLE:
+			if (player_input.A_enabled)
+			{
+				state = ENTITY_STATES::ST_LEFT;
+			}
+			if (player_input.D_enabled)
+			{
+				state = ENTITY_STATES::ST_RIGHT;
+			}
+			if (player_input.W_enabled)
+			{
+				state = ENTITY_STATES::ST_UP;
+			}
+			if (player_input.S_enabled)
+			{
+				state = ENTITY_STATES::ST_DOWN;
+			}
+			if (player_input.K_enabled)
+			{
+				state = ENTITY_STATES::ST_DO_SPECIAL_RIGHT;
+			}
+			break;
+
+		case ENTITY_STATES::ST_IDLE_FLIPPED:
+			if (player_input.A_enabled)
+			{
+				state = ENTITY_STATES::ST_LEFT;
+			}
+			if (player_input.D_enabled)
+			{
+				state = ENTITY_STATES::ST_RIGHT;
+			}
+			if (player_input.W_enabled)
+			{
+				state = ENTITY_STATES::ST_UP;
+			}
+			if (player_input.S_enabled)
+			{
+				state = ENTITY_STATES::ST_DOWN;
+			}
+			if (player_input.K_enabled)
+			{
+				state = ENTITY_STATES::ST_DO_SPECIAL_LEFT;
+			}
+
+			break;
+
+		case ENTITY_STATES::ST_LEFT:
+			if (!player_input.A_enabled)
+			{
+				state = ENTITY_STATES::ST_IDLE_FLIPPED;
+			}
+			if (player_input.D_enabled)
+			{
+				state = ENTITY_STATES::ST_RIGHT;
+			}
+			if (player_input.W_enabled)
+			{
+				state = ENTITY_STATES::ST_UP;
+			}
+			if (player_input.S_enabled)
+			{
+				state = ENTITY_STATES::ST_DOWN;
+			}
+			if (player_input.K_enabled)
+			{
+				state = ENTITY_STATES::ST_DO_SPECIAL_LEFT;
+			}
+			break;
+
+		case ENTITY_STATES::ST_RIGHT:
+			if (!player_input.D_enabled)
+			{
+				state = ENTITY_STATES::ST_IDLE;
+			}
+			if (player_input.A_enabled)
+			{
+				state = ENTITY_STATES::ST_LEFT;
+			}
+			if (player_input.W_enabled)
+			{
+				state = ENTITY_STATES::ST_UP;
+			}
+			if (player_input.S_enabled)
+			{
+				state = ENTITY_STATES::ST_DOWN;
+			}
+			if (player_input.K_enabled)
+			{
+				state = ENTITY_STATES::ST_DO_SPECIAL_RIGHT;
+			}
+			break;
+
+		case ENTITY_STATES::ST_UP:
+			if (!player_input.W_enabled)
+			{
+				state = ENTITY_STATES::ST_IDLE;
+			}
+			if (player_input.D_enabled)
+			{
+				state = ENTITY_STATES::ST_RIGHT;
+			}
+			if (player_input.A_enabled)
+			{
+				state = ENTITY_STATES::ST_LEFT;
+			}
+			if (player_input.S_enabled)
+			{
+				state = ENTITY_STATES::ST_DOWN;
+			}
+			if (player_input.K_enabled)
+			{
+				state = ENTITY_STATES::ST_DO_SPECIAL_RIGHT;
+			}
+			break;
+
+		case ENTITY_STATES::ST_DOWN:
+			if (!player_input.S_enabled)
+			{
+				state = ENTITY_STATES::ST_IDLE;
+			}
+			if (player_input.D_enabled)
+			{
+				state = ENTITY_STATES::ST_RIGHT;
+			}
+			if (player_input.A_enabled)
+			{
+				state = ENTITY_STATES::ST_LEFT;
+			}
+			if (player_input.W_enabled)
+			{
+				state = ENTITY_STATES::ST_UP;
+			}
+			if (player_input.K_enabled)
+			{
+				state = ENTITY_STATES::ST_DO_SPECIAL_RIGHT;
+			}
+			break;
+		
+		case ENTITY_STATES::ST_DO_SPECIAL_LEFT:
+			if (special_distance != 0)
+			{
+				state = ENTITY_STATES::ST_SPECIAL_LEFT;
+			}
+			else
+			{
+				if (player_input.A_enabled == true)
+				{
+					state = ENTITY_STATES::ST_LEFT;
+				}
+				else
+				{
+					state = ENTITY_STATES::ST_IDLE_FLIPPED;
+				}
+			}
+			break;
+		case ENTITY_STATES::ST_DO_SPECIAL_RIGHT:
+			if (special_distance != 0)
+			{
+				state = ENTITY_STATES::ST_SPECIAL_RIGHT;
+			}
+			else
+			{
+				if (player_input.A_enabled == true)
+				{
+					state = ENTITY_STATES::ST_RIGHT;
+				}
+				else
+				{
+					state = ENTITY_STATES::ST_IDLE;
+				}
+			}
+			break;
+		case ENTITY_STATES::ST_SPECIAL_LEFT:
+			if (special_timer == 0)
+			{
+				if (player_input.A_enabled)
+				{
+					state = ENTITY_STATES::ST_LEFT;
+				}
+				else
+				{
+					state = ENTITY_STATES::ST_IDLE_FLIPPED;
+				}	
+			}
+			break;
+		case ENTITY_STATES::ST_SPECIAL_RIGHT: //error?
+			if (special_timer == 0)
+			{
+				if (player_input.A_enabled)
+				{
+					state = ENTITY_STATES::ST_RIGHT;
+				}
+				else
+				{
+					state = ENTITY_STATES::ST_IDLE;
+				}				
+			}
+			break;
+		
+		}
+	}
 	return true;
 }
 
 bool j1EntityPlayer::Update(float dt, bool doLogic)
 {
+	normalized_movement_speed = movement_speed * dt;
 	//MOVEMENT THROUGH STATES
 	switch (state)
 	{
@@ -507,6 +743,8 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 			LOG("IDLE");
 
 		current_velocity.x = 0;
+		if (god_mode)
+			current_velocity.y = 0;
 
 		flipped = false;
 		current_animation = GetAnimation("idle");
@@ -517,6 +755,8 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 			LOG("IDLE");
 
 		current_velocity.x = 0;
+		if (god_mode)
+			current_velocity.y = 0;
 
 		flipped = true;
 		current_animation = GetAnimation("idle");
@@ -526,7 +766,7 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 		if (App->allow_debug_log == true)
 			LOG("MOVING LEFT");
 
-		current_velocity.x = -movement_speed * dt;
+		current_velocity.x = -normalized_movement_speed;
 
 		flipped = true;
 		current_animation = GetAnimation("run");
@@ -536,10 +776,23 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
  		if (App->allow_debug_log == true)
 			LOG("MOVING RIGHT");
 
-		current_velocity.x = movement_speed * dt;
+		current_velocity.x = normalized_movement_speed;
 
 		flipped = false;
 		current_animation = GetAnimation("run");
+		break;
+	case ENTITY_STATES::ST_UP:
+		if (App->allow_debug_log == true)
+			LOG("MOVING UP");
+
+		current_velocity.y = -normalized_movement_speed;
+		break;
+
+	case ENTITY_STATES::ST_DOWN:
+		if (App->allow_debug_log == true)
+			LOG("MOVING DOWN");
+
+		current_velocity.y = normalized_movement_speed;
 		break;
 
 	case ENTITY_STATES::ST_JUMP:
@@ -598,7 +851,7 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 			LOG("MOVING LEFT ON AIR");
 
 		flipped = true;
-		current_velocity.x = -movement_speed * 0.5 * dt;
+		current_velocity.x = -normalized_movement_speed * 0.5;
 		current_animation = GetAnimation("fall");
 		break;
 		
@@ -607,7 +860,7 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 			LOG("MOVING RIGHT ON AIR");
 
 		flipped = false;
-		current_velocity.x = movement_speed * 0.5 * dt;
+		current_velocity.x = normalized_movement_speed * 0.5;
 		current_animation = GetAnimation("fall");
 		break;
 
@@ -703,19 +956,34 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 	if (current_velocity.y < -(MAX_VELOCITY*3.5))
 		current_velocity.y = MAX_VELOCITY*3.5;
 
-	entity_rect.x = current_position.x;
-	entity_rect.y = current_position.y;
-	entity_collider->SetPos(current_position.x, current_position.y);
+	if (god_mode)
+	{
+		if (entity_collider != nullptr)
+		{
+			entity_collider->to_delete = true;
+			entity_collider = nullptr;	
+			current_velocity = { 0,0 };
+			state = ENTITY_STATES::ST_IDLE;
+		}
+	}
+	else
+	{
+		if (entity_collider == nullptr)
+		{
+			entity_collider = App->coll->AddCollider(entity_rect, COLLIDER_TYPE::PLAYER, this);
+		}
 
+		entity_collider->SetPos(current_position.x, current_position.y);
+		entity_rect.x = current_position.x;
+		entity_rect.y = current_position.y;
+	}
+	if (current_position.x < 0)
+		current_position.x = starting_position.x;
 	return true;
 }
 
 bool j1EntityPlayer::PostUpdate()
-{
-	entity_rect.x = current_position.x;
-	entity_rect.y = current_position.y;
-	entity_collider->SetPos(current_position.x, current_position.y);
-
+{	
 	return true;
 }
 

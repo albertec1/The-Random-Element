@@ -454,7 +454,7 @@ void j1Map::Draw()
 	{
 		if (current_layer->data->properties.Get("Draw") == 1)
 		{
-			SDL_Rect cam = MapCulling({ current_layer->data->width, current_layer->data->height }, 10, 30);
+			SDL_Rect cam = MapCulling({ current_layer->data->width, current_layer->data->height }, 10, 10);
 			for (int y = cam.y; y < cam.h; y++)
 				for (int x = cam.x; x < cam.w; x++)
 				{
@@ -470,7 +470,6 @@ void j1Map::Draw()
 						App->render->Blit(tileset->texture, pos.x, pos.y, &r);
 					}
 				}
-			
 		}	
 		if (current_layer->data->properties.Get("PathNodes") == 1 && debug_pathtiles)
 		{

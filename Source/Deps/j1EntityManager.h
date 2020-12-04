@@ -41,6 +41,7 @@ public:
 	bool DestroyEntity(j1Entity* entity);
 	bool DestroyAllEntities();
 	void OnCollision(Collider* c1, Collider* c2);
+	bool godMode = false;
 
 public:
 	p2List<j1Entity*>		entities;

@@ -89,6 +89,16 @@ const p2DynArray<iPoint>* Pathfinding::GetLastPath() const
 	return &last_path;
 }
  
+void Pathfinding::GetLastPath(p2List<iPoint>* listToFill)
+{
+	listToFill->clear();
+	for (int i = 0; i < last_path.Count(); i++)
+	{
+		iPoint temp = iPoint(last_path.At(i)->x, last_path.At(i)->y);
+		listToFill->add(temp);
+	}
+}
+
 void Pathfinding::CopyPathList(p2List<iPoint>* empty_list)
 {
   	empty_list->clear();
@@ -304,7 +314,7 @@ int PathNode::CalculateF(const iPoint& destination)
 int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination, ENTITY_TYPE constraint)
 {
 	// TODO 1: if origin or destination are not walkable, return -1
-	bool ret = -1;
+	int ret = -1;
 
 	if (IsWalkable(origin) != false && IsWalkable(destination) != false)
 	{

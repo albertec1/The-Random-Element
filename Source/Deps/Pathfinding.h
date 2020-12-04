@@ -39,6 +39,8 @@ public:
 
 	// To request all tiles involved in the last generated path
 	const p2DynArray<iPoint>* GetLastPath() const;
+	// To request all tiles involved in the last generated path and copy them into a p2list
+	void GetLastPath(p2List<iPoint>*);
 
 	// Utility: return true if pos is inside the map boundaries
 	bool CheckBoundaries(const iPoint& pos) const;

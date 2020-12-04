@@ -21,7 +21,8 @@ public:
 		ST_AIR_LEFT,		//going left while in the air
 		ST_RIGHT,			//going right
 		ST_AIR_RIGHT,		//going right while in the air
-		ST_DOWN,			//going down (only available to air units)
+		ST_DOWN,			//going down (only available to air units) or player with godMode
+		ST_UP,				//going down (only available to air units) or player with godMode
 		ST_JUMP,			//just about to start a vertical jump (when forces are applied)
 		ST_JUMP_LEFT,		//just about to start a jump to the left (when forces are applied)
 		ST_JUMP_RIGHT,		//just about to start a jump to the right (when forces are applied)
@@ -77,6 +78,7 @@ public:
 	fPoint			current_acceleration;
 	fPoint			gravity;
 	float			movement_speed;
+	float			normalized_movement_speed;
 
 	//ANIMATION
 	p2SString			texture_path;
