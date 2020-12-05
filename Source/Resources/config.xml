@@ -54,7 +54,7 @@
         <initial_pos_x value="498"/>
         <initial_pos_y value="700"/>
         <gravity value="3.0f"/>
-        <movement_speed value="170"/>
+        <movement_speed value="220"/>
         <special_range value="128"/>
         <texture_path value="spritesheets/character-spritesheet.png"/>
       </player_stats>

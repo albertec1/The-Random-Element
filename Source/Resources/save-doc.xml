@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <game>
 	<render>
-		<camera x="-818" y="0" />
+		<camera x="-90" y="-160" />
 	</render>
 	<entity_manager>
 		<entity>
-			<data x="1528" y="274" type="0" />
-			<data x="896" y="448" type="1" />
+			<data x="704" y="512" type="0" />
+			<data x="704" y="512" type="1" />
 			<data x="798" y="865" type="2" />
 			<data x="-1" />
 		</entity>

@@ -77,6 +77,7 @@ public:
 	fPoint			current_velocity;
 	fPoint			current_acceleration;
 	fPoint			gravity;
+	fPoint			normalized_gravity;
 	float			movement_speed;
 	float			normalized_movement_speed;
 

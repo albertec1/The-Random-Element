@@ -734,6 +734,14 @@ bool j1EntityPlayer::PreUpdate()
 
 bool j1EntityPlayer::Update(float dt, bool doLogic)
 {
+	//only if god_mode is false
+	/*current_acceleration.x = gravity.x;
+	current_acceleration.y = gravity.y;
+	current_velocity.x += current_acceleration.x;
+	current_velocity.y += current_acceleration.y;
+	current_position.x += current_velocity.x * dt;
+	current_position.y += current_velocity.y * dt;*/ //change character measurements from integer to float.
+
 	normalized_movement_speed = movement_speed * dt;
 	//MOVEMENT THROUGH STATES
 	switch (state)
@@ -799,7 +807,7 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 		if (App->allow_debug_log == true)
 			LOG("STRAIGHT JUMP");
 
-		current_velocity.y -= 50;
+		current_velocity.y -= 45;
 
 		flipped = false;
 		jumping = true;
@@ -811,7 +819,7 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 		if (App->allow_debug_log == true)
 			LOG("RIGHT JUMP");
 
-		current_velocity.y -= 50;
+		current_velocity.y -= 45;
 
 		flipped = false;
 		jumping = true;
@@ -823,7 +831,7 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 		if (App->allow_debug_log == true)
 			LOG("LEFT JUMP");
 
-		current_velocity.y -= 50;
+		current_velocity.y -= 45;
 
 		flipped = true;
 		jumping = true;
@@ -973,12 +981,18 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 			entity_collider = App->coll->AddCollider(entity_rect, COLLIDER_TYPE::PLAYER, this);
 		}
 
-		entity_collider->SetPos(current_position.x, current_position.y);
+		entity_collider->rect.x = current_position.x;
+		entity_collider->rect.y = current_position.y;
 		entity_rect.x = current_position.x;
 		entity_rect.y = current_position.y;
+
 	}
 	if (current_position.x < 0)
+	{
 		current_position.x = starting_position.x;
+		entity_collider->rect.x = starting_position.x;
+	}
+
 	return true;
 }
 
