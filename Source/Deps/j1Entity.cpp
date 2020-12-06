@@ -5,7 +5,7 @@
 #include "SDL/include/SDL.h"
 
 
-j1Entity::j1Entity(iPoint pos, ENTITY_TYPE type) : starting_position(pos), type(type), entity_texture(nullptr), entity_collider(nullptr)
+j1Entity::j1Entity(fPoint pos, ENTITY_TYPE type) : starting_position(pos), type(type), entity_texture(nullptr), entity_collider(nullptr)
 {
 	flipped = false;
 	entity_rect = { 0,0,0,0 };

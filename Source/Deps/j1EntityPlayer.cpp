@@ -15,14 +15,17 @@
 
 #define SPECIAL_TIMER 0.3
 
-j1EntityPlayer::j1EntityPlayer(iPoint pos, ENTITY_TYPE type) : j1MovingEntity(pos, type)
+j1EntityPlayer::j1EntityPlayer(fPoint pos, ENTITY_TYPE type, ENTITY_STATES state) : j1MovingEntity(pos, type, state)
 {
 	name.create("player");	
 	max_special_range = 0;
-	player_state = ENTITY_STATES::ST_UNKNOWN;
+	player_state = state;
 	special_distance = 0;
 	special_last_frame = 0;
 	special_timer = 0;
+	starting_position = pos;
+	gravity = { 0,0 };
+	current_acceleration = { 0,0 };
 }
 
 j1EntityPlayer::~j1EntityPlayer()
@@ -36,13 +39,18 @@ bool j1EntityPlayer::Awake(pugi::xml_node& node)
 
 	rect_size.x =			player_stats.child("charachter_width").attribute("value").as_uint();
 	rect_size.y =			player_stats.child("character_height").attribute("value").as_uint();
-	starting_position.x =	player_stats.child("initial_pos_x").attribute("value").as_uint();
-	starting_position.y =	player_stats.child("initial_pos_y").attribute("value").as_uint();
+
+	if (starting_position.x == 0|| starting_position.y == 0)
+	{
+		starting_position.x = player_stats.child("initial_pos_x").attribute("value").as_uint();
+		starting_position.y = player_stats.child("initial_pos_y").attribute("value").as_uint();
+	}
 	current_position.x =	starting_position.x;
 	current_position.y =	starting_position.y;
 	movement_speed =		player_stats.child("movement_speed").attribute("value").as_uint();
 	max_special_range =		player_stats.child("special_range").attribute("value").as_uint();
 	gravity.y =				player_stats.child("gravity").attribute("value").as_float();
+	gravity.x =				0;
 
 	//--- main_Collider creation
 	entity_rect.w =			player_stats.child("character_width").attribute("value").as_uint();
@@ -53,11 +61,7 @@ bool j1EntityPlayer::Awake(pugi::xml_node& node)
 	texture_path =			player_stats.child("texture_path").attribute("value").as_string();
 
 	entity_collider = App->coll->AddCollider(entity_rect, COLLIDER_TYPE::PLAYER, this);
-	if (entity_collider == nullptr)
-	{
-		
-	}
-	
+
 	pugi::xml_node spritesheet = node.child("player").child("sprites");
 	for (pugi::xml_node animation = spritesheet.child("animation"); animation; animation = animation.next_sibling("animation"))
 	{
@@ -87,7 +91,7 @@ bool j1EntityPlayer::Start()
 	entity_rect.x = current_position.x;
 	entity_rect.y = current_position.y;
 
-	current_acceleration.x += gravity.x;
+	current_acceleration.x = gravity.x;
 	current_acceleration.y += gravity.y; 
 	return true;
 }
@@ -163,7 +167,7 @@ bool j1EntityPlayer::PreUpdate()
 	//PLAYER STATES
 	if (god_mode == false)
 	{
-		current_acceleration.x = gravity.x;
+		current_acceleration.x = 0;
 		current_acceleration.y = gravity.y;
 		current_velocity.x += current_acceleration.x;
 		current_velocity.y += current_acceleration.y;
@@ -964,6 +968,9 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 	if (current_velocity.y < -(MAX_VELOCITY*3.5))
 		current_velocity.y = MAX_VELOCITY*3.5;
 
+	if (gravity.x < 0.5)
+		gravity.x = 0;
+
 	if (god_mode)
 	{
 		if (entity_collider != nullptr)
@@ -1049,7 +1056,7 @@ int j1EntityPlayer::DoSpecialRight()
 	return ret;
 }
 
-void j1EntityPlayer::ResetPlayerAT(int x, int y)
+void j1EntityPlayer::ResetPlayer(float x, float y)
 {
 	current_acceleration = { 0,0 };
 	current_velocity = { 0,0 };

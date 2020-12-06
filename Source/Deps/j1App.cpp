@@ -273,9 +273,9 @@ bool j1App::PostUpdate()
 void j1App::FinishUpdate()
 {BROFILER_CATEGORY("FinishApp", Profiler::Color::Aqua)
 
-	if (input->GetKey(SDL_SCANCODE_S) == j1KeyState::KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_F5) == j1KeyState::KEY_DOWN)
 		SaveGame();
-	if (input->GetKey(SDL_SCANCODE_L) == j1KeyState::KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_F6) == j1KeyState::KEY_DOWN)
 		LoadGame();
 
 	if (want_to_save == true)

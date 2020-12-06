@@ -74,7 +74,7 @@ bool j1Render::Update(float dt)
 bool j1Render::PostUpdate()
 {
 	//camera things
-	iPoint player_position = App->manager->player->GetCurrentPosition();
+	fPoint player_position = App->manager->player->GetCurrentPosition();
 	if (camera_boundaries.x > (player_position.x / App->win->GetScale()))
 		camera.x  += (camera_boundaries.x - (player_position.x / App->win->GetScale()));
 

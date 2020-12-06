@@ -36,7 +36,7 @@ struct PlayerInput
 class j1EntityPlayer : public j1MovingEntity
 {
 public:
-	j1EntityPlayer(iPoint pos, ENTITY_TYPE type);
+	j1EntityPlayer(fPoint pos, ENTITY_TYPE type, ENTITY_STATES state = ENTITY_STATES::ST_IDLE);
 
 	~j1EntityPlayer();
 
@@ -58,7 +58,7 @@ public:
 
 	int DoSpecialRight();
 
-	void ResetPlayerAT(int x, int y);
+	void ResetPlayer(float x, float y);
 
 public:
 

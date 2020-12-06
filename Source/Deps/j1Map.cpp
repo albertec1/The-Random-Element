@@ -18,6 +18,7 @@ j1Map::~j1Map()
 bool j1Map::Awake(pugi::xml_node& node)
 {
 	debug_metadata = false;
+	debug_pathtiles = false;
 	LOG("Loading Map Parser");
 	bool ret = true;
 

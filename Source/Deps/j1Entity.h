@@ -20,7 +20,7 @@ enum class ENTITY_TYPE
 class j1Entity : public j1Module
 {
 public:
-	j1Entity(iPoint pos, ENTITY_TYPE type);
+	j1Entity(fPoint pos, ENTITY_TYPE type);
 
 	~j1Entity();
 
@@ -43,7 +43,7 @@ public:
 		return entity_collider;
 	}
 
-	virtual const iPoint GetStartingPosition()
+	virtual const fPoint GetStartingPosition()
 	{
 		return starting_position;
 	}
@@ -57,8 +57,8 @@ public:
 	ENTITY_TYPE		type;
 	Collider*		entity_collider;
 
-	iPoint			starting_position;
-	iPoint			current_position;
+	fPoint			starting_position;
+	fPoint			current_position;
 
 	SDL_Texture*	entity_texture;
 	SDL_Rect		entity_rect;

@@ -1,16 +1,16 @@
 #include "AutonomousEntity.h"
 #include "j1Render.h"
 #include "Pathfinding.h"
+#include "j1Collision.h"
 #include "j1EntityManager.h"
 #include "j1Map.h"
 #include "p2Point.h"
 
-AutonomousEntity::AutonomousEntity(iPoint pos, ENTITY_TYPE type) : j1MovingEntity(pos, type)
+AutonomousEntity::AutonomousEntity(fPoint pos, ENTITY_TYPE type, ENTITY_STATES state) : j1MovingEntity(pos, type, state)
 {
 	name.create("autonomousEntity");
 	entityReach = 0;
 	pathfindingRange = 0;
-	player = nullptr;
 	target = nullptr;
 	starting_position.x = pos.x;
 	starting_position.y = pos.y;
@@ -53,8 +53,6 @@ bool AutonomousEntity::Awake(pugi::xml_node& node)
 
 bool AutonomousEntity::Start()
 {
-	player = (j1Entity*)App->manager->player;
-	
 	return true;
 }
 
@@ -70,7 +68,7 @@ bool AutonomousEntity::Update(float dt, bool doLogic)
 		if (doLogic)
 		{
 			if (FindDistanceToPlayer() <= entityReach)
-				target = player;
+				target = App->manager->player;
 			else
 				target = nullptr;
 
@@ -99,29 +97,34 @@ bool AutonomousEntity::PostUpdate()
 
 bool AutonomousEntity::CleanUp()
 {
+	if (entity_collider != nullptr)
+	{
+		entity_collider->to_delete = true;
+		entity_collider = nullptr;
+	}
 	return true;
 }
 
 bool AutonomousEntity::Draw()
 {
 	if (type == ENTITY_TYPE::AIR_ENEMY)
-		App->render->DrawQuad({current_position.x, current_position.y, 32, 32}, 239, 127, 26, 255);
+		App->render->DrawQuad({(int)current_position.x, (int)current_position.y, 32, 32}, 239, 127, 26, 255);
 
 	if (type == ENTITY_TYPE::GROUND_ENEMY)
-		App->render->DrawQuad({ current_position.x, current_position.y, 32, 32 }, 101, 67, 33, 255);
+		App->render->DrawQuad({(int)current_position.x, (int)current_position.y, 32, 32 }, 101, 67, 33, 255);
 	return true;
 }
 
 int AutonomousEntity::FindDistanceToPlayer()
 {
-	int distance = sqrtf((this->current_position.x - player->current_position.x) * (this->current_position.x - player->current_position.x) + (this->current_position.y - player->current_position.y) * (this->current_position.y - player->current_position.y));
+	int distance = sqrtf((this->current_position.x - App->manager->player->current_position.x) * (this->current_position.x - App->manager->player->current_position.x) + (this->current_position.y - App->manager->player->current_position.y) * (this->current_position.y - App->manager->player->current_position.y));
 	return distance;
 }
 
-void AutonomousEntity::GoTo(iPoint destination, ENTITY_TYPE type)
+void AutonomousEntity::GoTo(fPoint destination, ENTITY_TYPE type)
 {
-	iPoint mapCurrentPosition = App->map->WorldToMap(current_position.x, current_position.y);
-	iPoint mapDestination = App->map->WorldToMap(destination.x, destination.y);
+	iPoint mapCurrentPosition = App->map->WorldToMap((int)current_position.x, (int)current_position.y);
+	iPoint mapDestination = App->map->WorldToMap((int)destination.x, (int)destination.y);
 	int distanceToPlayer = FindDistanceToPlayer();
 
 	if (distanceToPlayer <= pathfindingRange)
@@ -132,7 +135,9 @@ void AutonomousEntity::GoTo(iPoint destination, ENTITY_TYPE type)
 			App->pathfinding->GetLastPath(pathPtr); // CopyPathList already clears the path inside.
 			if (pathPtr->start != nullptr)
 			{
-				this->destination = App->map->MapToWorld(pathPtr->start->data.x, pathPtr->start->data.y); //set the destination
+				iPoint temp = App->map->MapToWorld(pathPtr->start->data.x, pathPtr->start->data.y); //set the destination
+				this->destination.x = temp.x;
+				this->destination.y = temp.y;
 			}
 			else
 				this->destination = current_position; //set the destination
@@ -151,7 +156,7 @@ void AutonomousEntity::Chase(int range)
 		{
 			//temporary chase, Entities should be able to chase each other if needed, not only the player.
 			{
-				GoTo(player->current_position, type);
+				GoTo(App->manager->player->current_position, type);
 			}
 		}
 	}
@@ -250,7 +255,9 @@ void AutonomousEntity::NextStep()
 {
 	if (pathPtr->count() != 0)
 	{
-		destination = App->map->MapToWorld(pathPtr->start->data.x, pathPtr->start->data.y);
+		iPoint temp = App->map->MapToWorld(pathPtr->start->data.x, pathPtr->start->data.y);
+		destination.x = temp.x;
+		destination.y = temp.y;
 		pathPtr->del(pathPtr->start);	
 	}
 }

@@ -3,6 +3,7 @@
 #define MAX_VELOCITY 15
 
 #include "j1Entity.h"
+#include "j1EntityPlayer.h"
 #include "p2List.h"
 
 struct SDL_Rect;
@@ -19,6 +20,8 @@ public:
 	~j1EntityManager();
 
 	bool Awake(pugi::xml_node&);
+
+	bool AwakeAgain();
 
 	bool Start();
 
@@ -37,10 +40,11 @@ public:
 	bool Load(pugi::xml_node& data);
 
 public:
-	j1Entity* CreateEntity(ENTITY_TYPE type, iPoint initPos);
+	j1Entity* CreateEntity(ENTITY_TYPE type, fPoint initPos, ENTITY_STATES state = ENTITY_STATES::ST_IDLE);
 	bool DestroyEntity(j1Entity* entity);
 	bool DestroyAllEntities();
 	void OnCollision(Collider* c1, Collider* c2);
+	void resetEntities();
 	bool godMode = false;
 
 public:

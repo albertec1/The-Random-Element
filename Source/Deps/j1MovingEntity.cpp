@@ -5,13 +5,15 @@
 #include "j1MovingEntity.h"
 
 
-j1MovingEntity::j1MovingEntity(iPoint pos, ENTITY_TYPE type) : j1Entity(pos, type)
+j1MovingEntity::j1MovingEntity(fPoint pos, ENTITY_TYPE type, ENTITY_STATES _state) : j1Entity(pos, type)
 {
 	current_position = starting_position;
+	normalized_movement_speed = 0;
 	movement_speed = 0;
 	current_animation = nullptr;
 	rotating_animation = { 0,0,0,0 };
-	state = ENTITY_STATES::ST_IDLE;
+	current_velocity = { 0,0 };
+	state = _state;
 	return;
 }
 

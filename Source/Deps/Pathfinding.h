@@ -53,7 +53,7 @@ public:
 
 	void CopyPathList(p2List<iPoint>* given_list);
 public:
-	bool debug_pathList = true;
+	bool debug_pathList = false;
 
 private:
 

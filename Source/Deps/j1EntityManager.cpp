@@ -1,6 +1,5 @@
 #include "j1EntityManager.h"
 #include "j1Entity.h"
-#include "j1EntityPlayer.h"
 #include "AutonomousEntity.h"
 #include "p2Log.h" 
 #include "j1Map.h"
@@ -36,6 +35,7 @@ bool j1EntityManager::Awake(pugi::xml_node& node)
 	}
 	return ret;
 }
+
 
 bool j1EntityManager::Start()
 {
@@ -120,15 +120,15 @@ bool j1EntityManager::CleanUp()
 	return ret;
 }
 
-j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, iPoint initPos)
+j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, fPoint initPos, ENTITY_STATES state)
 {
 	static_assert((INT)ENTITY_TYPE::UNKNOWN_TYPE == 5, "CODE NEEDS UPDATE");
 	j1Entity* ret = nullptr;
 	switch (type)
 	{
-	case ENTITY_TYPE::PLAYER:			ret = new j1EntityPlayer(initPos, type); break;
-	case ENTITY_TYPE::GROUND_ENEMY:		ret = new AutonomousEntity(initPos, type); break;
-	case ENTITY_TYPE::AIR_ENEMY:		ret = new AutonomousEntity(initPos, type); break;
+	case ENTITY_TYPE::PLAYER:			ret = new j1EntityPlayer(initPos, type, state); break;
+	case ENTITY_TYPE::GROUND_ENEMY:		ret = new AutonomousEntity(initPos, type, state); break;
+	case ENTITY_TYPE::AIR_ENEMY:		ret = new AutonomousEntity(initPos, type, state); break;
 	case ENTITY_TYPE::UNKNOWN_TYPE:		ret = nullptr; break;
 	}
 
@@ -293,9 +293,23 @@ bool j1EntityManager::Save(pugi::xml_node& data)
 	for (p2List_item<j1Entity*>* entity = entities.start; entity != nullptr; entity = entity->next)
 	{
 		pugi::xml_node data = ent_node.append_child("data");
-		data.append_attribute("x").set_value(entity->data->current_position.x);
-		data.append_attribute("y").set_value(entity->data->current_position.y);
-		data.append_attribute("type").set_value((int)entity->data->type);
+
+		p2List_item<j1MovingEntity*>* saveEntity = (p2List_item <j1MovingEntity*>*)entity;
+		data.append_attribute("x").set_value(saveEntity->data->current_position.x);
+		data.append_attribute("y").set_value(saveEntity->data->current_position.y);
+		data.append_attribute("type").set_value((int)saveEntity->data->type);
+		data.append_attribute("state").set_value((int)saveEntity->data->state);
+		
+		//else
+		//{
+		//	p2List_item<AutonomousEntity*>* saveEnemy = (p2List_item <AutonomousEntity*>*)entity;
+		//	data.append_attribute("x").set_value(saveEnemy->data->current_position.x);
+		//	data.append_attribute("y").set_value(saveEnemy->data->current_position.y);
+		//	data.append_attribute("type").set_value((int)saveEnemy->data->type);
+		//	data.append_attribute("state").set_value((int)saveEnemy->data->state);
+		//	/*if(saveEnemy->data->pathPtr->count() != 0)
+		//	data.append_attribute("path").*/
+		//} 
 
 		/*pugi::xml_node restore = ent_node.append_child("restore");
 		restore.append_attribute("to_delete").set_value(entity->to_delete);
@@ -311,33 +325,76 @@ bool j1EntityManager::Save(pugi::xml_node& data)
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
+	bool ret = true;
+
 	if (App->save_document_full == true)
 	{
 		pugi::xml_node node = data.child("entity_manager").child("entity");
-
-		for (node; node != NULL; node = node.next_sibling("entity"))
+		
+		if (DestroyAllEntities() == false)
 		{
-			pugi::xml_node data = node.child("data");
+			LOG("could not destroy entities, Load aborted");
+			ret = false;
+		}
+		pugi::xml_node data = node.child("data");
 
-			float x = data.attribute("x").as_float();
-			float y = data.attribute("y").as_float();
-			ENTITY_TYPE type = (ENTITY_TYPE)data.attribute("type").as_int();
-			
-			if (x == -1)
+		if (ret == true)
+		{
+			for (data; data != NULL; data = data.next_sibling("data"))
 			{
-				break;
+				float x = data.attribute("x").as_float();
+				float y = data.attribute("y").as_float();
+				int type = data.attribute("type").as_int();
+				int state = data.attribute("state").as_int();
+
+				if (x == -1)
+				{
+					break;
+				}
+				else if (type == 0)
+				{
+					player = (j1EntityPlayer*)CreateEntity((ENTITY_TYPE)type, {x, y }, (ENTITY_STATES)state);
+				}
+				else
+					CreateEntity((ENTITY_TYPE)type, { x, y }, (ENTITY_STATES)state);
+
+				//pugi::xml_node restore = node.child("restore");
+				//entity->to_delete = restore.attribute("to_delete").as_bool;
+				//entity->health = restore.attribute("health").as_bool;
 			}
+		}
 
-			if (type == ENTITY_TYPE::PLAYER )
-			{
-				player->ResetPlayerAT(x, y);
-			}
-
-			//pugi::xml_node restore = node.child("restore");
-			//entity->to_delete = restore.attribute("to_delete").as_bool;
-			//entity->health = restore.attribute("health").as_bool;
-
+		if (ret)
+		{
+			AwakeAgain();
 		}
 	}
+	return ret;
+}
+
+bool j1EntityManager::AwakeAgain()
+{
+	pugi::xml_document	config_file;
+	pugi::xml_node		config;
+
+	bool ret = true;
+
+	config = App->LoadConfig(config_file);
+	if (!config)
+		ret = false;
+
+	if (ret == true)
+	{
+		p2List_item<j1Entity*>* item = entities.start;
+
+		for (item; item != nullptr; item = item->next)
+		{
+			//ret = Awake the current module->(pass the config child node which shares name with the current module)
+			ret = item->data->Awake(config.child(this->name.GetString()));
+		}
+
+		Start();
+	}
+
 	return true;
 }

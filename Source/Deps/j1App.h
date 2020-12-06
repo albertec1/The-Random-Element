@@ -38,14 +38,14 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 
+	// Load config file
+	pugi::xml_node LoadConfig(pugi::xml_document&) const;
+
 	//Save andl load methods
 	void LoadGame();
 	void SaveGame() const;
 
 private:
-
-	// Load config file
-	pugi::xml_node LoadConfig(pugi::xml_document&) const;
 
 	// Call modules before each loop iteration
 	void PrepareUpdate();
@@ -105,6 +105,7 @@ public:
 
 	mutable bool		save_document_full;
 	bool				allow_debug_log;
+	pugi::xml_document	config_file;
 
 	uint32				framerate_cap = 60;
 	bool				fpscap = true;
