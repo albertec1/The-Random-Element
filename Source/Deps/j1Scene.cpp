@@ -5,27 +5,34 @@
 #include "j1Render.h"
 #include "j1SceneManager.h"
 #include "j1EntityManager.h"
+#include "j1Textures.h"
 #include "Pathfinding.h"
 #include "p2Log.h"
 
 j1Scene::j1Scene()
 {
-	name.create("scene");
+	name.create("scene1");
 }
 
 j1Scene::~j1Scene()
 {}
 
-bool j1Scene::Awake(pugi::xml_node& config)
+bool j1Scene::Awake(pugi::xml_node& _config)
 {
+	pugi::xml_node config = _config.child("scene1");
 	camera_init_pos.x = config.child("camera").attribute("initial_pos_x").as_int(0);
 	camera_init_pos.y = config.child("camera").attribute("initial_pos_y").as_int(0);
+	pugi::xml_node imageNode = config.child("bg_image_path");
+	for (imageNode; imageNode != nullptr; imageNode = imageNode.next_sibling("bg_image_path"))
+	{
+		BackroundImages.add(imageNode.attribute("value").as_string());
+	}
 	return true;
 }
 
 bool j1Scene::Start()
 {
-	//App->scene_manager->SetBackgroundImages("big-background.png");
+	App->scene_manager->SetBackgroundImages(&BackroundImages);
 	App->map->Load("first-map-v01.tmx");
 
 	int w = 0; int h = 0;
@@ -74,9 +81,10 @@ bool j1Scene::Update(float dt)
 	{
 		if (App->framerate_cap == 30) { App->framerate_cap = 60; }
 		else 
-			App->framerate_cap = 30;
-	
+			App->framerate_cap = 30;	
 	}
+
+	App->scene_manager->DrawBackground();
 	App->map->Draw();
 
 	return true;

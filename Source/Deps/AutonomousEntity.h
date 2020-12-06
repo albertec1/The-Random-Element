@@ -67,6 +67,7 @@ public:
 	float current_movementSpeed = 0;
 
 	//animation methods and variables inherited too
+	SDL_Texture* enemyTexture;
 
 	//pathfind! ---
 	fPoint destination;

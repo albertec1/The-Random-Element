@@ -3,6 +3,7 @@
 #include "Pathfinding.h"
 #include "j1Collision.h"
 #include "j1EntityManager.h"
+#include "j1Textures.h"
 #include "j1Map.h"
 #include "p2Point.h"
 
@@ -42,6 +43,8 @@ bool AutonomousEntity::Awake(pugi::xml_node& node)
 	entity_rect.y = stats.child("initial_pos_y").attribute("value").as_uint();
 
 	texture_path = stats.child("texture_path").attribute("value").as_string();
+	
+	//entity_collider = App->coll->AddCollider(entity_rect, COLLIDER_TYPE::ENEMY, this);
 
 	//-- Load range depending on type.
 	pathfindingRange = 300;
@@ -53,6 +56,7 @@ bool AutonomousEntity::Awake(pugi::xml_node& node)
 
 bool AutonomousEntity::Start()
 {
+	enemyTexture = App->tex->Load(texture_path.GetString());
 	return true;
 }
 
@@ -85,8 +89,16 @@ bool AutonomousEntity::Update(float dt, bool doLogic)
 					//attack
 				}
 			}
+
+			
 		}
 	}
+	
+	//entity_collider->rect.x = current_position.x;
+	//entity_collider->rect.y = current_position.y;
+	//entity_rect.x = current_position.x;
+	//entity_rect.y = current_position.y;
+
 	return true;
 }
 
@@ -108,10 +120,25 @@ bool AutonomousEntity::CleanUp()
 bool AutonomousEntity::Draw()
 {
 	if (type == ENTITY_TYPE::AIR_ENEMY)
-		App->render->DrawQuad({(int)current_position.x, (int)current_position.y, 32, 32}, 239, 127, 26, 255);
-
+	{
+		SDL_Rect temp;
+		temp.x = temp.y = 0;
+		temp.w = temp.h = 32;
+		rotating_animation = temp;
+		App->render->Blit(enemyTexture, (int)current_position.x, (int)current_position.y, &rotating_animation);
+		//App->render->DrawQuad({(int)current_position.x, (int)current_position.y, 32, 32}, 239, 127, 26, 255);
+	}
 	if (type == ENTITY_TYPE::GROUND_ENEMY)
-		App->render->DrawQuad({(int)current_position.x, (int)current_position.y, 32, 32 }, 101, 67, 33, 255);
+	{
+		SDL_Rect temp;
+		temp.x = 33;
+		temp.y = 0;
+		temp.w = temp.h = 32;
+		rotating_animation = temp;
+		App->render->Blit(enemyTexture, (int)current_position.x, (int)current_position.y, &rotating_animation);
+		//App->render->DrawQuad({(int)current_position.x, (int)current_position.y, 32, 32 }, 101, 67, 33, 255);
+
+	}
 	return true;
 }
 
@@ -261,3 +288,4 @@ void AutonomousEntity::NextStep()
 		pathPtr->del(pathPtr->start);	
 	}
 }
+

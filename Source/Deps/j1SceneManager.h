@@ -41,7 +41,7 @@ public:
 
 	//Pass a vector with the paths to the different images that compose the background.
 	//the parallax will be applied from first(0) to last(path_list.lenght)
-	void SetBackgroundImages(p2List<const char*> path_list);
+	void SetBackgroundImages(p2List<p2SString>* path_list);
 
 	void DrawBackground();
 

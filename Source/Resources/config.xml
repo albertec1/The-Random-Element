@@ -25,11 +25,15 @@
   </map>
 
   <SceneManager>
-    <folder value="maps"/>
+    <folder value="maps/"/>
     <scene1>
       <path value="first-map-v01"/>
       <camera initial_pos_x="0" initial_pos_y="0"/>
       <id value="1"/>
+      <bg_image_path value="background1.png"/>
+      <bg_image_path value="background2.png"/>
+      <bg_image_path value="background3.png"/>
+      <bg_image_path value="background4.png"/>
     </scene1>
     <scene2>
       <path value="second-map-v01"/>
@@ -66,7 +70,7 @@
         <animation            name ="jump"    coll="0" row="4" width="32" height="32" collumns="6" frames="6" speed="0.4" loop="true"/>
         <animation            name ="run"     coll="0" row="5" width="32" height="32" collumns="6" frames="6" speed="0.4" loop="true"/>
         <animation            name ="fall"    coll="0" row="6" width="32" height="32" collumns="1" frames="1" speed="0.4" loop="true"/>
-        <animation            name ="special" coll="0" row="7" width="32" height="32" collumns="6" frames="6" speed="1" loop="false"/>
+        <animation            name ="special" coll="0" row="7" width="32" height="32" collumns="6" frames="6" speed="0.4" loop="false"/>
        </sprites>
     </player>
     <autonomousEntity>
@@ -78,7 +82,7 @@
         <gravity value="4.0f"/>
         <movement_speed value="150"/>
         <special_range value="128"/>
-        <texture_path value="spritesheets/character-spritesheet.png"/>
+        <texture_path value="spritesheets/enemies-tileset.png"/>
       </entity_stats>
      </autonomousEntity>
   </EntityManager> 

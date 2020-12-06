@@ -88,6 +88,7 @@ private:
 
 	p2SString			title;
 	p2SString			organization;
+	
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
@@ -106,6 +107,7 @@ public:
 	mutable bool		save_document_full;
 	bool				allow_debug_log;
 	pugi::xml_document	config_file;
+	p2SString			folder;
 
 	uint32				framerate_cap = 60;
 	bool				fpscap = true;

@@ -24,4 +24,7 @@ public:
 	iPoint origin;
 	p2List<iPoint> pathList; //private?
 
+private:
+
+	p2List<p2SString> BackroundImages;
 };

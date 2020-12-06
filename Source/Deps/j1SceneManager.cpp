@@ -27,7 +27,7 @@ j1SceneManager::~j1SceneManager()
 
 bool j1SceneManager::Awake(pugi::xml_node& config)
 {
-	folder_path = config.attribute("folder").as_string();
+	folder_path = App->folder;
 	scene1_path = config.child("scene1").child("path").attribute("value").as_string();
 	scene2_path = config.child("scene2").child("path").attribute("value").as_string();
 	
@@ -211,16 +211,21 @@ void j1SceneManager::SetBackgroundImages(const char* path)
 	}
 }
 
-void j1SceneManager::SetBackgroundImages(p2List<const char*> path_list)
+void j1SceneManager::SetBackgroundImages(p2List<p2SString>* path_list)
 {
-//	if (path != nullptr)
-//	{
-//		p2SString full_path(folder_path.GetString());
-//		full_path += path;
-//
-//		BackgroundTextures.clear();
-//		BackgroundTextures.add(App->tex->Load(full_path.GetString()));
-//	}
+	if (path_list->count() != 0)
+	{
+		for(int i = 0; i < path_list->count(); i++)
+		{
+			p2SString string = path_list->At(i)->data;
+
+			p2SString full_path(folder_path.GetString());
+			full_path += string.GetString();
+
+			SDL_Texture* tex = App->tex->Load(full_path.GetString());
+			BackgroundTextures.add(tex);
+		}
+	}
 }
 
 void j1SceneManager::DrawBackground()
@@ -228,6 +233,8 @@ void j1SceneManager::DrawBackground()
 	if (!backgroundHasParallax)
 	{
 		//Fill a blit(...) with info of the picture taken from the tiled map directly.
+		for(int i = 0; i < BackgroundTextures.count(); i++)
+			App->render->Blit(BackgroundTextures[i], i*2500, -450);		
 	}
 	else
 	{

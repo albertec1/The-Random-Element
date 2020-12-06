@@ -93,6 +93,7 @@ bool j1App::Awake()
 		app_config = config.child("app");
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
+		folder.create(app_config.child("folder").child_value());
 		allow_debug_log = app_config.child("debug_log").attribute("value").as_bool(false);
 	}
 
