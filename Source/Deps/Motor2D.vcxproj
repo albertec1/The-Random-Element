@@ -48,7 +48,7 @@
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\Resources\Output\</OutDir>
+    <OutDir>..\..\Output</OutDir>
     <IntDir>..\Resources\Output\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
