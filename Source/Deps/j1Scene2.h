@@ -18,5 +18,6 @@ public:
 	bool CleanUp();
 
 public:
+	int sceneNumber = 2;
 	p2Point<int> camera_init_pos;
 };

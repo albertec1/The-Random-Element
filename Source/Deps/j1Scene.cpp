@@ -53,40 +53,7 @@ bool j1Scene::PreUpdate()
 
 bool j1Scene::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_UP) == j1KeyState::KEY_REPEAT)
-		App->render->camera.y += 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == j1KeyState::KEY_REPEAT)
-		App->render->camera.y -= 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == j1KeyState::KEY_REPEAT)
-		App->render->camera.x += 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == j1KeyState::KEY_REPEAT)
-		App->render->camera.x -= 10;
 	
-	if (App->input->GetKey(SDL_SCANCODE_F9) == j1KeyState::KEY_UP)
-	{
-		App->map->debug_metadata = !(App->map->debug_metadata);
-		App->map->debug_pathtiles = !(App->map->debug_pathtiles);
-		App->pathfinding->debug_pathList = !(App->pathfinding->debug_pathList);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F10) == j1KeyState::KEY_UP)
-	{
-		App->manager->godMode = !(App->manager->godMode);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F11) == j1KeyState::KEY_UP)
-	{
-		if (App->framerate_cap == 30) { App->framerate_cap = 60; }
-		else 
-			App->framerate_cap = 30;	
-	}
-
-	App->scene_manager->DrawBackground();
-	App->map->Draw();
-
 	return true;
 }
 

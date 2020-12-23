@@ -19,6 +19,7 @@ public:
 
 public:
 
+	int sceneNumber = 1;
 	p2Point<int> camera_init_pos;
 	bool origin_selected = false;
 	iPoint origin;
