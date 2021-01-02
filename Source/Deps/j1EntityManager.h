@@ -12,6 +12,7 @@ struct SDL_Texture;
 struct j1EntityPlayer;
 struct AutonomousEntity;
 
+
 class j1EntityManager : public j1Module
 {
 public:
@@ -56,4 +57,7 @@ public:
 private:
 	bool doLogic;
 	float logicTimer;
+	pugi::xml_node awakeNode;
+
 };
+ 

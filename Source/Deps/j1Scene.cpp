@@ -22,7 +22,8 @@ bool j1Scene::Awake(pugi::xml_node& _config)
 	pugi::xml_node config = _config.child("scene1");
 	camera_init_pos.x = config.child("camera").attribute("initial_pos_x").as_int(0);
 	camera_init_pos.y = config.child("camera").attribute("initial_pos_y").as_int(0);
-	pugi::xml_node imageNode = config.child("bg_image_path");
+	pugi::xml_node imageNode = config.child("bg_image_path");	
+
 	for (imageNode; imageNode != nullptr; imageNode = imageNode.next_sibling("bg_image_path"))
 	{
 		BackroundImages.add(imageNode.attribute("value").as_string());
@@ -34,6 +35,18 @@ bool j1Scene::Start()
 {
 	App->scene_manager->SetBackgroundImages(&BackroundImages);
 	App->map->Load("first-map-v01.tmx");
+
+	App->manager->player = (j1EntityPlayer*)App->manager->CreateEntity(ENTITY_TYPE::PLAYER, { 808, 700 });
+
+	//MUST GO TO CONFIG FILE
+	App->manager->CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 3072, 768 });
+	App->manager->CreateEntity(ENTITY_TYPE::AIR_ENEMY, { 4750, 190 });
+	App->manager->CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 6482, 353 });
+	App->manager->CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 7482, 357 });
+
+	//--Awake all scene entities
+	App->manager->AwakeAgain();
+	//--
 
 	int w = 0; int h = 0;
 	uchar* data = NULL;

@@ -47,7 +47,7 @@ public:
 
 public:
 	p2Point<int> camera_init_pos;
-	j1Scene* scene0;
+	j1Scene2* scene0;
 	j1Scene* scene1;
 	j1Scene2* scene2;
 

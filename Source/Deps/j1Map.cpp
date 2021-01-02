@@ -6,6 +6,8 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Collision.h"
+#include "j1EntityManager.h"
+#include "Pathfinding.h"
 
 j1Map::j1Map() : j1Module()
 {
@@ -30,6 +32,8 @@ bool j1Map::Awake(pugi::xml_node& node)
 
 bool j1Map::Load(const char* file_name)
 {
+	CleanUp();
+
 	bool ret = true;
 
 	p2SString tmp(folder.GetString());
@@ -314,6 +318,7 @@ bool j1Map::SetCollisionLayout()
 		if (current_layer->data->properties.Get("Navigation") == 1)
 		{
 			metadata = current_layer->data;
+			App->coll->metadata = metadata;
 			for (int y = 0; y < mapdata.map_height; ++y)
 			{
 				for (int x = 0; x < mapdata.map_width; ++x)
@@ -610,6 +615,9 @@ bool j1Map::CleanUp()
 
 	// Clean up the pugui tree
 	map_file.reset();
+
+	//Clean colliders
+	App->coll->deleteAll();
 
 	return true;
 }

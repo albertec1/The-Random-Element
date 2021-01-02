@@ -11,6 +11,7 @@
 #include "j1Module.h"
 
 class j1Entity;
+class MapLayer;
 
 enum COLLIDER_TYPE
 {
@@ -53,7 +54,6 @@ public:
 	j1Collision();
 	virtual ~j1Collision();
 
-
 	bool Awake(pugi::xml_node& node);
 	bool PostUpdate();
 	bool CleanUp();
@@ -67,8 +67,11 @@ public:
 	bool canCollide_bottom(uint tile_id);
 	bool canCollide_left(uint tile_id);
 
-private:
+	void deleteAll();
+public:
+	MapLayer* metadata;
 
+private:
 	Collider* colliders[MAX_COLLIDERS];
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
 	bool debug = true;

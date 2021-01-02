@@ -66,7 +66,9 @@ Animation* j1MovingEntity::GetAnimation(p2SString name)
 bool j1MovingEntity::Draw()
 {
 	bool ret = false;
-	rotating_animation = current_animation->GetCurrentFrame(); 
+
+	//if(current_animation != nullptr)
+		rotating_animation = current_animation->GetCurrentFrame(); 
 
  	if (ret = App->render->Blit(entity_texture, current_position.x, current_position.y, &rotating_animation, flipped) == 0)
 	{

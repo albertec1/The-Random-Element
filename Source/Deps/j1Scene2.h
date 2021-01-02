@@ -2,6 +2,7 @@
 
 #include "j1Module.h"
 #include "p2Point.h"
+#include "p2List.h"
 
 class j1Scene2 : public j1Module
 {
@@ -20,4 +21,10 @@ public:
 public:
 	int sceneNumber = 2;
 	p2Point<int> camera_init_pos;
+	bool origin_selected = false;
+	iPoint origin;
+	p2List<iPoint> pathList; //private?
+
+private:
+	p2List<p2SString> BackroundImages;
 };

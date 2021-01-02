@@ -19,18 +19,9 @@ j1EntityManager::~j1EntityManager()
 bool j1EntityManager::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
-
+	awakeNode = node;
 	doLogic = false;
 	logicTimer = DOLOGIC_TIME;
-
-	player = (j1EntityPlayer*)CreateEntity(ENTITY_TYPE::PLAYER, { 808, 700});
-
-	//MUST GO TO CONFIG FILE
-	(AutonomousEntity*)CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 3072, 768});
-	(AutonomousEntity*)CreateEntity(ENTITY_TYPE::AIR_ENEMY, { 4750, 190});
-	(AutonomousEntity*)CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 6482, 353 });	
-	(AutonomousEntity*)CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 7482, 357 });
-
 
 	for (p2List_item<j1Entity*>* item = entities.start; item != nullptr; item = item->next)
 	{
@@ -38,7 +29,6 @@ bool j1EntityManager::Awake(pugi::xml_node& node)
 	}
 	return ret;
 }
-
 
 bool j1EntityManager::Start()
 {

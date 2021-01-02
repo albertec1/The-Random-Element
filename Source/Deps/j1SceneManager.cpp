@@ -1,5 +1,5 @@
 #include "j1SceneManager.h"
-
+#include "j1Collision.h"
 #include "j1App.h"
 #include "j1Textures.h"
 #include "j1Scene.h"
@@ -16,7 +16,7 @@ j1SceneManager::j1SceneManager()
 	name.create("SceneManager");
 	
 	current_scene = 1; //config plz
-	scene0 = new j1Scene();
+	scene0 = new j1Scene2();
 	scene1 = new j1Scene();
 	scene2 = new j1Scene2();
 	
@@ -212,12 +212,18 @@ void j1SceneManager::ChangeScene(int old_scene, int new_scene)
 	{
 	case 1:
 		scene1->CleanUp();
+		App->pathfinding->CleanUp();
+		App->manager->CleanUp();
+
 		break;
 
 	case 2:
 		scene2->CleanUp();
+		App->pathfinding->CleanUp();
+		App->manager->CleanUp();
 		break;
 	}
+
 
 	switch (new_scene)
 	{

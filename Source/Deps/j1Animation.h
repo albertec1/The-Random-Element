@@ -13,7 +13,6 @@ public:
 	float speed = 1.0f;
 	SDL_Rect frames[MAX_FRAMES];
 
-
 private:
 	float current_frame;
 	bool end_animation = false;
@@ -21,8 +20,7 @@ private:
 	int last_frame = 0;
 
 public:
-
-	Animation() {}
+	Animation() {}	
 	Animation(p2SString name, float speed, bool loop)
 	{
 		this->name = name;

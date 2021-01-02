@@ -64,6 +64,12 @@
     <ClCompile Include="Pathfinding.cpp">
       <Filter>Development\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>Development\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Development\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="p2Defs.h">
@@ -151,6 +157,15 @@
     <ClInclude Include="Pathfinding.h">
       <Filter>Development\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIElements.h">
+      <Filter>Development\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Development\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -176,6 +191,9 @@
     </Filter>
     <Filter Include="Development\Tools\XML">
       <UniqueIdentifier>{ce495796-2f24-44cc-a752-06fc2cf23847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\GUI">
+      <UniqueIdentifier>{5c4dbfd8-b8e1-4867-853e-431da1ad019d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

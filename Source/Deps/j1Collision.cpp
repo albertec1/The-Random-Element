@@ -76,8 +76,8 @@ bool j1Collision::PostUpdate()
 			colliders[i]->active = false;
 		}
 	}*/
-	int width = App->map->metadata->width;
-	int height = App->map->metadata->height;
+	int width = metadata->width;
+	int height = metadata->height;
 	SDL_Rect cam = App->map->MapCulling({width, height }, 10, 10);
 	int i = 0;
 	for (int i = 0; i <= MAX_ENTITIES; i++)
@@ -200,11 +200,22 @@ bool j1Collision::PostUpdate()
 	return ret;
 }
 
+void j1Collision::deleteAll()
+{
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	{
+		if (colliders[i] != nullptr)
+		{
+			colliders[i]->active = false;
+		}
+	}
+}
+
 bool j1Collision::canCollide_right(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
 {
 	bool ret = false;
 
-	if (App->map->metadata->data[tile_id + 1] == NULL)
+	if (metadata->data[tile_id + 1] == NULL)
 	{
 		ret = true;
 	}
@@ -215,7 +226,7 @@ bool j1Collision::canCollide_left(uint tile_id) //we get this id from the x and 
 {
 	bool ret = false;
 	
-	if (App->map->metadata->data[tile_id - 1] == NULL)
+	if (metadata->data[tile_id - 1] == NULL)
 	{
 		ret = true;		
 	}
@@ -223,11 +234,13 @@ bool j1Collision::canCollide_left(uint tile_id) //we get this id from the x and 
 	return ret;
 }
 
+
+
 bool j1Collision::canCollide_top(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
 {
 	bool ret = false;
 
-	if (App->map->metadata->data[tile_id - App->map->metadata->width] == NULL)
+	if (metadata->data[tile_id - metadata->width] == NULL)
 	{
 		ret = true;		
 	}
@@ -239,7 +252,7 @@ bool j1Collision::canCollide_bottom(uint tile_id) //we get this id from the x an
 {
 	bool ret = false;
 
-	if (App->map->metadata->data[tile_id + App->map->metadata->width] == NULL)
+	if (metadata->data[tile_id + metadata->width] == NULL)
 	{
 		ret = true;
 	}
@@ -297,7 +310,7 @@ Collider* j1Collision::AddCollider(SDL_Rect _rect, COLLIDER_TYPE _type, j1Entity
 	{
 		for (uint i = MAX_ENTITIES; i < MAX_COLLIDERS; ++i) //then normal colliders (walls, platforms, etc...)
 		{
-			if (colliders[i]->active == false)
+			if (colliders[i] != nullptr && colliders[i]->active == false)
 			{
 				colliders[i]->rect = _rect;
 				colliders[i]->type = _type;

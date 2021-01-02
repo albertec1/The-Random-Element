@@ -4,6 +4,8 @@
 #include "j1Input.h"
 #include "j1Render.h"
 #include "p2Log.h"
+#include "j1EntityManager.h"
+#include "Pathfinding.h"
 
 j1Scene2::j1Scene2()
 {
@@ -13,16 +15,41 @@ j1Scene2::j1Scene2()
 j1Scene2::~j1Scene2()
 {}
 
-bool j1Scene2::Awake(pugi::xml_node& config)
+bool j1Scene2::Awake(pugi::xml_node& _config)
 {
+	pugi::xml_node config = _config.child("scene2");
 	camera_init_pos.x = config.child("camera").attribute("initial_pos_x").as_int(0);
 	camera_init_pos.y = config.child("camera").attribute("initial_pos_y").as_int(0);
+	pugi::xml_node imageNode = config.child("bg_image_path");
+
+	for (imageNode; imageNode != nullptr; imageNode = imageNode.next_sibling("bg_image_path"))
+	{
+		BackroundImages.add(imageNode.attribute("value").as_string());
+	}
 	return true;
 }
 
 bool j1Scene2::Start()
 {
 	App->map->Load("second-map-v01.tmx");
+
+	App->manager->player = (j1EntityPlayer*)App->manager->CreateEntity(ENTITY_TYPE::PLAYER, { 808, 700 });
+
+	//MUST GO TO CONFIG FILE
+	/*App->manager->CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 3072, 768 });
+	App->manager->CreateEntity(ENTITY_TYPE::AIR_ENEMY, { 4750, 190 });
+	App->manager->CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 6482, 353 });
+	App->manager->CreateEntity(ENTITY_TYPE::GROUND_ENEMY, { 7482, 357 });*/
+
+	//--Awake all scene entities
+	App->manager->AwakeAgain();
+	//--
+
+	int w = 0; int h = 0;
+	uchar* data = NULL;
+	if (App->map->SetPathTiles(&w, &h, &data))
+		App->pathfinding->SetMap(w, h, data);
+
 	App->render->camera.x = camera_init_pos.x;
 	App->render->camera.y = camera_init_pos.y;
 	return true;
