@@ -67,18 +67,6 @@ public:
 	_TTF_Font* default;
 
 private:
-	//buildings
-	SDL_Texture* townhall;
-	SDL_Texture* boathouse;
-	SDL_Texture* storage;
-	SDL_Texture* turret;
-
-
-	//units
-	SDL_Texture* boat;
-	SDL_Texture* harvester;
-	SDL_Texture* balloon;
-	SDL_Texture* carrier;
 
 	//ui
 	SDL_Texture* windowed;

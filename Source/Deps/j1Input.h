@@ -1,6 +1,7 @@
 #pragma once
 
 #include "j1Module.h"
+#include "p2Point.h"
 
 #define NUM_KEYS 352	
 #define NUM_MOUSE_BUTTONS 5
@@ -56,6 +57,24 @@ public:
 	// Get Mouse / Axis position
 	void GetMousePosition(int& x, int& y);
 	void GetMouseMotion(int& x, int& y);
+
+	void GetMousePosFloat(float& x, float& y);
+	fPoint GetMouseWorldPosition();
+	void GetMouseMotion(int& x, int& y);
+
+
+	void EnableTextInput();
+	void DisableTextInput();
+	int GetCursorPosition();
+
+	p2SString GetText();
+	p2SString GetModifiedString();
+
+	p2SString	final_text;
+	p2SString	text;
+
+
+	float			ball_roll;
 	j1KeyState* keyboard;
 
 private:
@@ -65,4 +84,7 @@ private:
 	int			mouse_motion_y;
 	int			mouse_x;
 	int			mouse_y;
+
+	int			cursor_position = 0;
+	bool		text_input = false;
 };

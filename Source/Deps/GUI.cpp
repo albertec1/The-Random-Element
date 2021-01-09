@@ -65,7 +65,6 @@ bool j1GUI::Update(float dt)
 
 }
 
-
 bool j1GUI::PostUpdate()
 {
 
@@ -80,8 +79,6 @@ bool j1GUI::PostUpdate()
 	return ret;
 
 }
-
-
 
 bool j1GUI::CleanUp()
 {
@@ -168,12 +165,6 @@ void j1GUI::Spining_UI()
 
 	//if (!Correct_y(App->mainmenu->menu.quit->map_position.y, 640))
 	//	Move_Ui_Element(0, 4 - s, App->mainmenu->menu.quit);
-
-
-
-
-
-
 }
 
 void j1GUI::Reset_UI_Pos()
@@ -196,7 +187,7 @@ void j1GUI::Reset_UI_Pos()
 
 SDL_Texture* j1GUI::Load_Texture(TEXTURE textureType)
 {
-	/*switch (textureType)
+	switch (textureType)
 	{
 	case TEXTURE::BUTON:
 		texture_load = App->tex->Load("textures/ui/button.png");
@@ -225,53 +216,14 @@ SDL_Texture* j1GUI::Load_Texture(TEXTURE textureType)
 	case TEXTURE::RESOURCES_IMAGE:
 		texture_load = App->tex->Load("textures/ui/resources.png");
 		break;
-	case TEXTURE::BUILDING_IMAGE:
-		texture_load = App->tex->GetTexture("boathouse-icon", 0, 0);
-		break;
-	case TEXTURE::BOAT_IMAGE:
-		texture_load = App->tex->GetTexture("boat-icon", 0, 0);
-		break;
 	case TEXTURE::SCROLL:
 		texture_load = App->tex->Load("textures/ui/scroll.png");
-		break;
-	case TEXTURE::TRADE:
-		texture_load = App->tex->Load("textures/ui/trade.png");
-		break;
-	case TEXTURE::HARVESTER:
-		texture_load = App->tex->GetTexture("harvester-icon", 0, 0);
 		break;
 	case TEXTURE::BOTON_SCROLL:
 		texture_load = App->tex->Load("textures/ui/scroll-button.png");
 		break;
 	case TEXTURE::AUDIO_IMAGE:
 		texture_load = App->tex->Load("textures/ui/audio-image.png");
-		break;
-	case TEXTURE::LINK:
-		texture_load = App->tex->Load("textures/ui/link.png");
-		break;
-	case TEXTURE::TRADER_DERECHA:
-		texture_load = App->tex->Load("textures/ui/right.png");
-		break;
-	case TEXTURE::TRADER_IZQUIERDA:
-		texture_load = App->tex->Load("textures/ui/left.png");
-		break;
-	case TEXTURE::COTTON:
-		texture_load = App->tex->Load("textures/ui/cotton.png");
-		break;
-	case TEXTURE::WOOD:
-		texture_load = App->tex->Load("textures/ui/wood.png");
-		break;
-	case TEXTURE::METAL:
-		texture_load = App->tex->Load("textures/ui/metal.png");
-		break;
-	case TEXTURE::TOWNHALL:
-		texture_load = App->tex->GetTexture("townhall-icon", 0, 0);
-		break;
-	case TEXTURE::STORAGE:
-		texture_load = App->tex->GetTexture("storage-icon", 0, 0);
-		break;
-	case TEXTURE::COST:
-		texture_load = App->tex->Load("textures/ui/cost.png");
 		break;
 	case TEXTURE::GODMODE:
 		texture_load = App->tex->Load("textures/ui/godmode.png");
@@ -282,26 +234,8 @@ SDL_Texture* j1GUI::Load_Texture(TEXTURE textureType)
 	case TEXTURE::INFO_IMAGE:
 		texture_load = App->tex->Load("textures/ui/info-image.png");
 		break;
-	case TEXTURE::QUEST_CLOSE:
-		texture_load = App->tex->Load("textures/ui/close-quest.png");
-		break;
-	case TEXTURE::QUEST_IMAGE_CLOSE:
-		texture_load = App->tex->Load("textures/ui/quest-close.png");
-		break;
-	case TEXTURE::LVLUP:
-		texture_load = App->tex->GetTexture("lvlup-icon", 0, 0);
-		break;
-	case TEXTURE::QUEST_IMAGE_OPEN:
-		texture_load = App->tex->Load("textures/ui/quest-open.png");
-		break;
 	case TEXTURE::COIN:
 		texture_load = App->tex->Load("textures/ui/coin.png");
-		break;
-	case TEXTURE::AUTOMATIC:
-		texture_load = App->tex->GetTexture("automatic-icon", 0, 0);
-		break;
-	case TEXTURE::COIN_COST:
-		texture_load = App->tex->Load("textures/ui/coin-cost.png");
 		break;
 	case TEXTURE::EXPLANATION:
 		texture_load = App->tex->Load("textures/ui/explanation.png");
@@ -309,43 +243,15 @@ SDL_Texture* j1GUI::Load_Texture(TEXTURE textureType)
 	case TEXTURE::DIALOG:
 		texture_load = App->tex->Load("textures/ui/dialog.png");
 		break;
-	case TEXTURE::BALLOON:
-		texture_load = App->tex->GetTexture("balloon-icon", 0, 0);
-		break;
-	case TEXTURE::SHIP:
-		texture_load = App->tex->Load("textures/ship.png");
-		break;
-	case TEXTURE::QUEST:
-		texture_load = App->tex->GetTexture("quest-icon", 0, 0);
-		break;
 	case TEXTURE::INFORMATION_IMAGE:
 		texture_load = App->tex->Load("textures/ui/information-image.png");
 		break;
-	case TEXTURE::CARRIER:
-		texture_load = App->tex->GetTexture("carrier-icon", 0, 0);
-		break;
-	case TEXTURE::TURRET_ICON:
-		texture_load = App->tex->GetTexture("turret-icon", 0, 0);
-		break;
-	case TEXTURE::CARRIER_IN:
-		texture_load = App->tex->GetTexture("carrier-in", 0, 0);
-		break;
-	case TEXTURE::CARRIER_OUT:
-		texture_load = App->tex->GetTexture("carrier-out", 0, 0);
-		break;
-	case TEXTURE::CARRIER_CAP:
-		texture_load = App->tex->Load("textures/ui/carrier-cap.png");
-		break;
-	}*/
-
+	}
 	return texture_load;
 }
 
-
-
 j1Element* j1GUI::AddElement(GUItype type, j1Element* parent, fPoint map_position, fPoint inside_position, bool interactable, bool enabled, SDL_Rect section, char* text, j1Module* listener, bool X_drag, bool Y_drag, SCROLL_TYPE scrollType, bool decor, TEXTURE textureType)
 {
-
 	j1Element* temp = nullptr;
 
 	switch (type)
@@ -383,10 +289,8 @@ j1Element* j1GUI::AddElement(GUItype type, j1Element* parent, fPoint map_positio
 		temp->text = text;
 		temp->textureType = textureType;
 
-
 		GUI_ELEMENTS.add(temp)->data->Start();
 	}
-
 	return temp;
 }
 
@@ -394,7 +298,6 @@ bool j1GUI::Save(pugi::xml_node& file) const {
 
 	return true;
 }
-
 
 bool j1GUI::Load(pugi::xml_node& file) {
 

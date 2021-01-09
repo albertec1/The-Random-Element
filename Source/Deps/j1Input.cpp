@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Input.h"
 #include "j1Window.h"
+#include "j1Render.h"
 #include "SDL/include/SDL.h"
 
 j1Input::j1Input() : j1Module()
@@ -144,4 +145,67 @@ void j1Input::GetMouseMotion(int& x, int& y)
 {
 	x = mouse_motion_x;
 	y = mouse_motion_y;
+}
+
+void j1Input::GetMousePosFloat(float& x, float& y)
+{
+	x = mouse_x;
+	y = mouse_y;
+}
+
+fPoint j1Input::GetMouseWorldPosition()
+{
+	fPoint ret;
+	int mx, my;
+	GetMousePosition(mx, my);
+	ret.x = mx - App->render->camera.x / App->win->GetScale();
+	ret.y = my - App->render->camera.y / App->win->GetScale();
+
+	return ret;
+}
+
+void j1Input::GetMouseMotion(int& x, int& y)
+{
+	x = mouse_motion_x;
+	y = mouse_motion_y;
+}
+
+void j1Input::EnableTextInput()
+{
+	SDL_StartTextInput();
+	text_input = true;
+}
+
+void j1Input::DisableTextInput() {
+
+	SDL_StopTextInput();
+	text_input = false;
+	App->input->text.Clear();
+}
+
+p2SString j1Input::GetText() {
+
+	return text;
+}
+
+int j1Input::GetCursorPosition() {
+
+	int width = 0;
+	int height = 0;
+
+	return width;
+}
+
+p2SString j1Input::GetModifiedString()
+{
+
+	if (cursor_position != 0) {
+
+		p2SString new_text(text.GetString());
+		new_text.Cut(text.Length() - cursor_position);
+		return new_text;
+	}
+
+	else
+		return text;
 }

@@ -14,6 +14,9 @@
 #include "j1Collision.h"
 #include "j1EntityManager.h"
 #include "Pathfinding.h"
+#include "Font.h"
+#include "j1Fonts.h"
+#include "GUI.h"
 
 #include "j1Timer.h"
 
@@ -37,6 +40,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	coll =			new j1Collision();
 	manager =		new j1EntityManager();
 	pathfinding =	new Pathfinding();
+	font =			new j1Font();
+	gui =			new j1GUI();
+	fonts =			new j1Fonts();
 	//-----
 
 	// AddModule() for every Object created before
@@ -50,6 +56,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(coll);
 	AddModule(manager);
 	AddModule(pathfinding);
+	AddModule(font);
+	AddModule(gui);
+	AddModule(fonts);
 
 	// render last to swap buffer
 	AddModule(render);

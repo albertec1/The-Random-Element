@@ -6,7 +6,7 @@
 
 #include "SDL\include\SDL.h"
 #include "SDL_ttf\include\SDL_ttf.h"
-#pragma comment( lib, "SDL_ttf/libx86/SDL2_ttf.lib" )
+#pragma comment( lib, "SDL_ttf/include/SDL2_ttf.lib" )
 
 j1Font::j1Font() : j1Module()
 {
@@ -40,16 +40,6 @@ bool j1Font::Awake(pugi::xml_node& conf)
 
 bool j1Font::Start()
 {
-	townhall = Print("TOWNHALL");
-	boathouse = Print("BOATHOUSE");
-	storage = Print("STORAGE");
-	turret = Print("TURRET");
-
-	boat = Print("BOAT");
-	harvester = Print("HARVESTER");
-	balloon = Print("BALLLOON");
-	carrier = Print("CARRIER");
-
 	windowed = Print("WINDOWED");
 	fullscreen = Print("FULLSCREEN");
 	explanation_on = Print("SHOW INFO");
@@ -125,30 +115,6 @@ SDL_Texture* j1Font::Change_Name(names name)
 	SDL_Texture* texture = nullptr;
 
 	switch (name) {
-	case names::TOWNHALL:
-		texture = townhall;
-		break;
-	case names::STORAGE:
-		texture = storage;
-		break;
-	case names::BOATHOUSE:
-		texture = boathouse;
-		break;
-	case names::TURRET:
-		texture = turret;
-		break;
-	case names::BOAT:
-		texture = boat;
-		break;
-	case names::HARVESTER:
-		texture = harvester;
-		break;
-	case names::BALLOON:
-		texture = balloon;
-		break;
-	case names::CARRIER:
-		texture = carrier;
-		break;
 	case names::WINDOWED:
 		texture = windowed;
 		break;

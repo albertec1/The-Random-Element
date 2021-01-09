@@ -42,6 +42,7 @@ public:
 public:
 	//TEXTURES FOR UI
 	SDL_Texture* texture_load = nullptr;
+	bool disable_click;
 
 private:
 	//MOVING FUNCTIONS

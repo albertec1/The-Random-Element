@@ -15,6 +15,7 @@ class j1SceneManager;
 class j1Collision;
 class j1EntityManager;
 class Pathfinding;
+class j1GUI;
 //---
 
 class j1App
@@ -78,6 +79,7 @@ public:
 	j1Collision* coll;
 	j1EntityManager* manager;
 	Pathfinding* pathfinding;
+	j1GUI* gui;
 	//-----
 private:
 
