@@ -4,7 +4,6 @@
 #include "j1Textures.h"
 #include "Font.h"
 
-
 #include "SDL\include\SDL.h"
 #include "SDL_ttf\include\SDL_ttf.h"
 #pragma comment( lib, "SDL_ttf/libx86/SDL2_ttf.lib" )

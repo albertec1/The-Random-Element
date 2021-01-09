@@ -2,7 +2,7 @@
 #include "j1Module.h"
 #include "p2Point.h"
 #include "p2Log.h"
-#include "j1Font.h"
+#include "Font.h"
 #include "SDL/include/SDL_render.h"
 
 #include "SDL\include\SDL_pixels.h"
