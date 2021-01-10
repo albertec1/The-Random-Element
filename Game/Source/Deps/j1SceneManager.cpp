@@ -26,7 +26,6 @@ j1SceneManager::j1SceneManager()
 	AddScene(scene0);
 	AddScene(scene1);
 	AddScene(scene2);
-	AddScene()
 }
 
 j1SceneManager::~j1SceneManager()
@@ -76,9 +75,14 @@ bool j1SceneManager::Start()
 				continue;
 
 			ret = scene->data->Start();
+
+
 		}
 		scene_number++;
 	}
+
+	if (currentScene != 0)
+		gameUI->Init();
 
 	return ret;
 }
@@ -96,8 +100,8 @@ bool j1SceneManager::PreUpdate()
 			exitMenu = false;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_2) == j1KeyState::KEY_DOWN)
-		ChangeScene(currentScene, 2);
+	//if (App->input->GetKey(SDL_SCANCODE_2) == j1KeyState::KEY_DOWN)
+	//	ChangeScene(currentScene, 2);
 
 	for (p2List_item<j1Module*>* scene = scenes.start; scene != NULL; scene = scene->next)
 	{
@@ -112,6 +116,9 @@ bool j1SceneManager::PreUpdate()
 		}
 		scene_number++;
 	}
+
+	if (currentScene != 0)
+		gameUI->PreUpdate();
 	return ret;
 }
 	
@@ -175,6 +182,9 @@ bool j1SceneManager::Update(float dt)
 		}
 		scene_number++;
 	}
+
+	if (currentScene != 0)
+		gameUI->Update(dt);
 	return ret;
 }
 	
@@ -197,7 +207,8 @@ bool j1SceneManager::PostUpdate()
 		}
 		scene_number++;
 	}
-
+	if (currentScene != 0)
+		gameUI->PostUpdate();
 	return ret;
 }
 		
@@ -220,6 +231,9 @@ bool j1SceneManager::CleanUp()
 		}
 		scene_number++;
 	}
+
+	if (currentScene != 0)
+		gameUI->CleanUp();
 	return ret;
 }
 
@@ -238,12 +252,14 @@ void j1SceneManager::ChangeScene(int old_scene, int new_scene)
 		scene1->CleanUp();
 		App->pathfinding->CleanUp();
 		App->manager->CleanUp();
+		gameUI->CleanUp();
 		break;
 
 	case 2:
 		scene2->CleanUp();
 		App->pathfinding->CleanUp();
 		App->manager->CleanUp();
+		gameUI->CleanUp();
 		break;
 	}
 
@@ -255,10 +271,12 @@ void j1SceneManager::ChangeScene(int old_scene, int new_scene)
 
 	case 1:
 		scene1->Start();
+		gameUI->Start();
 		break;
 
 	case 2:
 		scene2->Start();
+		gameUI->Start();
 		break;
 	}
 	currentScene = new_scene;

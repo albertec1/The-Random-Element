@@ -92,15 +92,7 @@ bool j1InGameUI::Update(float dt)
 		godmode.Image->enabled = false;
 	}
 
-	//MANAGE THE INFO BUTTTON 
-	//TEMPORAL FIX
-	///////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////
-	if (in_trading == true)
-		manager.info->enabled = false;
-	///////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////
-
+	return true;
 }
 
 bool j1InGameUI::CleanUp()
@@ -114,17 +106,14 @@ bool j1InGameUI::CleanUp()
 void j1InGameUI::AddUI()
 {
 	//MENU
-	menu.Menu_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, {width -50,10 }, { 0,0 }, true, true, { 0,0,40,40 }, "", this,false, false, ScrollType::SCROLL_NONE,true, Texture::OPTIONS);
-	menu.Return_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH-140 }, { 70,30 }, true, false, { 0,0,200,65 }, "RESUME", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
-	menu.Resume_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH -60}, { 74,30 }, true, false, { 0,0,200,65 }, "SAVE", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
-	menu.Exit_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH + 15 }, {60,30 }, true, false, { 0,0,200,65 }, "FULLSCREEN", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
-	menu.Save = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH +90 }, { 70,30 }, true, false, { 0,0,200,65 }, "QUIT", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
-	menu.Load = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH +165}, { 50,30 }, true, false, { 0,0,200,65 }, "MAIN MENU", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
-	menu.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, { MiddleScreenW - 50,0 }, { 0,0 }, true, false, { 0, 0,350,500 },"", this, false, false, ScrollType::SCROLL_NONE, true, Texture::IMAGE);
+	//menu.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, { MiddleScreenW - 50,0 }, { 0,0 }, true, false, { 0, 0,350,500 },"", this, false, false, ScrollType::SCROLL_NONE, true, Texture::IMAGE);
+	////menu.Menu_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, {width -50,10 }, { 0,0 }, true, true, { 0,0,40,40 }, "", this,false, false, ScrollType::SCROLL_NONE,true, Texture::OPTIONS);
+	//menu.Return_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH-140 }, { 70,30 }, true, false, { 0,0,200,65 }, "RESUME", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	//menu.Resume_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH}, { 74,30 }, true, false, { 0,0,200,65 }, "SAVE", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	//menu.Exit_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH + 15 }, {60,30 }, true, false, { 0,0,200,65 }, "FULLSCREEN", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	//menu.Save = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH +90 }, { 70,30 }, true, false, { 0,0,200,65 }, "QUIT", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	//menu.Load = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH +165}, { 50,30 }, true, false, { 0,0,200,65 }, "MAIN MENU", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
 
-	//UI BASICS ALWAYS ACTIVE
-	basics.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, {0,520 }, { 0,0 }, true, true, { 0, 0,1280,200 }, "", this, false, false, ScrollType::SCROLL_NONE, true, Texture::MAIN_IMAGE);
-	
 	//WIN
 	win.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, {600 - 150,225  }, { 0,0 }, true, false, { 0, 0,350,170 }, "", this, false, false, ScrollType::SCROLL_NONE, true, Texture::MANAGER_IMAGE);
 	win.Label = App->gui->AddElement(GUItype::GUI_LABEL, nullptr, {750 - 150, 280 }, { 0,0 }, true, false, { 0,0,40,40 }, "VICTORY!!", this, false, false, ScrollType::SCROLL_NONE,true);
@@ -142,13 +131,17 @@ void j1InGameUI::AddUI()
 
 void j1InGameUI::ActivateMenu()
 {
-	menu.Resume_button->enabled = !menu.Resume_button->enabled;
+	/*menu.Resume_button->enabled = !menu.Resume_button->enabled;
+	
 	menu.Return_button->enabled = !menu.Return_button->enabled;
 	menu.Exit_button->enabled = !menu.Exit_button->enabled;
 	menu.Load->enabled = !menu.Load->enabled;
 	menu.Save->enabled = !menu.Save->enabled;
+
 	menu.Image->enabled = !menu.Image->enabled;
-	App->gamePause = !App->gamePause;
+	menu.Image->mapPosition = {(float)App->render->camera.x, (float)App->render->camera.y };
+
+	App->gamePause = !App->gamePause;*/
 }
 
 void j1InGameUI::GUIEeventManager(GUIEvent type, j1Element* element)
@@ -200,24 +193,6 @@ void j1InGameUI::GUIEeventManager(GUIEvent type, j1Element* element)
 			ActivateMenu();
 		}
 
-		if (element == manager.button_next) {
-
-			if (selected_total != 0)
-			{
-				offset_modifier = -1;
-			}
-
-		}
-
-		if (element == manager.buton_prev) {
-
-			if (selected_total != 0)
-			{
-				offset_modifier = 1;
-			}
-
-		}
-
 	}
 	break;
 	case GUIEvent::EVENT_LEFTCLICK:
@@ -225,11 +200,7 @@ void j1InGameUI::GUIEeventManager(GUIEvent type, j1Element* element)
 		break;
 
 	case GUIEvent::EVENT_HOVER:
-		
-		if (element == manager.info) {
-			Activate_Information();
-		}
-
+		break;
 	}	
 }
 
@@ -276,55 +247,17 @@ void j1InGameUI::Deactivate_Defeat_Menu()
 
 void j1InGameUI::Activate_Information()
 {
-	information.Image->enabled = true;
-	information.Text->enabled = true;
-	information.Health->enabled = true;
-	information.Attack->enabled = true;
-	information.Speed->enabled = true;
-	information.Max_resource->enabled = true;
-	information.in_info = true;
-	in_hover_info = true;
+
 }
 
 void j1InGameUI::Deactivate_Information()
 {
-	information.Image->enabled = false;
-	information.Text->enabled = false;
-	information.Health->enabled = false;
-	information.Attack->enabled = false;
-	information.Speed->enabled = false;
-	information.Max_resource->enabled = false;
-	information.in_info = false;
-	in_hover_info = false;
+
 }
 
-void j1InGameUI::Activate_Manager()
-{
-	if (selected_total > 1)
-	{
-		manager.button_next->enabled = true;
-		manager.buton_prev->enabled = true;
-	}
-	else
-	{
-		selected_offset = 0;
-	}
-	manager.image->enabled = true;
-	manager.info->enabled = true;
-}
-
-void j1InGameUI::Deactivate_Manager()
-{
-	manager.button_next->enabled = false;
-	manager.buton_prev->enabled = false;
-	manager.image->enabled = false;
-	manager.info->enabled = false;
-}
 
 void j1InGameUI::Deactivate_All_UI()
 {
-	Deactivate_Manager();
-
 	menu.Resume_button->enabled = false;
 	menu.Return_button->enabled = false;
 	menu.Exit_button->enabled = false;
@@ -332,11 +265,9 @@ void j1InGameUI::Deactivate_All_UI()
 	menu.Save->enabled = false;
 	menu.Image->enabled = false;
 
-	basics.Image->enabled = false;
 	menu.Menu_button->enabled = false;
 }
 
 void j1InGameUI::Activate_Necessary_UI() {
-	basics.Image->enabled = true;
 	menu.Menu_button->enabled = true;
 }

@@ -56,6 +56,7 @@ public:
 	j1MainMenuUI* scene0;
 	j1Scene* scene1;
 	j1Scene2* scene2;
+	j1InGameUI* gameUI;
 
 	bool backgroundHasParallax = false;
 	bool exitMenu = false;

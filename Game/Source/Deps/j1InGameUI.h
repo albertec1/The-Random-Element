@@ -17,30 +17,6 @@ struct Game_Menu {
 	j1Element* Load;
 };
 
-struct Unit_Manager_UI {
-	j1Element* button_next;
-	j1Element* buton_prev;
-	j1Element* image;
-	j1Element* entity_type_Image;
-	j1Element* info;
-};
-
-struct In_Game_Basics {
-	j1Element* Image;
-};
-
-
-struct Trading_Menu_Selected {
-	j1Element* Scroll;
-	j1Element* Scroll_1;
-	j1Element* Scroll_2;
-	j1Element* back;
-};
-
-struct CoinCost {
-	j1Element* Image;
-};
-
 struct Win {
 	j1Element* Label;
 	j1Element* Image;
@@ -56,38 +32,6 @@ struct Defeat {
 struct GodMode {
 	j1Element* Godmode_Label;
 	j1Element* Image;
-};
-
-struct Entity_UI {
-	j1Element* name;
-	j1Element* image;
-	j1Element* trade;
-	j1Element* button_1 = nullptr;
-	j1Element* button_2 = nullptr;
-	j1Element* button_3 = nullptr;
-	j1Element* button_4 = nullptr;
-	j1Element* button_5 = nullptr;
-};
-
-struct Information {
-	j1Element* Image;
-	j1Element* Text;
-	j1Element* Health;
-	j1Element* Attack;
-	j1Element* Max_resource;
-	j1Element* Speed;
-
-	char health_text[10];
-	char attack_text[10];
-	char max_resource_text[10];
-	char speed_text[10];
-
-	int health;
-	int max_health;
-	int attack;
-	int speed;
-	int max_resource;
-	bool in_info = false;
 };
 
 struct SDL_Texture;
@@ -123,9 +67,6 @@ public:
 	//INFORMATION
 	void Activate_Information();
 	void Deactivate_Information();
-
-	void Activate_Manager();
-	void Deactivate_Manager();
 
 	void GUIEeventManager(GUIEvent type, j1Element* element);
 
@@ -176,15 +117,11 @@ private:
 	bool in_quest_manager = false;
 	//menu ui
 	Game_Menu menu;
-	Unit_Manager_UI manager;
-	In_Game_Basics basics;
+
 	Win win;
 	Defeat defeat;
 	GodMode godmode;
-	Information information;
-	CoinCost coincost;
-	
-	Entity_UI entity_ui;
+
 
 	j1Element* Trader_image;
 	j1Element* Trader_label;

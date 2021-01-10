@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30002.166
+VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Random Element Project - REMAKE", "Source\Deps\Motor2D.vcxproj", "{2AF9969B-F202-497B-AF30-7BEF9CE8005E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Random Element Project - REMAKE", "Game\Motor2D.vcxproj", "{2AF9969B-F202-497B-AF30-7BEF9CE8005E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +26,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EE753D1C-F7FC-4442-895F-741C1101F444}
+		SolutionGuid = {3E164579-0E49-4B66-A9EC-051FADD1B266}
 	EndGlobalSection
 EndGlobal
