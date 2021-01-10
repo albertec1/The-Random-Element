@@ -163,6 +163,7 @@
     <ClCompile Include="j1EntityPlayer.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Image.cpp" />
+    <ClCompile Include="j1InGameUI.cpp" />
     <ClCompile Include="j1Input.cpp" />
     <ClCompile Include="j1InputBox.cpp" />
     <ClCompile Include="j1Label.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="GUI.h" />
     <ClInclude Include="GUIElements.h" />
     <ClInclude Include="j1Fonts.h" />
+    <ClInclude Include="j1InGameUI.h" />
     <ClInclude Include="j1MainMenuUI.h" />
     <ClInclude Include="j1Scene2.h" />
     <ClInclude Include="j1Animation.h" />
