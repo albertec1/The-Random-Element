@@ -40,29 +40,29 @@ public:
 
 	virtual const Collider* GetCollider()
 	{
-		return entity_collider;
+		return entityCollider;
 	}
 
 	virtual const fPoint GetStartingPosition()
 	{
-		return starting_position;
+		return startingPosition;
 	}
 
 	virtual void SetTexture(SDL_Texture* texture) 
 	{
-		entity_texture = texture;
+		entityTexture = texture;
 	}
 
 public:
 	ENTITY_TYPE		type;
-	Collider*		entity_collider;
+	Collider*		entityCollider;
 
-	fPoint			starting_position;
-	fPoint			current_position;
+	fPoint			startingPosition;
+	fPoint			currentPosition;
 
-	SDL_Texture*	entity_texture;
-	SDL_Rect		entity_rect;
-	iPoint			rect_size;
+	SDL_Texture*	entityTexture;
+	SDL_Rect		entiyRect;
+	iPoint			rectSize;
 
 	iPoint			sprite_size;
 	bool			flipped;

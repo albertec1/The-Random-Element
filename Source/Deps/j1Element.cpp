@@ -37,14 +37,14 @@ bool j1Element::OnAbove()
 	SDL_Point mouse;
 	App->input->GetMousePosition(mouse.x, mouse.y);
 
-	SDL_Rect intersect = { map_position.x / App->win->scale, map_position.y / App->win->scale, rect.w / App->win->scale, rect.h / App->win->scale };
+	SDL_Rect intersect = { mapPosition.x / App->win->scale, mapPosition.y / App->win->scale, rect.w / App->win->scale, rect.h / App->win->scale };
 
 	if (SDL_PointInRect(&mouse, &intersect) && this->enabled && this->interactable) 
 	{
-		App->clicking_ui = true;
+		App->clickingUi = true;
 		if (listener != nullptr)
 		{
-			this->listener->GUI_Event_Manager(GUI_Event::EVENT_HOVER, this);
+			this->listener->GUIEeventManager(GUIEvent::EVENT_HOVER, this);
 		}
 		ret = true;
 	}
@@ -61,7 +61,7 @@ void j1Element::OnClick()
 {
 	if (listener != nullptr)
 	{
-		this->listener->GUI_Event_Manager(GUI_Event::EVENT_ONCLICK, this);
+		this->listener->GUIEeventManager(GUIEvent::EVENT_ONCLICK, this);
 	}
 }
 
@@ -69,7 +69,7 @@ void j1Element::OnLeftClick()
 {
 	if (listener != nullptr)
 	{
-		this->listener->GUI_Event_Manager(GUI_Event::EVENT_LEFTCLICK, this);
+		this->listener->GUIEeventManager(GUIEvent::EVENT_LEFTCLICK, this);
 	}
 
 }

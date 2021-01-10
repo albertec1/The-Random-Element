@@ -10,7 +10,7 @@ class j1App;
 class j1Element;
 //class Collider;
 
-enum class GUI_Event
+enum class GUIEvent
 {
 	EVENT_UNKOWNN = -1,
 
@@ -78,7 +78,7 @@ public:
 		return true;
 	}
 
-	virtual void GUI_Event_Manager(GUI_Event type, j1Element* element)
+	virtual void GUIEeventManager(GUIEvent type, j1Element* element)
 	{
 
 	}

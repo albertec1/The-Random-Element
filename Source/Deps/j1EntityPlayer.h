@@ -36,7 +36,7 @@ struct PlayerInput
 class j1EntityPlayer : public j1MovingEntity
 {
 public:
-	j1EntityPlayer(fPoint pos, ENTITY_TYPE type, ENTITY_STATES state = ENTITY_STATES::ST_IDLE);
+	j1EntityPlayer(fPoint pos, ENTITY_TYPE type, EntityStates state = EntityStates::ST_IDLE);
 
 	~j1EntityPlayer();
 
@@ -63,20 +63,20 @@ public:
 public:
 
 	//PLAYER
-	PlayerInput		player_input;
-	ENTITY_STATES	player_state;
+	PlayerInput		playerInput;
+	EntityStates	playerState;
 
 	//Texture
 	SDL_Texture*	graphics = nullptr;
 
 	//SHORTCUTS
-	bool god_mode = false;
+	bool godMode = false;
 
-	bool jump_available = false;
+	bool jumpAvailable = false;
 	bool jumping = false;
 
-	uint max_special_range;
-	uint special_distance;
-	float special_timer;
-	bool special_last_frame;
+	uint maxSpecialRange;
+	uint specialDistance;
+	float specialTimer;
+	bool specialLastFrame;
 };

@@ -11,18 +11,6 @@ struct SDL_Texture;
 struct _TTF_Font;
 
 enum  names {
-	//BUILDINGS
-	BOATHOUSE,
-	TOWNHALL,
-	STORAGE,
-	TURRET,
-
-	//UNITS
-	BOAT,
-	HARVESTER,
-	BALLOON,
-	CARRIER,
-
 	//UI BUTTONS
 	WINDOWED,
 	FULLSCREEN,
@@ -57,7 +45,7 @@ public:
 	// Create a surface from text
 	SDL_Texture* Print(const char* text, SDL_Color color = { 255, 255, 255, 255 }, _TTF_Font* font = NULL);
 
-	SDL_Texture* Change_Name(names name = names::NO_NAME);
+	SDL_Texture* ChangeName(names name = names::NO_NAME);
 
 	bool CalcSize(const char* text, int& width, int& height, _TTF_Font* font = NULL) const;
 

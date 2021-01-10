@@ -5,14 +5,14 @@
 #include "j1MovingEntity.h"
 
 
-j1MovingEntity::j1MovingEntity(fPoint pos, ENTITY_TYPE type, ENTITY_STATES _state) : j1Entity(pos, type)
+j1MovingEntity::j1MovingEntity(fPoint pos, ENTITY_TYPE type, EntityStates _state) : j1Entity(pos, type)
 {
-	current_position = starting_position;
-	normalized_movement_speed = 0;
-	movement_speed = 0;
-	current_animation = nullptr;
-	rotating_animation = { 0,0,0,0 };
-	current_velocity = { 0,0 };
+	currentPosition = startingPosition;
+	normalizedMovementSpeed = 0;
+	movementSpeed = 0;
+	currentAnimation = nullptr;
+	rotatingAnimation = { 0,0,0,0 };
+	currentVelocity = { 0,0 };
 	state = _state;
 	return;
 }
@@ -68,9 +68,9 @@ bool j1MovingEntity::Draw()
 	bool ret = false;
 
 	//if(current_animation != nullptr)
-		rotating_animation = current_animation->GetCurrentFrame(); 
+		rotatingAnimation = currentAnimation->GetCurrentFrame(); 
 
- 	if (ret = App->render->Blit(entity_texture, current_position.x, current_position.y, &rotating_animation, flipped) == 0)
+ 	if (ret = App->render->Blit(entityTexture, currentPosition.x, currentPosition.y, &rotatingAnimation, flipped) == 0)
 	{
 		LOG("Blit error: Entity Texture");
 	}

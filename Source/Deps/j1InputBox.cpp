@@ -18,7 +18,7 @@ j1InputBox::~j1InputBox() {
 
 bool j1InputBox::Start()
 {
-	string = App->gui->AddElement(GUItype::GUI_LABEL, this, map_position, { 0,3 }, true, enabled, { (int)inside_position.x, (int)inside_position.y, 50, 0 }, text);
+	string = App->gui->AddElement(GUItype::GUI_LABEL, this, mapPosition, { 0,3 }, true, enabled, { (int)insidePosition.x, (int)insidePosition.y, 50, 0 }, text);
 	return true;
 }
 
@@ -64,7 +64,7 @@ bool j1InputBox::PostUpdate()
 
 		if (focus)
 		{
-			SDL_Rect rect = { (string->map_position.x + string->rect.w) * App->win->GetScale() , (string->map_position.y + inside_position.y) * App->win->GetScale(), 2,  string->rect.h + 10 };
+			SDL_Rect rect = { (string->mapPosition.x + string->rect.w) * App->win->GetScale() , (string->mapPosition.y + insidePosition.y) * App->win->GetScale(), 2,  string->rect.h + 10 };
 			App->render->DrawQuad(rect, 255, 255, 255, 255, true, false);
 		}
 	}

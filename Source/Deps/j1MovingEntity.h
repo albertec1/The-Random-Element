@@ -9,7 +9,7 @@ struct Collider;
 struct SDL_Texture;
 
 
-enum class ENTITY_STATES
+enum class EntityStates
 {
 	ST_UNKNOWN,
 	ST_IDLE,			//idle state
@@ -37,7 +37,7 @@ enum class ENTITY_STATES
 class j1MovingEntity : public j1Entity
 {
 public:
-	j1MovingEntity(fPoint pos, ENTITY_TYPE type, ENTITY_STATES state = ENTITY_STATES::ST_IDLE);
+	j1MovingEntity(fPoint pos, ENTITY_TYPE type, EntityStates state = EntityStates::ST_IDLE);
 
 	~j1MovingEntity();
 
@@ -55,13 +55,13 @@ public:
 
 	virtual const fPoint GetCurrentPosition()
 	{
-		return current_position;
+		return currentPosition;
 	} 
 
 	virtual void SetCurrentPosition(int x, int y)
 	{
-		current_position.x = x;
-		current_position.y = y;
+		currentPosition.x = x;
+		currentPosition.y = y;
 	}
 
 	void Animate(p2SString name, int coll, int row, const int width,
@@ -71,23 +71,23 @@ public:
 
 public:
 
-	fPoint			starting_velocity;
-	fPoint			starting_acceleration;
-	fPoint			current_velocity;
-	fPoint			current_acceleration;
+	fPoint			startingVelocity;
+	fPoint			startingAcceleration;
+	fPoint			currentVelocity;
+	fPoint			currentAcceleration;
 	fPoint			gravity;
-	fPoint			normalized_gravity;
-	float			movement_speed;
-	float			normalized_movement_speed;
+	fPoint			normalizedGravity;
+	float			movementSpeed;
+	float			normalizedMovementSpeed;
 
 	//ANIMATION
-	p2SString			texture_path;
+	p2SString			texturePath;
 	p2List<Animation*>	animations;
-	Animation*			current_animation;		
-	SDL_Rect			rotating_animation;		
+	Animation*			currentAnimation;		
+	SDL_Rect			rotatingAnimation;		
 	bool				flipped = false;
 	
-	ENTITY_STATES	state;
+	EntityStates	state;
 
 	friend class j1EntityManager;
 };

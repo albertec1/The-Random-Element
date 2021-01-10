@@ -60,7 +60,7 @@ bool j1Render::PreUpdate()
 {	
 	SDL_RenderClear(renderer);
 
-	if (App->scene_manager->GetCurrentScene() != 0 && App->manager->player != nullptr)
+	if (App->sceneManager->GetCurrentScene() != 0 && App->manager->player != nullptr)
 	{
 		if (camera_follows_player == false)
 		{
@@ -121,7 +121,7 @@ bool j1Render::CleanUp()
 //Load / Save
 bool j1Render::Load(pugi::xml_node& data)
 {
-	if (App->save_document_full == true)
+	if (App->saveDocumentFull == true)
 	{
 		pugi::xml_node node = data.child("render").child("camera");
 

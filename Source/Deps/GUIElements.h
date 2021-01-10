@@ -20,7 +20,7 @@ enum class GUItype
 	GUI_TEXT
 };
 
-enum class SCROLL_TYPE
+enum class ScrollType
 {
 	SCROLL_NONE,
 	SCROLL_MUSIC,
@@ -30,7 +30,7 @@ enum class SCROLL_TYPE
 	SCROLL_METAL
 };
 
-enum class TEXTURE
+enum class Texture
 {
 	BUTON,
 	BUTON_HOVER,
@@ -82,11 +82,11 @@ public:
 	j1Element* parent = nullptr;
 	j1Module* listener = nullptr;
 	GUItype type = GUItype::GUI_ERROR;
-	TEXTURE textureType = TEXTURE::NONE;
-	fPoint map_position = { 0,0 };
-	fPoint inside_position = { 0,0 };
+	Texture textureType = Texture::NONE;
+	fPoint mapPosition = { 0,0 };
+	fPoint insidePosition = { 0,0 };
 
-	j1Element* Button = nullptr;
+	j1Element* button = nullptr;
 
 	SDL_Color color = { 255,255,255 };
 	char* text = nullptr;
@@ -103,13 +103,13 @@ public:
 
 	SDL_Rect rect = { 0,0,0,0 };
 
-	int Value;
-	float Float_Value;
+	int value;
+	float floatValue;
 
 	SDL_Texture* texture = nullptr;
-	SDL_Texture* texture_hover = nullptr;
-	SDL_Texture* texture_hover_2 = nullptr;
-	SDL_Texture* texture_click = nullptr;
+	SDL_Texture* textureHover = nullptr;
+	SDL_Texture* textureHover2 = nullptr;
+	SDL_Texture* textureClick = nullptr;
 };
 ///////////////////////////////////////////////////////////////////
 class j1Button : public j1Element
@@ -191,14 +191,14 @@ public:
 
 private:
 
-	int font_name = -1;
+	int fontName = -1;
 };
 ////////////////////////////////////////////////////////////////
 class j1ScrollBar : public j1Element
 {
 public:
 
-	j1ScrollBar(SCROLL_TYPE type);
+	j1ScrollBar(ScrollType type);
 	~j1ScrollBar();
 
 	bool Start();
@@ -209,7 +209,7 @@ public:
 
 	void ScrollLimits();
 
-	SCROLL_TYPE Type = SCROLL_TYPE::SCROLL_NONE;
+	ScrollType type = ScrollType::SCROLL_NONE;
 
 };
 

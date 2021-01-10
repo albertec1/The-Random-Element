@@ -18,8 +18,8 @@ j1Scene2::~j1Scene2()
 bool j1Scene2::Awake(pugi::xml_node& _config)
 {
 	pugi::xml_node config = _config.child("scene2");
-	camera_init_pos.x = config.child("camera").attribute("initial_pos_x").as_int(0);
-	camera_init_pos.y = config.child("camera").attribute("initial_pos_y").as_int(0);
+	cameraInitPos.x = config.child("camera").attribute("initial_pos_x").as_int(0);
+	cameraInitPos.y = config.child("camera").attribute("initial_pos_y").as_int(0);
 	pugi::xml_node imageNode = config.child("bg_image_path");
 
 	for (imageNode; imageNode != nullptr; imageNode = imageNode.next_sibling("bg_image_path"))
@@ -50,8 +50,8 @@ bool j1Scene2::Start()
 	if (App->map->SetPathTiles(&w, &h, &data))
 		App->pathfinding->SetMap(w, h, data);
 
-	App->render->camera.x = camera_init_pos.x;
-	App->render->camera.y = camera_init_pos.y;
+	App->render->camera.x = cameraInitPos.x;
+	App->render->camera.y = cameraInitPos.y;
 	return true;
 }
 

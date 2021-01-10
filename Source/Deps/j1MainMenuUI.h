@@ -5,18 +5,18 @@
 #include "SDL/include/SDL_rect.h"
 #include <vector>
 
-struct Main_Menu {
+struct MainMenu {
 
-	j1Element* continue_button;
+	j1Element* continueButton;
 	j1Element* start;
 	j1Element* quit;
-	j1Element* audio_button;
+	j1Element* audioButton;
 	j1Element* fullscreen;
-	j1Element* music_label;
-	j1Element* music;
-	j1Element* fx_label;
-	j1Element* fx;
-	j1Element* audio_image;
+	//j1Element* music_label;
+	//j1Element* music;
+	//j1Element* fx_label;
+	//j1Element* fx;
+	//j1Element* audio_image;
 	j1Element* link;
 	j1Element* instructions;
 };
@@ -34,15 +34,15 @@ public:
 	bool Update(float dt);
 	bool PostUpdate();
 
-	void Add_UI();
-	void Activate_Menu();
-	void Deactivate_Menu();
-	void Activate_Audio_Options();
-	void Deactivate_Audio_Options();
-	void GUI_Event_Manager(GUI_Event type, j1Element* element);
-	Main_Menu GetMenu();
-	bool  clicking_ui = false;
-	Main_Menu menu;
+	void AddUI();
+	void ActivateMenu();
+	void DeactivateMenu();
+	void ActivateAudioOptions();
+	void DeactivateAudioOptions();
+	void GUIEeventManager(GUIEvent type, j1Element* element);
+	MainMenu GetMenu();
+	bool clickingUi = false;
+	MainMenu menu;
 	int sceneNumber = 0;
 
 private:

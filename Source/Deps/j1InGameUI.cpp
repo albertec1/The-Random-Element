@@ -48,7 +48,7 @@ bool j1InGameUI::Start()
 	selected_total = 0;
 
 	//CREATES UI
-	Add_UI();
+	AddUI();
 
 	return true;
 }
@@ -79,10 +79,10 @@ bool j1InGameUI::Update(float dt)
 	sprintf_s(coins_t, 10, "%7d", coins);
 
 	//MENU FROM ESC
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == j1KeyState::KEY_DOWN && App->scene_manager->GetCurrentScene() != 0) {
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == j1KeyState::KEY_DOWN && App->sceneManager->GetCurrentScene() != 0) {
 	//	Activate_Win_Menu();
 	//	Activate_Defeat_Menu();
-		Activate_Menu();
+		ActivateMenu();
 	}
 
 
@@ -151,36 +151,36 @@ bool j1InGameUI::CleanUp()
 }
 
 //UI FUNCTIONS
-void j1InGameUI::Add_UI()
+void j1InGameUI::AddUI()
 {
 	//MENU
-	menu.Menu_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, {width -50,10 }, { 0,0 }, true, true, { 0,0,40,40 }, "", this,false, false, SCROLL_TYPE::SCROLL_NONE,true, TEXTURE::OPTIONS);
-	menu.Return_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH-140 }, { 70,30 }, true, false, { 0,0,200,65 }, "RESUME", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
-	menu.Resume_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH -60}, { 74,30 }, true, false, { 0,0,200,65 }, "SAVE", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
-	menu.Exit_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH + 15 }, {60,30 }, true, false, { 0,0,200,65 }, "FULLSCREEN", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
-	menu.Save = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH +90 }, { 70,30 }, true, false, { 0,0,200,65 }, "QUIT", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
-	menu.Load = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH +165}, { 50,30 }, true, false, { 0,0,200,65 }, "MAIN MENU", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
-	menu.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, { MiddleScreenW - 50,0 }, { 0,0 }, true, false, { 0, 0,350,500 },"", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::IMAGE);
+	menu.Menu_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, {width -50,10 }, { 0,0 }, true, true, { 0,0,40,40 }, "", this,false, false, ScrollType::SCROLL_NONE,true, Texture::OPTIONS);
+	menu.Return_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH-140 }, { 70,30 }, true, false, { 0,0,200,65 }, "RESUME", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	menu.Resume_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH -60}, { 74,30 }, true, false, { 0,0,200,65 }, "SAVE", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	menu.Exit_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH + 15 }, {60,30 }, true, false, { 0,0,200,65 }, "FULLSCREEN", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	menu.Save = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH +90 }, { 70,30 }, true, false, { 0,0,200,65 }, "QUIT", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	menu.Load = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { MiddleScreenW + 25,MiddleScreenH +165}, { 50,30 }, true, false, { 0,0,200,65 }, "MAIN MENU", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	menu.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, { MiddleScreenW - 50,0 }, { 0,0 }, true, false, { 0, 0,350,500 },"", this, false, false, ScrollType::SCROLL_NONE, true, Texture::IMAGE);
 
 	//UI BASICS ALWAYS ACTIVE
-	basics.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, {0,520 }, { 0,0 }, true, true, { 0, 0,1280,200 }, "", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::MAIN_IMAGE);
+	basics.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, {0,520 }, { 0,0 }, true, true, { 0, 0,1280,200 }, "", this, false, false, ScrollType::SCROLL_NONE, true, Texture::MAIN_IMAGE);
 	
 	//WIN
-	win.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, {600 - 150,225  }, { 0,0 }, true, false, { 0, 0,350,170 }, "", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::MANAGER_IMAGE);
-	win.Label = App->gui->AddElement(GUItype::GUI_LABEL, nullptr, {750 - 150, 280 }, { 0,0 }, true, false, { 0,0,40,40 }, "VICTORY!!", this, false, false, SCROLL_TYPE::SCROLL_NONE,true);
-	win.Back_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, {680 - 150,315 }, { 65,30 }, true, false, { 0,0,200,65 }, "MAIN MENU", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
+	win.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, {600 - 150,225  }, { 0,0 }, true, false, { 0, 0,350,170 }, "", this, false, false, ScrollType::SCROLL_NONE, true, Texture::MANAGER_IMAGE);
+	win.Label = App->gui->AddElement(GUItype::GUI_LABEL, nullptr, {750 - 150, 280 }, { 0,0 }, true, false, { 0,0,40,40 }, "VICTORY!!", this, false, false, ScrollType::SCROLL_NONE,true);
+	win.Back_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, {680 - 150,315 }, { 65,30 }, true, false, { 0,0,200,65 }, "MAIN MENU", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
 
 	//DEFEAT
-	defeat.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, { 600 - 150,225 }, { 0,0 }, true, false, { 0, 0,350,170 }, "", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::MANAGER_IMAGE);
-	defeat.Label = App->gui->AddElement(GUItype::GUI_LABEL, nullptr, { 750 - 150, 280 }, { 0,0 }, true, false, { 0,0,40,40 }, "DEFEAT", this, false, false, SCROLL_TYPE::SCROLL_NONE, true);
-	defeat.Back_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 680 - 150,315 }, { 65,30 }, true, false, { 0,0,200,65 }, "MAIN MENU", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
+	defeat.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, { 600 - 150,225 }, { 0,0 }, true, false, { 0, 0,350,170 }, "", this, false, false, ScrollType::SCROLL_NONE, true, Texture::MANAGER_IMAGE);
+	defeat.Label = App->gui->AddElement(GUItype::GUI_LABEL, nullptr, { 750 - 150, 280 }, { 0,0 }, true, false, { 0,0,40,40 }, "DEFEAT", this, false, false, ScrollType::SCROLL_NONE, true);
+	defeat.Back_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 680 - 150,315 }, { 65,30 }, true, false, { 0,0,200,65 }, "MAIN MENU", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
 
 	//GODMODE
-	godmode.Godmode_Label = App->gui->AddElement(GUItype::GUI_LABEL, nullptr, { 425, 18 }, { 0,0 }, true, true, { 0,0,40,40 }, "GOD MODE ACTIVATED!", this, false, false, SCROLL_TYPE::SCROLL_NONE, true);
-	godmode.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, { 410,03 }, { 0,0 }, true, false, { 0, 0,145,40 }, "", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::GODMODE);
+	godmode.Godmode_Label = App->gui->AddElement(GUItype::GUI_LABEL, nullptr, { 425, 18 }, { 0,0 }, true, true, { 0,0,40,40 }, "GOD MODE ACTIVATED!", this, false, false, ScrollType::SCROLL_NONE, true);
+	godmode.Image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, { 410,03 }, { 0,0 }, true, false, { 0, 0,145,40 }, "", this, false, false, ScrollType::SCROLL_NONE, true, Texture::GODMODE);
 }
 
-void j1InGameUI::Activate_Menu()
+void j1InGameUI::ActivateMenu()
 {
 	menu.Resume_button->enabled = !menu.Resume_button->enabled;
 	menu.Return_button->enabled = !menu.Return_button->enabled;
@@ -188,19 +188,19 @@ void j1InGameUI::Activate_Menu()
 	menu.Load->enabled = !menu.Load->enabled;
 	menu.Save->enabled = !menu.Save->enabled;
 	menu.Image->enabled = !menu.Image->enabled;
-	App->game_pause = !App->game_pause;
+	App->gamePause = !App->gamePause;
 }
 
-void j1InGameUI::GUI_Event_Manager(GUI_Event type, j1Element* element)
+void j1InGameUI::GUIEeventManager(GUIEvent type, j1Element* element)
 {
 	switch (type)
 	{
 
-	case GUI_Event::EVENT_ONCLICK:
+	case GUIEvent::EVENT_ONCLICK:
 	{
 		//App->audio->PlayFx(App->audio->ui_wood_hit);
 		if (element == menu.Return_button) {
-			Activate_Menu();
+			ActivateMenu();
 		}
 		if (element == menu.Exit_button) {
 			App->win->Fullscreen();
@@ -208,10 +208,10 @@ void j1InGameUI::GUI_Event_Manager(GUI_Event type, j1Element* element)
 
 		if (element == menu.Save) {
 			quit = true;
-			App->SaveGame("save_game.xml");
+			App->SaveGame();
 		}
 		if (element == menu.Load) {
-			App->SaveGame("save_game.xml");
+			App->SaveGame();
 			//App->transitions->LinesAppearing(Black, 0.75f, 2);
 		}
 
@@ -232,12 +232,12 @@ void j1InGameUI::GUI_Event_Manager(GUI_Event type, j1Element* element)
 		}
 
 		if (element == menu.Resume_button) {
-			Activate_Menu();
-			App->SaveGame("save_game.xml");
+			ActivateMenu();
+			App->SaveGame();
 		}
 		if (element == menu.Menu_button) {
 			
-			Activate_Menu();
+			ActivateMenu();
 		}
 
 		if (element == manager.button_next) {
@@ -260,10 +260,10 @@ void j1InGameUI::GUI_Event_Manager(GUI_Event type, j1Element* element)
 
 	}
 	break;
-	case GUI_Event::EVENT_LEFTCLICK:
+	case GUIEvent::EVENT_LEFTCLICK:
 		
 		break;
-	case GUI_Event::EVENT_HOVER:
+	case GUIEvent::EVENT_HOVER:
 		
 		if (element == manager.info) {
 			Activate_Information();
@@ -343,16 +343,16 @@ void j1InGameUI::Update_Bar(j1Element* scroll, float resource, float total_resou
 	float percentage = 0;
 	percentage = resource / total_resource;
 
-	scroll->Button->inside_position.x = -(235 * percentage);
+	scroll->button->insidePosition.x = -(235 * percentage);
 	switch (material) {
 	case Material::COTTON:
-		scroll->Button->map_position.x = 126 + (235 * percentage);
+		scroll->button->mapPosition.x = 126 + (235 * percentage);
 		break;
 	case Material::WOOD:
-		scroll->Button->map_position.x = 126 + (235 * percentage) * 4;
+		scroll->button->mapPosition.x = 126 + (235 * percentage) * 4;
 		break;
 	case Material::METAL:
-		scroll->Button->map_position.x = 126 + (235 * percentage) * 10;
+		scroll->button->mapPosition.x = 126 + (235 * percentage) * 10;
 		break;
 	}
 }

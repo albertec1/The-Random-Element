@@ -25,7 +25,7 @@ public:
 
 	bool CleanUp();
 
-	int Load(const char* texture_path, const char* characters, uint rows = 1);
+	int Load(const char* texturePath, const char* characters, uint rows = 1);
 
 	void BlitText(int x, int y, int bmp_font_id, const char* text) const;
 

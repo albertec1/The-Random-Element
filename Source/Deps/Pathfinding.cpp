@@ -376,7 +376,7 @@ int Pathfinding::CreatePath(const iPoint& origin, const iPoint& destination, ENT
 			PathList adjacent_nodes;
 			current->data.FindWalkableAdjacents(adjacent_nodes, constraint);
 
-			if (App->allow_debug_log == true)
+			if (App->allowDebugLog == true)
 			LOG("adjacents found: %d", adjacent_nodes.list.count());
 
 			// TODO 6: Iterate adjancent nodes:

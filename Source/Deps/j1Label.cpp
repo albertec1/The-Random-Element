@@ -18,7 +18,7 @@ j1Label::~j1Label() {
 
 bool j1Label::ChangeLabel(names name)
 {
-	texture = App->font->Change_Name(name);
+	texture = App->font->ChangeName(name);
 	return true;
 }
 
@@ -42,7 +42,7 @@ bool j1Label::Update(float dt)
 	SDL_Rect rect_font = { 0,0,0,0 };
 	SDL_QueryTexture(texture, NULL, NULL, &rect_font.w, &rect_font.h);
 	if (enabled)
-		App->render->Blit(texture, map_position.x + inside_position.x, map_position.y + inside_position.y, &rect_font);
+		App->render->Blit(texture, mapPosition.x + insidePosition.x, mapPosition.y + insidePosition.y, &rect_font);
 
 	return true;
 }

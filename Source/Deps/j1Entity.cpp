@@ -5,10 +5,10 @@
 #include "SDL/include/SDL.h"
 
 
-j1Entity::j1Entity(fPoint pos, ENTITY_TYPE type) : starting_position(pos), type(type), entity_texture(nullptr), entity_collider(nullptr)
+j1Entity::j1Entity(fPoint pos, ENTITY_TYPE type) : startingPosition(pos), type(type), entityTexture(nullptr), entityCollider(nullptr)
 {
 	flipped = false;
-	entity_rect = { 0,0,0,0 };
+	entiyRect = { 0,0,0,0 };
 }
 
 j1Entity::~j1Entity()

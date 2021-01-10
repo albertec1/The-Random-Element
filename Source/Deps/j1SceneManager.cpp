@@ -16,7 +16,7 @@ j1SceneManager::j1SceneManager()
 {
 	name.create("SceneManager");
 	
-	current_scene = 0; //config plz
+	currentScene = 0; //config plz
 	scene0 = new j1MainMenuUI();
 	scene1 = new j1Scene();
 	scene2 = new j1Scene2();
@@ -33,9 +33,9 @@ j1SceneManager::~j1SceneManager()
 
 bool j1SceneManager::Awake(pugi::xml_node& config)
 {
-	folder_path = App->folder;
-	scene1_path = config.child("scene1").child("path").attribute("value").as_string();
-	scene2_path = config.child("scene2").child("path").attribute("value").as_string();
+	folderPath = App->folder;
+	scene1Path = config.child("scene1").child("path").attribute("value").as_string();
+	scene2Path = config.child("scene2").child("path").attribute("value").as_string();
 	
 	bool ret = true;
 	j1Module* pModule = NULL;
@@ -60,7 +60,7 @@ bool j1SceneManager::Start()
 
 	for (p2List_item<j1Module*>* scene = scenes.start; scene != nullptr; scene = scene->next)
 	{
-		if (scene_number == current_scene)
+		if (scene_number == currentScene)
 		{
 			if (scene == nullptr)
 				continue;
@@ -85,17 +85,17 @@ bool j1SceneManager::PreUpdate()
 
 	if (App->input->GetKey(SDL_SCANCODE_1) == j1KeyState::KEY_DOWN || exitMenu)
 	{
-		ChangeScene(current_scene, 1);
+		ChangeScene(currentScene, 1);
 		if (exitMenu)
 			exitMenu = false;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == j1KeyState::KEY_DOWN)
-		ChangeScene(current_scene, 2);
+		ChangeScene(currentScene, 2);
 
 	for (p2List_item<j1Module*>* scene = scenes.start; scene != NULL; scene = scene->next)
 	{
-		if (scene_number == current_scene)
+		if (scene_number == currentScene)
 		{
 			pModule = scene->data;
 
@@ -115,7 +115,7 @@ bool j1SceneManager::Update(float dt)
 	j1Module* pModule = NULL;
 	int scene_number = 0;
 
-	if (current_scene != 0)
+	if (currentScene != 0)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_UP) == j1KeyState::KEY_REPEAT)
 			App->render->camera.y += 10;
@@ -148,17 +148,17 @@ bool j1SceneManager::Update(float dt)
 				App->framerate_cap = 30;
 		}
 
-		App->scene_manager->DrawBackground();
+		App->sceneManager->DrawBackground();
 		App->map->Draw();
 	}
 	else
 	{
-		scene0->Activate_Menu();
+		scene0->ActivateMenu();
 	}
 
 	for (p2List_item<j1Module*>* scene = scenes.start; scene != NULL; scene = scene->next )
 	{
-		if (scene_number == current_scene)
+		if (scene_number == currentScene)
 		{
 			pModule = scene->data;
 
@@ -180,7 +180,7 @@ bool j1SceneManager::PostUpdate()
 
 	for (p2List_item<j1Module*>* scene = scenes.start; scene != NULL; scene = scene->next)
 	{
-		if (scene_number == current_scene)
+		if (scene_number == currentScene)
 		{
 			pModule = scene->data;
 
@@ -203,7 +203,7 @@ bool j1SceneManager::CleanUp()
 
 	for (p2List_item<j1Module*>* scene = scenes.start; scene != NULL; scene = scene->next)
 	{
-		if (scene_number == current_scene)
+		if (scene_number == currentScene)
 		{
 			pModule = scene->data;
 
@@ -223,7 +223,7 @@ void j1SceneManager::ChangeScene(int old_scene, int new_scene)
 	{
 	case 0:
 		scene0->CleanUp();
-		scene0->Deactivate_Menu();
+		scene0->DeactivateMenu();
 		App->pathfinding->CleanUp();
 		App->manager->CleanUp();
 		break;
@@ -255,7 +255,7 @@ void j1SceneManager::ChangeScene(int old_scene, int new_scene)
 		scene2->Start();
 		break;
 	}
-	current_scene = new_scene;
+	currentScene = new_scene;
 }
 
 void j1SceneManager::AddScene(j1Module* scene)
@@ -268,7 +268,7 @@ void j1SceneManager::SetBackgroundImages(const char* path)
 {	
 	if (path != nullptr)
 	{
-		p2SString full_path(folder_path.GetString());
+		p2SString full_path(folderPath.GetString());
 		full_path += path;
 		
 		BackgroundTextures.clear();
@@ -285,7 +285,7 @@ void j1SceneManager::SetBackgroundImages(p2List<p2SString>* path_list)
 		{
 			p2SString string = path_list->At(i)->data;
 
-			p2SString full_path(folder_path.GetString());
+			p2SString full_path(folderPath.GetString());
 			full_path += string.GetString();
 
 			SDL_Texture* tex = App->tex->Load(full_path.GetString());

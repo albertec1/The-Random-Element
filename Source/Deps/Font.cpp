@@ -110,7 +110,7 @@ SDL_Texture* j1Font::Print(const char* text, SDL_Color color, _TTF_Font* font)
 	return ret;
 }
 
-SDL_Texture* j1Font::Change_Name(names name)
+SDL_Texture* j1Font::ChangeName(names name)
 {
 	SDL_Texture* texture = nullptr;
 

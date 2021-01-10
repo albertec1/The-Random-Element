@@ -9,7 +9,7 @@ struct SDL_Texture;
 class AutonomousEntity : public j1MovingEntity
 {
 public:
-	AutonomousEntity(fPoint pos, ENTITY_TYPE type, ENTITY_STATES state = ENTITY_STATES::ST_IDLE);
+	AutonomousEntity(fPoint pos, ENTITY_TYPE type, EntityStates state = EntityStates::ST_IDLE);
 
 	virtual ~AutonomousEntity();
 

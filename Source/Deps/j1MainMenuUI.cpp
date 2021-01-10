@@ -36,7 +36,7 @@ bool j1MainMenuUI::Awake(pugi::xml_node& config)
 
 bool j1MainMenuUI::Start()
 {
-	Add_UI();
+	AddUI();
 
 	//SETTING AUDIO IN THE CORRECT STARTING VOLUME
 	/*menu.music->Button->map_position.x = 830 + 186;
@@ -61,15 +61,15 @@ bool j1MainMenuUI::Update(float dt)
 }
 
 //UI FUNCTIONS
-void j1MainMenuUI::Add_UI()
+void j1MainMenuUI::AddUI()
 {
 	//MENU
-	menu.start = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,215 }, { 25,10 }, true, false, { 0,0,200,65 }, "START", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
-	menu.continue_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,300 }, { 25,10 }, true, false, { 0,0,200,65 }, "CONTINUE", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
+	menu.start = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,215 }, { 25,10 }, true, false, { 0,0,200,65 }, "START", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	menu.continueButton = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,300 }, { 25,10 }, true, false, { 0,0,200,65 }, "CONTINUE", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
 	//menu.audio_button = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550, 385}, { 25,10 }, true, false, { 0,0,200,65 }, "AUDIO OP.", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
-	menu.fullscreen = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,385 }, { 25,10 }, true, false, { 0,0,200,65 }, "F. SCREEN", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
-	menu.instructions = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,470 }, { 25,10 }, true, false, { 0,0,200,65 }, "INSTRUC.", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
-	menu.quit = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,555 }, { 25,10 }, true, false, { 0,0,200,65 }, "QUIT", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::BUTON);
+	menu.fullscreen = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,385 }, { 25,10 }, true, false, { 0,0,200,65 }, "F. SCREEN", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	menu.instructions = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,470 }, { 25,10 }, true, false, { 0,0,200,65 }, "INSTRUC.", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
+	menu.quit = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 550,555 }, { 25,10 }, true, false, { 0,0,200,65 }, "QUIT", this, false, false, ScrollType::SCROLL_NONE, true, Texture::BUTON);
 	//menu.link = App->gui->AddElement(GUItype::GUI_BUTTON, nullptr, { 1220,660 }, { 0,0 }, true, false, { 0,0,60,60 }, "REPOSI", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::LINK);
 	//AUDIO OPTIONS
 	//menu.music = App->gui->AddElement(GUItype::GUI_SCROLLBAR, nullptr, { 820, 330 }, { 0,0 }, false, false, { 0, 0, 260, 7 }, nullptr, this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::SCROLL);
@@ -79,9 +79,9 @@ void j1MainMenuUI::Add_UI()
 	//menu.audio_image = App->gui->AddElement(GUItype::GUI_IMAGE, nullptr, {  800,270 }, { 0,0 }, true, false, { 0, 0,300,200 }, "", this, false, false, SCROLL_TYPE::SCROLL_NONE, true, TEXTURE::AUDIO_IMAGE);
 }
 
-void j1MainMenuUI::Activate_Menu()
+void j1MainMenuUI::ActivateMenu()
 {
-	menu.continue_button->enabled = true;
+	menu.continueButton->enabled = true;
 	menu.start->enabled = true;
 	//menu.audio_button->enabled = true;
 	menu.quit->enabled = true;
@@ -90,9 +90,9 @@ void j1MainMenuUI::Activate_Menu()
 	menu.instructions->enabled = true;
 }
 
-void j1MainMenuUI::Deactivate_Menu()
+void j1MainMenuUI::DeactivateMenu()
 {
-	menu.continue_button->enabled = false;
+	menu.continueButton->enabled = false;
 	menu.start->enabled = false;
 	//menu.audio_button->enabled = false;
 	menu.quit->enabled = false;
@@ -101,7 +101,7 @@ void j1MainMenuUI::Deactivate_Menu()
 	menu.instructions->enabled = false;
 }
 
-void j1MainMenuUI::Activate_Audio_Options()
+void j1MainMenuUI::ActivateAudioOptions()
 {
 	//menu.music->enabled = true;
 	//menu.music_label->enabled = true;
@@ -111,7 +111,7 @@ void j1MainMenuUI::Activate_Audio_Options()
 	//audioopt = true;
 }
 
-void j1MainMenuUI::Deactivate_Audio_Options()
+void j1MainMenuUI::DeactivateAudioOptions()
 {
 	//menu.music->enabled = false;
 	//menu.music_label->enabled = false;
@@ -121,15 +121,15 @@ void j1MainMenuUI::Deactivate_Audio_Options()
 	//audioopt = false;
 }
 
-void j1MainMenuUI::GUI_Event_Manager(GUI_Event type, j1Element* element)
+void j1MainMenuUI::GUIEeventManager(GUIEvent type, j1Element* element)
 {
-	clicking_ui = true;
+	clickingUi = true;
 	switch (type)
 	{
-	case GUI_Event::EVENT_ONCLICK:
+	case GUIEvent::EVENT_ONCLICK:
 	{
 		//App->audio->PlayFx(App->audio->ui_wood_hit);
-		if (element == menu.continue_button)
+		if (element == menu.continueButton)
 		{
 			//If previous saved game 
 			//pugi::xml_document save_doc;
@@ -149,18 +149,18 @@ void j1MainMenuUI::GUI_Event_Manager(GUI_Event type, j1Element* element)
 		{
 			//App->audio->PlayFx(App->audio->start, 0);
 			//App->transitions->LinesAppearing(Black, 0.75f, 1);
-			Deactivate_Audio_Options();
-			App->game_pause = false;
-			App->scene_manager->exitMenu = true;
+			DeactivateAudioOptions();
+			App->gamePause = false;
+			App->sceneManager->exitMenu = true;
 			//App->restart = true;
 		}
 			
-		if (element == menu.audio_button) 
+		if (element == menu.audioButton) 
 		{
 			if (audioopt == false)
-				Activate_Audio_Options();
+				ActivateAudioOptions();
 			else
-				Deactivate_Audio_Options();
+				DeactivateAudioOptions();
 		}
 
 		if (element == menu.fullscreen)
@@ -170,7 +170,7 @@ void j1MainMenuUI::GUI_Event_Manager(GUI_Event type, j1Element* element)
 
 		if (element == menu.quit) 
 		{
-			Deactivate_Audio_Options();
+			DeactivateAudioOptions();
 			quit = false;
 		}
 		if (element == menu.link)
@@ -190,7 +190,7 @@ bool j1MainMenuUI::PostUpdate()
 	return quit;
 }
 
-Main_Menu j1MainMenuUI::GetMenu()
+MainMenu j1MainMenuUI::GetMenu()
 {
 	return menu;
 }

@@ -77,7 +77,7 @@ public:
 	j1Render* render;
 	j1Textures* tex;
 	j1Map* map;
-	j1SceneManager* scene_manager;
+	j1SceneManager* sceneManager;
 	j1Collision* coll;
 	j1EntityManager* manager;
 	Pathfinding* pathfinding;
@@ -96,36 +96,34 @@ private:
 	p2SString			organization;
 	
 
-	mutable bool		want_to_save;
-	bool				want_to_load;
-	//p2SString			load_game;
-	//mutable p2SString	save_game;
+	mutable bool		wantToSave;
+	bool				wantToLoad;
 
 	//Timer----
-	j1Timer				startup_time;
-	j1Timer				frame_time;
+	j1Timer				startupTime;
+	j1Timer				frameTime;
 	j1Timer				last_sec_frame_time;
 	uint				last_sec_frame_count = 0;
 	uint				prev_last_sec_frame_count = 0;
 
 public:
 
-	mutable bool		save_document_full;
-	bool				allow_debug_log;
-	pugi::xml_document	config_file;
+	mutable bool		saveDocumentFull;
+	bool				allowDebugLog;
+	pugi::xml_document	configFile;
 	p2SString			folder;
 
 	uint32				framerate_cap = 60;
 	bool				fpscap = true;
-	uint64				frame_count = 0;
+	uint64				frameCount = 0;
 	float dt = 0.1f;
 	uint32 getFpsCap() { return framerate_cap; };
 	void setFpsCap(uint64 fps);
 
-	bool				game_pause = false;
-	bool				clicking_ui = false;
+	bool				gamePause = false;
+	bool				ClickingUI = false;
 
-	int font_name = -1;
+	int fontName = -1;
 };
 
 extern j1App* App;

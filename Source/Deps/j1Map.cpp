@@ -139,7 +139,7 @@ bool j1Map::LoadMap()
 	}
 
 	//LOG map details---------
-	if (App->allow_debug_log == true)
+	if (App->allowDebugLog == true)
 	{
 		LOG("\n --------- MAP DETAILS ----------\n- map_version: %0.2f \n- orientation: %s \n- render_order: %s \n- map_width: %d \n- map_height: %d \n- tile_width: %d \n- tile_height: %d \n- next_layer_id: %d \n- next_object_id: %d",
 			mapdata.map_version,
@@ -180,7 +180,7 @@ bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TilesetData* set)
 	}
 
 	//LOG Tileset details----------
-	if (App->allow_debug_log == true)
+	if (App->allowDebugLog == true)
 	{
 		LOG("\n --------- TILESET DETAILS ----------\n- name: %s \n- firstgid: %d \n- tile_width: %d \n- tile_height: %d \n- margin: %d \n- spacing: %d",
 			set->name.GetString(),
@@ -227,7 +227,7 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TilesetData* set)
 	set->num_tiles_height = set->tex_height / set->tile_height;
 	
 	//LOG Tileset Image details----------
-	if (App->allow_debug_log == true)
+	if (App->allowDebugLog == true)
 	{
 		LOG("\n --------- TILESET IMAGE DETAILS ----------\n- tex_width: %d \n- tex_height: %d \n- num_tiles_width: %d \n- num_tiles_height: %d",
 			set->tex_width,
@@ -270,7 +270,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	}
 
 	//LOG Layer details------------
-	if (App->allow_debug_log == true)
+	if (App->allowDebugLog == true)
 	{
 		LOG("\n --------- LAYER %d DETAILS ----------\n- name: %s \n- width: %d \n- height: %d",
 			layer->id,

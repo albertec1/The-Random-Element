@@ -20,8 +20,8 @@ j1Scene::~j1Scene()
 bool j1Scene::Awake(pugi::xml_node& _config)
 {
 	pugi::xml_node config = _config.child("scene1");
-	camera_init_pos.x = config.child("camera").attribute("initial_pos_x").as_int(0);
-	camera_init_pos.y = config.child("camera").attribute("initial_pos_y").as_int(0);
+	cameraInitPos.x = config.child("camera").attribute("initial_pos_x").as_int(0);
+	cameraInitPos.y = config.child("camera").attribute("initial_pos_y").as_int(0);
 	pugi::xml_node imageNode = config.child("bg_image_path");	
 
 	for (imageNode; imageNode != nullptr; imageNode = imageNode.next_sibling("bg_image_path"))
@@ -33,7 +33,7 @@ bool j1Scene::Awake(pugi::xml_node& _config)
 
 bool j1Scene::Start()
 {
-	App->scene_manager->SetBackgroundImages(&BackroundImages);
+	App->sceneManager->SetBackgroundImages(&BackroundImages);
 	App->map->Load("first-map-v01.tmx");
 
 	App->manager->player = (j1EntityPlayer*)App->manager->CreateEntity(ENTITY_TYPE::PLAYER, { 808, 700 });
@@ -53,8 +53,8 @@ bool j1Scene::Start()
 	if (App->map->SetPathTiles(&w, &h, &data))
 		App->pathfinding->SetMap(w, h, data);
 
-	App->render->camera.x = camera_init_pos.x;
-	App->render->camera.y = camera_init_pos.y;
+	App->render->camera.x = cameraInitPos.x;
+	App->render->camera.y = cameraInitPos.y;
 
 	return true;
 }
@@ -81,22 +81,22 @@ bool j1Scene::PostUpdate()
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == j1KeyState::KEY_UP)
 	{
-		if (origin_selected == true)
+		if (originSelected == true)
 		{
-			if (App->allow_debug_log == true)
+			if (App->allowDebugLog == true)
 			LOG("path dest selected. p: %d, %d", p.x, p.y);
 
 			App->pathfinding->CreatePath(origin, p, ENTITY_TYPE::DEBUG);	
 			App->pathfinding->CopyPathList(&pathList);
 
-			origin_selected = false;
+			originSelected = false;
 		}
 		else
 		{
 			origin = p;
-			origin_selected = true;
+			originSelected = true;
 
-			if (App->allow_debug_log == true)
+			if (App->allowDebugLog == true)
 			LOG("path start selected. origin: %d, %d", origin.x, origin.y);
 		}
 	}

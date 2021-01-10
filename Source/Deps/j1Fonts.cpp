@@ -15,14 +15,14 @@ j1Fonts::~j1Fonts()
 {}
 
 // Load new texture from file path
-int j1Fonts::Load(const char* texture_path, const char* characters, uint rows)
+int j1Fonts::Load(const char* texturePath, const char* characters, uint rows)
 {
 	int id = -1;
 
-	if (texture_path == nullptr || characters == nullptr || rows == 0)
+	if (texturePath == nullptr || characters == nullptr || rows == 0)
 		return id;
 
-	SDL_Texture* tex = App->tex->Load(texture_path);
+	SDL_Texture* tex = App->tex->Load(texturePath);
 	if (tex == nullptr || strlen(characters) >= MAX_FONT_CHARS)
 		return id;
 

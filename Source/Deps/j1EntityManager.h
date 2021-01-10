@@ -42,7 +42,7 @@ public:
 	bool Load(pugi::xml_node& data);
 
 public:
-	j1Entity* CreateEntity(ENTITY_TYPE type, fPoint initPos, ENTITY_STATES state = ENTITY_STATES::ST_IDLE);
+	j1Entity* CreateEntity(ENTITY_TYPE type, fPoint initPos, EntityStates state = EntityStates::ST_IDLE);
 	bool DestroyEntity(j1Entity* entity);
 	bool DestroyAllEntities();
 	void OnCollision(Collider* c1, Collider* c2);

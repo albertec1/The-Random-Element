@@ -19,37 +19,37 @@ j1Button::~j1Button() {
 
 bool j1Button::Start()
 {
-	if (textureType == TEXTURE::BUTON) {
-		texture = App->gui->Load_Texture(TEXTURE::BUTON);
-		texture_hover = App->gui->Load_Texture(TEXTURE::BUTON_HOVER);
+	if (textureType == Texture::BUTON) {
+		texture = App->gui->LoadTexture(Texture::BUTON);
+		textureHover = App->gui->LoadTexture(Texture::BUTON_HOVER);
 	}
 
-	if (textureType == TEXTURE::OPTIONS)
-		texture = App->gui->Load_Texture(TEXTURE::OPTIONS);
+	if (textureType == Texture::OPTIONS)
+		texture = App->gui->LoadTexture(Texture::OPTIONS);
 
-	if (textureType == TEXTURE::NEXT)
-		texture = App->gui->Load_Texture(TEXTURE::NEXT);
+	if (textureType == Texture::NEXT)
+		texture = App->gui->LoadTexture(Texture::NEXT);
 
-	if (textureType == TEXTURE::PREV)
-		texture = App->gui->Load_Texture(TEXTURE::PREV);
+	if (textureType == Texture::PREV)
+		texture = App->gui->LoadTexture(Texture::PREV);
 
-	if (textureType == TEXTURE::SCROLL)
-		texture = App->gui->Load_Texture(TEXTURE::SCROLL);
+	if (textureType == Texture::SCROLL)
+		texture = App->gui->LoadTexture(Texture::SCROLL);
 
-	if (textureType == TEXTURE::LINK)
-		texture = App->gui->Load_Texture(TEXTURE::LINK);
+	if (textureType == Texture::LINK)
+		texture = App->gui->LoadTexture(Texture::LINK);
 	
-	if (textureType == TEXTURE::BOTON_SCROLL)
-		texture = App->gui->Load_Texture(TEXTURE::BOTON_SCROLL);
+	if (textureType == Texture::BOTON_SCROLL)
+		texture = App->gui->LoadTexture(Texture::BOTON_SCROLL);
 	
-	if (textureType == TEXTURE::INFO)
-		texture = App->gui->Load_Texture(TEXTURE::INFO);
+	if (textureType == Texture::INFO)
+		texture = App->gui->LoadTexture(Texture::INFO);
 	
-	if (textureType == TEXTURE::LVLUP)
-		texture = App->gui->Load_Texture(TEXTURE::LVLUP);
+	if (textureType == Texture::LVLUP)
+		texture = App->gui->LoadTexture(Texture::LVLUP);
 
 	if (text != nullptr)
-		label = App->gui->AddElement(GUItype::GUI_LABEL, this, map_position, inside_position, true, true, { 0,0,0,0 }, text);
+		label = App->gui->AddElement(GUItype::GUI_LABEL, this, mapPosition, insidePosition, true, true, { 0,0,0,0 }, text);
 
 	return true;
 }
@@ -71,7 +71,7 @@ bool j1Button::Update(float dt)
 	{
 		if (above)
 		{
-			App->gui->disable_click = true;
+			App->gui->disableClick = true;
 			if (App->input->GetMouseButton(1) == j1KeyState::KEY_DOWN)
 				OnClick();
 
@@ -83,12 +83,12 @@ bool j1Button::Update(float dt)
 				if (X_drag || Y_drag)
 					dragging = true;
 
-				if(textureType != TEXTURE::BUTON && textureType != TEXTURE::OPTIONS && textureType != TEXTURE::BOTON_SCROLL)
-				App->render->Blit(texture_click, map_position.x, map_position.y, &rect);
+				if(textureType != Texture::BUTON && textureType != Texture::OPTIONS && textureType != Texture::BOTON_SCROLL)
+				App->render->Blit(textureClick, mapPosition.x, mapPosition.y, &rect);
 
 				iPoint mouseClick = { 0,0 };
 				App->input->GetMousePosition(mouseClick.x, mouseClick.y);
-				drag = { mouseClick.x - ((int)this->map_position.x), mouseClick.y - ((int)this->map_position.y) };
+				drag = { mouseClick.x - ((int)this->mapPosition.x), mouseClick.y - ((int)this->mapPosition.y) };
 
 			}
 
@@ -109,39 +109,39 @@ bool j1Button::Update(float dt)
 
 	if (enabled) 
 	{
-		if (textureType == TEXTURE::BUTON) 
+		if (textureType == Texture::BUTON) 
 		{
 			if (above && interactable)
 			{
 				SDL_Rect temp = { 0,0,220,72 };
-				App->render->Blit(texture_hover, map_position.x - 10, map_position.y -3, &temp);
+				App->render->Blit(textureHover, mapPosition.x - 10, mapPosition.y -3, &temp);
 			}
 			else {
-				App->render->Blit(texture, map_position.x, map_position.y, &rect);
+				App->render->Blit(texture, mapPosition.x, mapPosition.y, &rect);
 			}
 		}
 
-		else if (textureType == TEXTURE::BOTON_SCROLL) 
+		else if (textureType == Texture::BOTON_SCROLL) 
 		{
 
 			//LIMITING THE SCROLL BAR BUTTON VISUALY
-			if (inside_position.x > 0) {
-				App->render->Blit(texture, map_position.x + inside_position.x, map_position.y, &rect);
+			if (insidePosition.x > 0) {
+				App->render->Blit(texture, mapPosition.x + insidePosition.x, mapPosition.y, &rect);
 			}
-			else if (inside_position.x < -235) {
-				App->render->Blit(texture, map_position.x + inside_position.x + 235, map_position.y, &rect);
+			else if (insidePosition.x < -235) {
+				App->render->Blit(texture, mapPosition.x + insidePosition.x + 235, mapPosition.y, &rect);
 			}
 			else 
-				App->render->Blit(texture, map_position.x , map_position.y, &rect);
+				App->render->Blit(texture, mapPosition.x , mapPosition.y, &rect);
 		}
 		else
 		{
-			App->render->Blit(texture, map_position.x, map_position.y, &rect);
+			App->render->Blit(texture, mapPosition.x, mapPosition.y, &rect);
 
 		}
 
-		if (above && textureType != TEXTURE::BUTON && textureType != TEXTURE::OPTIONS && textureType != TEXTURE::BOTON_SCROLL && App->input->GetMouseButton(1) != j1KeyState::KEY_REPEAT) {
-			App->render->Blit(texture_hover_2, map_position.x, map_position.y, &rect);
+		if (above && textureType != Texture::BUTON && textureType != Texture::OPTIONS && textureType != Texture::BOTON_SCROLL && App->input->GetMouseButton(1) != j1KeyState::KEY_REPEAT) {
+			App->render->Blit(textureHover2, mapPosition.x, mapPosition.y, &rect);
 		}
 
 	}
@@ -152,7 +152,7 @@ bool j1Button::Update(float dt)
 bool j1Button::PostUpdate()
 {
 	if(label != nullptr)
-	label->map_position = map_position;
+	label->mapPosition = mapPosition;
 
 	return true;
 }
@@ -173,29 +173,29 @@ void j1Button::MovingIt(float dt)
 	iPoint mouse_pos = { 0,0 };
 	App->input->GetMousePosition(mouse_pos.x, mouse_pos.y);
 
-	fPoint currentPos = this->map_position;
+	fPoint currentPos = this->mapPosition;
 
 
 	if (X_drag)
-		this->map_position.x += ((mouse_pos.x - this->map_position.x) - drag.x);
+		this->mapPosition.x += ((mouse_pos.x - this->mapPosition.x) - drag.x);
 
 	if (Y_drag)
-		this->map_position.y += ((mouse_pos.y - this->map_position.y) - drag.y);
+		this->mapPosition.y += ((mouse_pos.y - this->mapPosition.y) - drag.y);
 
 
 	if (parent != nullptr)
 	{
 		if (X_drag)
-			this->inside_position.x += currentPos.x - this->map_position.x;
+			this->insidePosition.x += currentPos.x - this->mapPosition.x;
 
 		if (Y_drag)
-			this->inside_position.y += currentPos.y - this->map_position.y;
+			this->insidePosition.y += currentPos.y - this->mapPosition.y;
 
 		if (X_drag)
-			this->map_position.x = parent->map_position.x - inside_position.x;
+			this->mapPosition.x = parent->mapPosition.x - insidePosition.x;
 
 		if (Y_drag)
-			this->map_position.y = parent->map_position.y - inside_position.y;
+			this->mapPosition.y = parent->mapPosition.y - insidePosition.y;
 	}
 
 }

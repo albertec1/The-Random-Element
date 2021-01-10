@@ -7,14 +7,14 @@
 #include "j1Map.h"
 #include "p2Point.h"
 
-AutonomousEntity::AutonomousEntity(fPoint pos, ENTITY_TYPE type, ENTITY_STATES state) : j1MovingEntity(pos, type, state)
+AutonomousEntity::AutonomousEntity(fPoint pos, ENTITY_TYPE type, EntityStates state) : j1MovingEntity(pos, type, state)
 {
 	name.create("autonomousEntity");
 	entityReach = 0;
 	pathfindingRange = 0;
 	target = nullptr;
-	starting_position.x = pos.x;
-	starting_position.y = pos.y;
+	startingPosition.x = pos.x;
+	startingPosition.y = pos.y;
 	pathPtr = nullptr;
 }
 
@@ -29,34 +29,34 @@ bool AutonomousEntity::Awake(pugi::xml_node& node)
 	//Load properties
 	pugi::xml_node stats = node.child("autonomousEntity").child("entity_stats");
 
-	rect_size.x = stats.child("character_width").attribute("value").as_uint();
-	rect_size.y = stats.child("character_height").attribute("value").as_uint();
-	current_position.x = starting_position.x;
-	current_position.y = starting_position.y;
-	movement_speed = stats.child("movement_speed").attribute("value").as_uint();
+	rectSize.x = stats.child("character_width").attribute("value").as_uint();
+	rectSize.y = stats.child("character_height").attribute("value").as_uint();
+	currentPosition.x = startingPosition.x;
+	currentPosition.y = startingPosition.y;
+	movementSpeed = stats.child("movement_speed").attribute("value").as_uint();
 	gravity.y = stats.child("gravity").attribute("value").as_float();
 
 	//--- main_Collider creation
-	entity_rect.w = stats.child("character_width").attribute("value").as_uint();
-	entity_rect.h = stats.child("character_height").attribute("value").as_uint();
-	entity_rect.x = stats.child("initial_pos_x").attribute("value").as_uint();
-	entity_rect.y = stats.child("initial_pos_y").attribute("value").as_uint();
+	entiyRect.w = stats.child("character_width").attribute("value").as_uint();
+	entiyRect.h = stats.child("character_height").attribute("value").as_uint();
+	entiyRect.x = stats.child("initial_pos_x").attribute("value").as_uint();
+	entiyRect.y = stats.child("initial_pos_y").attribute("value").as_uint();
 
-	texture_path = stats.child("texture_path").attribute("value").as_string();
+	texturePath = stats.child("texture_path").attribute("value").as_string();
 	
 	//entity_collider = App->coll->AddCollider(entity_rect, COLLIDER_TYPE::ENEMY, this);
 
 	//-- Load range depending on type.
 	pathfindingRange = 300;
 	entityReach = 5;
-	destination = current_position;
+	destination = currentPosition;
 	pathPtr = &path;
 	return true;
 }
 
 bool AutonomousEntity::Start()
 {
-	enemyTexture = App->tex->Load(texture_path.GetString());
+	enemyTexture = App->tex->Load(texturePath.GetString());
 	return true;
 }
 
@@ -78,7 +78,7 @@ bool AutonomousEntity::Update(float dt, bool doLogic)
 
 			Chase(pathfindingRange);
 
-			if (destination != current_position)
+			if (destination != currentPosition)
 				Move(dt);
 			else
 			{
@@ -109,10 +109,10 @@ bool AutonomousEntity::PostUpdate()
 
 bool AutonomousEntity::CleanUp()
 {
-	if (entity_collider != nullptr)
+	if (entityCollider != nullptr)
 	{
-		entity_collider->to_delete = true;
-		entity_collider = nullptr;
+		entityCollider->to_delete = true;
+		entityCollider = nullptr;
 	}
 	return true;
 }
@@ -124,8 +124,8 @@ bool AutonomousEntity::Draw()
 		SDL_Rect temp;
 		temp.x = temp.y = 0;
 		temp.w = temp.h = 32;
-		rotating_animation = temp;
-		App->render->Blit(enemyTexture, (int)current_position.x, (int)current_position.y, &rotating_animation);
+		rotatingAnimation = temp;
+		App->render->Blit(enemyTexture, (int)currentPosition.x, (int)currentPosition.y, &rotatingAnimation);
 		//App->render->DrawQuad({(int)current_position.x, (int)current_position.y, 32, 32}, 239, 127, 26, 255);
 	}
 	if (type == ENTITY_TYPE::GROUND_ENEMY)
@@ -134,8 +134,8 @@ bool AutonomousEntity::Draw()
 		temp.x = 33;
 		temp.y = 0;
 		temp.w = temp.h = 32;
-		rotating_animation = temp;
-		App->render->Blit(enemyTexture, (int)current_position.x, (int)current_position.y, &rotating_animation);
+		rotatingAnimation = temp;
+		App->render->Blit(enemyTexture, (int)currentPosition.x, (int)currentPosition.y, &rotatingAnimation);
 		//App->render->DrawQuad({(int)current_position.x, (int)current_position.y, 32, 32 }, 101, 67, 33, 255);
 
 	}
@@ -144,13 +144,13 @@ bool AutonomousEntity::Draw()
 
 int AutonomousEntity::FindDistanceToPlayer()
 {
-	int distance = sqrtf((this->current_position.x - App->manager->player->current_position.x) * (this->current_position.x - App->manager->player->current_position.x) + (this->current_position.y - App->manager->player->current_position.y) * (this->current_position.y - App->manager->player->current_position.y));
+	int distance = sqrtf((this->currentPosition.x - App->manager->player->currentPosition.x) * (this->currentPosition.x - App->manager->player->currentPosition.x) + (this->currentPosition.y - App->manager->player->currentPosition.y) * (this->currentPosition.y - App->manager->player->currentPosition.y));
 	return distance;
 }
 
 void AutonomousEntity::GoTo(fPoint destination, ENTITY_TYPE type)
 {
-	iPoint mapCurrentPosition = App->map->WorldToMap((int)current_position.x, (int)current_position.y);
+	iPoint mapCurrentPosition = App->map->WorldToMap((int)currentPosition.x, (int)currentPosition.y);
 	iPoint mapDestination = App->map->WorldToMap((int)destination.x, (int)destination.y);
 	int distanceToPlayer = FindDistanceToPlayer();
 
@@ -167,12 +167,12 @@ void AutonomousEntity::GoTo(fPoint destination, ENTITY_TYPE type)
 				this->destination.y = temp.y;
 			}
 			else
-				this->destination = current_position; //set the destination
+				this->destination = currentPosition; //set the destination
 		}
 		else
-			this->destination = current_position; //set the destination
+			this->destination = currentPosition; //set the destination
 	}
-	this->destination = current_position; //set the destination
+	this->destination = currentPosition; //set the destination
 }
 
 void AutonomousEntity::Chase(int range)
@@ -183,7 +183,7 @@ void AutonomousEntity::Chase(int range)
 		{
 			//temporary chase, Entities should be able to chase each other if needed, not only the player.
 			{
-				GoTo(App->manager->player->current_position, type);
+				GoTo(App->manager->player->currentPosition, type);
 			}
 		}
 	}
@@ -199,82 +199,82 @@ void AutonomousEntity::Chase(int range)
 
 void AutonomousEntity::Move(float dt)
 {
-	normalized_movement_speed = movement_speed * dt;
+	normalizedMovementSpeed = movementSpeed * dt;
 
 	if (type != ENTITY_TYPE::AIR_ENEMY) 
 	{
-		current_acceleration.x = gravity.x;
-		current_acceleration.y = gravity.y;
+		currentAcceleration.x = gravity.x;
+		currentAcceleration.y = gravity.y;
 	}
 
-	current_position.x += current_velocity.x;
-	current_position.y += current_velocity.y;
+	currentPosition.x += currentVelocity.x;
+	currentPosition.y += currentVelocity.y;
 
-	state = ENTITY_STATES::ST_IDLE;
+	state = EntityStates::ST_IDLE;
 
-	if (current_position.x < destination.x)
+	if (currentPosition.x < destination.x)
 	{
-		state = ENTITY_STATES::ST_RIGHT;
-		current_velocity.x = normalized_movement_speed;
-		current_velocity.y = 0;
-		if ((current_position.x + current_velocity.x) > destination.x)
+		state = EntityStates::ST_RIGHT;
+		currentVelocity.x = normalizedMovementSpeed;
+		currentVelocity.y = 0;
+		if ((currentPosition.x + currentVelocity.x) > destination.x)
 		{
-			current_position.x = destination.x;
-			current_velocity = { 0,0 };
+			currentPosition.x = destination.x;
+			currentVelocity = { 0,0 };
 		}
 	}
-	else if (current_position.x > destination.x)
+	else if (currentPosition.x > destination.x)
 	{
-		state = ENTITY_STATES::ST_LEFT;
-		current_velocity.x = -normalized_movement_speed;
-		current_velocity.y = 0;
-		if ((current_position.x + current_velocity.x) < destination.x)
+		state = EntityStates::ST_LEFT;
+		currentVelocity.x = -normalizedMovementSpeed;
+		currentVelocity.y = 0;
+		if ((currentPosition.x + currentVelocity.x) < destination.x)
 		{
-			current_position.x = destination.x;
-			current_velocity = { 0,0 };
+			currentPosition.x = destination.x;
+			currentVelocity = { 0,0 };
 		}
 	}
-	else if (current_position.y < destination.y)
+	else if (currentPosition.y < destination.y)
 	{
-		if (state == ENTITY_STATES::ST_IDLE)
+		if (state == EntityStates::ST_IDLE)
 		{
 			if (type == ENTITY_TYPE::AIR_ENEMY || type == ENTITY_TYPE::UNDERGROUND_ENEMY)
 			{
-				state = ENTITY_STATES::ST_DOWN;
-				current_velocity.y = normalized_movement_speed;
-				current_velocity.x = 0;
+				state = EntityStates::ST_DOWN;
+				currentVelocity.y = normalizedMovementSpeed;
+				currentVelocity.x = 0;
 			}
 			else
 			{
-				current_velocity.x += current_acceleration.x;
-				current_velocity.y += current_acceleration.y;
+				currentVelocity.x += currentAcceleration.x;
+				currentVelocity.y += currentAcceleration.y;
 			}
 		}
-		if ((current_position.y + current_velocity.y) > destination.y)
+		if ((currentPosition.y + currentVelocity.y) > destination.y)
 		{
-			current_position.y = destination.y;
-			current_velocity = { 0,0 };
+			currentPosition.y = destination.y;
+			currentVelocity = { 0,0 };
 		}
 	}
-	else if (current_position.y > destination.y)
+	else if (currentPosition.y > destination.y)
 	{
-		if (state == ENTITY_STATES::ST_IDLE)
+		if (state == EntityStates::ST_IDLE)
 		{
-			state = ENTITY_STATES::ST_IDLE;
-			current_velocity.y = -normalized_movement_speed;
-			current_velocity.x = 0;
+			state = EntityStates::ST_IDLE;
+			currentVelocity.y = -normalizedMovementSpeed;
+			currentVelocity.x = 0;
 		}
 
-		if ((current_position.y + current_velocity.y) < destination.y)
+		if ((currentPosition.y + currentVelocity.y) < destination.y)
 		{
-			current_position.y = destination.y;
-			current_velocity = { 0,0 };
+			currentPosition.y = destination.y;
+			currentVelocity = { 0,0 };
 		}
 	}
 	else
 	{
-		current_velocity.x = 0;
-		current_velocity.y = 0;
+		currentVelocity.x = 0;
+		currentVelocity.y = 0;
 	}
 }
 

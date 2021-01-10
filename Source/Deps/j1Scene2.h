@@ -20,8 +20,8 @@ public:
 
 public:
 	int sceneNumber = 2;
-	p2Point<int> camera_init_pos;
-	bool origin_selected = false;
+	p2Point<int> cameraInitPos;
+	bool originSelected = false;
 	iPoint origin;
 	p2List<iPoint> pathList; //private?
 

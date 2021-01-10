@@ -113,7 +113,7 @@ bool j1EntityManager::CleanUp()
 	return ret;
 }
 
-j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, fPoint initPos, ENTITY_STATES state)
+j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, fPoint initPos, EntityStates state)
 {
 	static_assert((INT)ENTITY_TYPE::UNKNOWN_TYPE == 5, "CODE NEEDS UPDATE");
 	j1Entity* ret = nullptr;
@@ -170,12 +170,12 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			if (c2->type == WALL || c2->type == PLATFORM)
 			{
 				j1EntityPlayer* callback = (j1EntityPlayer*)c1->callback;
-				callback->current_position.y = c2->rect.y - c2->rect.h;
+				callback->currentPosition.y = c2->rect.y - c2->rect.h;
 
 				if (player->jumping == false)
 				{
-					if (player->jump_available == false)
-						player->jump_available = true;
+					if (player->jumpAvailable == false)
+						player->jumpAvailable = true;
 				}
 			}
 		}
@@ -186,8 +186,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			if (c2->type == WALL)
 			{
 				j1EntityPlayer* callback = (j1EntityPlayer*)c1->callback;
-				callback->current_position.x = c2->rect.x + c2->rect.w;
-				player->current_acceleration.x = 0;
+				callback->currentPosition.x = c2->rect.x + c2->rect.w;
+				player->currentAcceleration.x = 0;
 			}
 		}
 
@@ -197,8 +197,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			if (c2->type == WALL)
 			{
 				j1EntityPlayer* callback = (j1EntityPlayer*)c1->callback;
-				callback->current_position.x = c2->rect.x - c1->rect.w;
-				player->current_acceleration.x = 0;	
+				callback->currentPosition.x = c2->rect.x - c1->rect.w;
+				player->currentAcceleration.x = 0;	
 			}		
 		}			
 
@@ -208,7 +208,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			if (c2->type == WALL)
 			{
 				j1EntityPlayer* callback = (j1EntityPlayer*)c1->callback;
-				callback->current_position.y = c2->rect.y + c2->rect.h;
+				callback->currentPosition.y = c2->rect.y + c2->rect.h;
 			}
 		}
 
@@ -225,17 +225,17 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			if (c2->type == WALL || c2->type == PLATFORM)
 			{
 				j1EntityPlayer* callback = (j1EntityPlayer*)c2->callback;
-				callback->current_position.y = c1->rect.y - c1->rect.h;
+				callback->currentPosition.y = c1->rect.y - c1->rect.h;
 
 				if (player->jumping == false)
 				{
-					if (player->jump_available == false)
-						player->jump_available = true;
+					if (player->jumpAvailable == false)
+						player->jumpAvailable = true;
 
-					if (player->jump_available == true)
+					if (player->jumpAvailable == true)
 					{
-						player->current_velocity.y = 0;
-						player->current_acceleration.y = 0;
+						player->currentVelocity.y = 0;
+						player->currentAcceleration.y = 0;
 					}
 
 				}
@@ -248,8 +248,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			if (c2->type == WALL)
 			{
 				j1EntityPlayer* callback = (j1EntityPlayer*)c2->callback;
-				callback->current_position.x = c1->rect.x + c1->rect.w;
-				player->current_acceleration.x = 0;
+				callback->currentPosition.x = c1->rect.x + c1->rect.w;
+				player->currentAcceleration.x = 0;
 			}
 		}
 
@@ -259,8 +259,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			if (c2->type == WALL)
 			{
 				j1EntityPlayer* callback = (j1EntityPlayer*)c2->callback;
-				callback->current_position.x = c1->rect.x - c2->rect.w;
-				player->current_acceleration.x = 0;
+				callback->currentPosition.x = c1->rect.x - c2->rect.w;
+				player->currentAcceleration.x = 0;
 			}
 		}
 
@@ -270,9 +270,9 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			if (c2->type == WALL)
 			{
 				j1EntityPlayer* callback = (j1EntityPlayer*)c2->callback;
-				callback->current_position.y = c1->rect.y + c1->rect.h;
-				player->current_velocity.y = 0;
-				player->current_acceleration.y = 0;
+				callback->currentPosition.y = c1->rect.y + c1->rect.h;
+				player->currentVelocity.y = 0;
+				player->currentAcceleration.y = 0;
 			}
 		}
 	}	
@@ -288,8 +288,8 @@ bool j1EntityManager::Save(pugi::xml_node& data)
 		pugi::xml_node data = ent_node.append_child("data");
 
 		p2List_item<j1MovingEntity*>* saveEntity = (p2List_item <j1MovingEntity*>*)entity;
-		data.append_attribute("x").set_value(saveEntity->data->current_position.x);
-		data.append_attribute("y").set_value(saveEntity->data->current_position.y);
+		data.append_attribute("x").set_value(saveEntity->data->currentPosition.x);
+		data.append_attribute("y").set_value(saveEntity->data->currentPosition.y);
 		data.append_attribute("type").set_value((int)saveEntity->data->type);
 		data.append_attribute("state").set_value((int)saveEntity->data->state);
 		
@@ -320,7 +320,7 @@ bool j1EntityManager::Load(pugi::xml_node& data)
 {
 	bool ret = true;
 
-	if (App->save_document_full == true)
+	if (App->saveDocumentFull == true)
 	{
 		pugi::xml_node node = data.child("entity_manager").child("entity");
 		
@@ -346,10 +346,10 @@ bool j1EntityManager::Load(pugi::xml_node& data)
 				}
 				else if (type == 0)
 				{
-					player = (j1EntityPlayer*)CreateEntity((ENTITY_TYPE)type, {x, y }, (ENTITY_STATES)state);
+					player = (j1EntityPlayer*)CreateEntity((ENTITY_TYPE)type, {x, y }, (EntityStates)state);
 				}
 				else
-					CreateEntity((ENTITY_TYPE)type, { x, y }, (ENTITY_STATES)state);
+					CreateEntity((ENTITY_TYPE)type, { x, y }, (EntityStates)state);
 
 				//pugi::xml_node restore = node.child("restore");
 				//entity->to_delete = restore.attribute("to_delete").as_bool;
@@ -367,12 +367,12 @@ bool j1EntityManager::Load(pugi::xml_node& data)
 
 bool j1EntityManager::AwakeAgain()
 {
-	pugi::xml_document	config_file;
+	pugi::xml_document	configFile;
 	pugi::xml_node		config;
 
 	bool ret = true;
 
-	config = App->LoadConfig(config_file);
+	config = App->LoadConfig(configFile);
 	if (!config)
 		ret = false;
 

@@ -32,7 +32,7 @@ public:
 
 public:
 
-	void ChangeScene(int old_scene, int new_scene);
+	void ChangeScene(int oldScene, int newScene);
 
 	void AddScene(j1Module* scene);
 
@@ -45,13 +45,13 @@ public:
 
 	inline int GetCurrentScene()const
 	{
-		return current_scene;
+		return currentScene;
 	}
 
 	void DrawBackground();
 
 public:
-	p2Point<int> camera_init_pos;
+	p2Point<int> cameraInitPos;
 	j1MainMenuUI* scene0;
 	j1Scene* scene1;
 	j1Scene2* scene2;
@@ -60,11 +60,11 @@ public:
 	bool exitMenu = false;
 private:
 	p2List<j1Module*> scenes;
-	int current_scene;
+	int currentScene;
 
-	p2SString	folder_path;
-	p2SString	scene1_path;
-	p2SString	scene2_path;
+	p2SString	folderPath;
+	p2SString	scene1Path;
+	p2SString	scene2Path;
 
 	p2List<SDL_Texture*> BackgroundTextures;
 };

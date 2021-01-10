@@ -27,8 +27,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
 	dt = 0;
 	frames = 0;
-	want_to_save = want_to_load = false;
-	save_document_full = false;
+	wantToSave = wantToLoad = false;
+	saveDocumentFull = false;
 
 	//class Objects are created here
 	win =			new j1Window();
@@ -36,7 +36,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	render =		new j1Render();
 	tex =			new j1Textures();
 	map =			new j1Map();
-	scene_manager =	new j1SceneManager();
+	sceneManager =	new j1SceneManager();
 	coll =			new j1Collision();
 	manager =		new j1EntityManager();
 	pathfinding =	new Pathfinding();
@@ -52,7 +52,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(input);
 	AddModule(tex);
 	AddModule(map);
-	AddModule(scene_manager);
+	AddModule(sceneManager);
 	AddModule(coll);
 	AddModule(manager);
 	AddModule(pathfinding);
@@ -87,13 +87,13 @@ void j1App::AddModule(j1Module* module)
 
 bool j1App::Awake()
 {
-	pugi::xml_document	config_file;
+	pugi::xml_document	configFile;
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
 
 	bool ret = false;
 
-	config = LoadConfig(config_file);
+	config = LoadConfig(configFile);
 
 	if (config.empty() == false)
 	{
@@ -103,7 +103,7 @@ bool j1App::Awake()
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
 		folder.create(app_config.child("folder").child_value());
-		allow_debug_log = app_config.child("debug_log").attribute("value").as_bool(false);
+		allowDebugLog = app_config.child("debug_log").attribute("value").as_bool(false);
 	}
 
 	if (ret == true)
@@ -122,16 +122,16 @@ bool j1App::Awake()
 	return ret;
 }
 
-pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
+pugi::xml_node j1App::LoadConfig(pugi::xml_document& configFile) const
 {
 	pugi::xml_node ret;
-	pugi::xml_parse_result result = config_file.load_file("config.xml");
+	pugi::xml_parse_result result = configFile.load_file("config.xml");
 
 	if (result == NULL)
 		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
 
 	else
-		ret = config_file.child("config");
+		ret = configFile.child("config");
 
 	return ret;
 }
@@ -173,7 +173,7 @@ bool j1App::Update()
 
 void j1App::PrepareUpdate()
 {
-	frame_count++;
+	frameCount++;
 	last_sec_frame_count++;
 
 	if (last_sec_frame_time.Read() > 1000)
@@ -183,9 +183,9 @@ void j1App::PrepareUpdate()
 		last_sec_frame_count = 0;
 	}
 
-	float avg_fps = float(frame_count) / startup_time.ReadSec();
-	float seconds_since_startup = startup_time.ReadSec();
-	uint32 last_frame_ms = frame_time.Read();
+	float avg_fps = float(frameCount) / startupTime.ReadSec();
+	float seconds_since_startup = startupTime.ReadSec();
+	uint32 last_frame_ms = frameTime.Read();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
 	static char title[256];
@@ -216,8 +216,8 @@ sprintf_s(title, 256, "The Random Element || FPS: %02u / EstFPS: %02u/ Av.FPS: %
 		}
 	}
 
-	dt = frame_time.ReadSec();
-	frame_time.Start();
+	dt = frameTime.ReadSec();
+	frameTime.Start();
 }
 
 bool j1App::PreUpdate()
@@ -288,10 +288,10 @@ void j1App::FinishUpdate()
 	if (input->GetKey(SDL_SCANCODE_F6) == j1KeyState::KEY_DOWN)
 		LoadGame();
 
-	if (want_to_save == true)
+	if (wantToSave == true)
 		SaveGameNow();
 
-	if (want_to_load == true)
+	if (wantToLoad == true)
 		LoadGameNow();
 
 	if (last_sec_frame_time.Read() > 1000)
@@ -345,14 +345,14 @@ const char* j1App::GetOrganization() const
 
 void j1App::SaveGame() const
 {
-	want_to_save = true;
+	wantToSave = true;
 }
 
 void j1App::LoadGame()
 {
-	if (save_document_full == true)
+	if (saveDocumentFull == true)
 	{
-		want_to_load = true;
+		wantToLoad = true;
 	}
 }
 
@@ -369,8 +369,8 @@ bool j1App::SaveGameNow() const
 	App->manager->Save(node);
 
 	save_doc.save_file("save-doc.xml");
-	save_document_full = true;
-	want_to_save = false;
+	saveDocumentFull = true;
+	wantToSave = false;
 
 	return ret;
 }
@@ -387,7 +387,7 @@ bool j1App::LoadGameNow()
 	App->render->Load(node);
 	App->manager->Load(node);
 
-	want_to_load = false;
+	wantToLoad = false;
 
 	return ret;
 }

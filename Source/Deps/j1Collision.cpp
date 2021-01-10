@@ -68,7 +68,7 @@ bool j1Collision::PostUpdate()
 {
 	bool ret = true;
 
-	if (App->scene_manager->GetCurrentScene() != 0)
+	if (App->sceneManager->GetCurrentScene() != 0)
 	{
 		int width = metadata->width;
 		int height = metadata->height;
@@ -112,7 +112,7 @@ bool j1Collision::PostUpdate()
 				{
 					if (c1->type == PLAYER || c2->type == PLAYER)
 					{
-						if (App->manager->player->god_mode == false)
+						if (App->manager->player->godMode == false)
 						{
 							App->manager->OnCollision(c1, c2);
 						}

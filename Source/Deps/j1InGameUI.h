@@ -107,10 +107,10 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 
-	void Add_UI();
+	void AddUI();
 	void Deactivate_All_UI();
 	void Activate_Necessary_UI();
-	void Activate_Menu();
+	void ActivateMenu();
 
 	//WIN
 	void Activate_Win_Menu();
@@ -130,7 +130,7 @@ public:
 	void Activate_Manager();
 	void Deactivate_Manager();
 
-	void GUI_Event_Manager(GUI_Event type, j1Element* element);
+	void GUIEeventManager(GUIEvent type, j1Element* element);
 
 	//COINS
 	int coins = 0;
@@ -198,7 +198,7 @@ private:
 
 	bool in_trading = false;
 	bool in_trader = false;
-	int font_name = -1;
+	int fontName = -1;
 	bool quit = false;
 
 	j1Entity* selected_last_frame;

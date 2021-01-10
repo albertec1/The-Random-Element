@@ -31,7 +31,7 @@ bool j1GUI::Start()
 bool j1GUI::PreUpdate()
 {
 	bool ret = true;
-	p2List_item<j1Element*>* tmp = GUI_ELEMENTS.start;
+	p2List_item<j1Element*>* tmp = GUIElements.start;
 	while (tmp != nullptr)
 	{
 		ret = tmp->data->PreUpdate();
@@ -46,7 +46,7 @@ bool j1GUI::Update(float dt)
 	s = s + 0.010;
 
 	bool ret = true;
-	p2List_item<j1Element*>* tmp = GUI_ELEMENTS.start;
+	p2List_item<j1Element*>* tmp = GUIElements.start;
 	while (tmp != nullptr)
 	{
 		ret = tmp->data->Update(dt);
@@ -60,7 +60,7 @@ bool j1GUI::PostUpdate()
 {
 	bool ret = true;
 
-	p2List_item<j1Element*>* tmp = GUI_ELEMENTS.start;
+	p2List_item<j1Element*>* tmp = GUIElements.start;
 	while (tmp != nullptr)
 	{
 		ret = tmp->data->PostUpdate();
@@ -74,21 +74,21 @@ bool j1GUI::CleanUp()
 {
 	LOG("Freeing GUI");
 
-	for (p2List_item<j1Element*>* item = GUI_ELEMENTS.start; item; item = item->next)
+	for (p2List_item<j1Element*>* item = GUIElements.start; item; item = item->next)
 	{
 		item->data->CleanUp();
 	}
-	GUI_ELEMENTS.clear();
+	GUIElements.clear();
 	return true;
 }
 
-void j1GUI::Move_Ui_Element(float x, float y, j1Element* element)
+void j1GUI::MoveUIElements(float x, float y, j1Element* element)
 {
-	element->map_position.x = element->map_position.x + x;
-	element->map_position.y = element->map_position.y + y;
+	element->mapPosition.x = element->mapPosition.x + x;
+	element->mapPosition.y = element->mapPosition.y + y;
 }
 
-bool j1GUI::Correct_x(int x)
+bool j1GUI::CorrectX(int x)
 {
 	if (x <= 540)
 		return false;
@@ -96,7 +96,7 @@ bool j1GUI::Correct_x(int x)
 		return true;
 }
 
-bool j1GUI::Correct_y(int y, int y_1)
+bool j1GUI::CorrectY(int y, int y_1)
 {
 	if (y < y_1)
 		return false;
@@ -173,66 +173,66 @@ void j1GUI::Reset_UI_Pos()
 	App->mainmenu->menu.instructions->map_position.y = 0;*/
 }
 
-SDL_Texture* j1GUI::Load_Texture(TEXTURE textureType)
+SDL_Texture* j1GUI::LoadTexture(Texture textureType)
 {
 	switch (textureType)
 	{
-	case TEXTURE::BUTON:
-		texture_load = App->tex->Load("textures/ui/button.png");
+	case Texture::BUTON:
+		textureLoad = App->tex->Load("textures/ui/button.png");
 		break;
-	case TEXTURE::IMAGE:
-		texture_load = App->tex->Load("textures/ui/image.png");
+	case Texture::IMAGE:
+		textureLoad = App->tex->Load("textures/ui/image.png");
 		break;
-	case TEXTURE::MANAGER_IMAGE:
-		texture_load = App->tex->Load("textures/ui/manager-image.png");
+	case Texture::MANAGER_IMAGE:
+		textureLoad = App->tex->Load("textures/ui/manager-image.png");
 		break;
-	case TEXTURE::NEXT:
-		texture_load = App->tex->Load("textures/ui/next.png");
+	case Texture::NEXT:
+		textureLoad = App->tex->Load("textures/ui/next.png");
 		break;
-	case TEXTURE::PREV:
-		texture_load = App->tex->Load("textures/ui/prev.png");
+	case Texture::PREV:
+		textureLoad = App->tex->Load("textures/ui/prev.png");
 		break;
-	case TEXTURE::OPTIONS:
-		texture_load = App->tex->Load("textures/ui/options.png");
+	case Texture::OPTIONS:
+		textureLoad = App->tex->Load("textures/ui/options.png");
 		break;
-	case TEXTURE::BUTON_HOVER:
-		texture_load = App->tex->Load("textures/ui/button-1.png");
+	case Texture::BUTON_HOVER:
+		textureLoad = App->tex->Load("textures/ui/button-1.png");
 		break;
-	case TEXTURE::MAIN_IMAGE:
-		texture_load = App->tex->Load("textures/ui/ui-image.png");
+	case Texture::MAIN_IMAGE:
+		textureLoad = App->tex->Load("textures/ui/ui-image.png");
 		break;
-	case TEXTURE::RESOURCES_IMAGE:
-		texture_load = App->tex->Load("textures/ui/resources.png");
+	case Texture::RESOURCES_IMAGE:
+		textureLoad = App->tex->Load("textures/ui/resources.png");
 		break;
-	case TEXTURE::SCROLL:
-		texture_load = App->tex->Load("textures/ui/scroll.png");
+	case Texture::SCROLL:
+		textureLoad = App->tex->Load("textures/ui/scroll.png");
 		break;
-	case TEXTURE::BOTON_SCROLL:
-		texture_load = App->tex->Load("textures/ui/scroll-button.png");
+	case Texture::BOTON_SCROLL:
+		textureLoad = App->tex->Load("textures/ui/scroll-button.png");
 		break;
-	case TEXTURE::AUDIO_IMAGE:
-		texture_load = App->tex->Load("textures/ui/audio-image.png");
+	case Texture::AUDIO_IMAGE:
+		textureLoad = App->tex->Load("textures/ui/audio-image.png");
 		break;
-	case TEXTURE::GODMODE:
-		texture_load = App->tex->Load("textures/ui/godmode.png");
+	case Texture::GODMODE:
+		textureLoad = App->tex->Load("textures/ui/godmode.png");
 		break;
-	case TEXTURE::INFO:
-		texture_load = App->tex->Load("textures/ui/info.png");
+	case Texture::INFO:
+		textureLoad = App->tex->Load("textures/ui/info.png");
 		break;
-	case TEXTURE::INFO_IMAGE:
-		texture_load = App->tex->Load("textures/ui/info-image.png");
+	case Texture::INFO_IMAGE:
+		textureLoad = App->tex->Load("textures/ui/info-image.png");
 		break;
-	case TEXTURE::COIN:
-		texture_load = App->tex->Load("textures/ui/coin.png");
+	case Texture::COIN:
+		textureLoad = App->tex->Load("textures/ui/coin.png");
 		break;
-	case TEXTURE::EXPLANATION:
-		texture_load = App->tex->Load("textures/ui/explanation.png");
+	case Texture::EXPLANATION:
+		textureLoad = App->tex->Load("textures/ui/explanation.png");
 		break;
 	}
-	return texture_load;
+	return textureLoad;
 }
 
-j1Element* j1GUI::AddElement(GUItype type, j1Element* parent, fPoint map_position, fPoint inside_position, bool interactable, bool enabled, SDL_Rect section, char* text, j1Module* listener, bool X_drag, bool Y_drag, SCROLL_TYPE scrollType, bool decor, TEXTURE textureType)
+j1Element* j1GUI::AddElement(GUItype type, j1Element* parent, fPoint mapPosition, fPoint insidePosition, bool interactable, bool enabled, SDL_Rect section, char* text, j1Module* listener, bool X_drag, bool Y_drag, ScrollType scrollType, bool decor, Texture textureType)
 {
 	j1Element* temp = nullptr;
 
@@ -258,8 +258,8 @@ j1Element* j1GUI::AddElement(GUItype type, j1Element* parent, fPoint map_positio
 	if (temp)
 	{
 		temp->parent = parent;
-		temp->map_position = map_position;
-		temp->inside_position = inside_position;
+		temp->mapPosition = mapPosition;
+		temp->insidePosition = insidePosition;
 		temp->listener = listener;
 		temp->interactable = interactable;
 		temp->X_drag = X_drag;
@@ -270,7 +270,7 @@ j1Element* j1GUI::AddElement(GUItype type, j1Element* parent, fPoint map_positio
 		temp->text = text;
 		temp->textureType = textureType;
 
-                                                                                                                                                                                                    		GUI_ELEMENTS.add(temp)->data->Start();
+                                                                                                                                                                                                    		GUIElements.add(temp)->data->Start();
 	}
 	return temp;
 }
@@ -286,6 +286,6 @@ bool j1GUI::Load(pugi::xml_node& file) {
 }
 
 void j1GUI::UpdatePosition(j1Element* element, fPoint position, fPoint localPosition) {
-	element->map_position = position;
-	element->inside_position = localPosition;
+	element->mapPosition = position;
+	element->insidePosition = localPosition;
 }
