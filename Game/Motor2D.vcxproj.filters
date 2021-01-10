@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Source\Deps\j1Render.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1ScrollBar.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Textures.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Window.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\Pathfinding.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Collision.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Fonts.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Image.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Input.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\AutonomousEntity.cpp">
+      <Filter>Development\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\Font.cpp">
+      <Filter>Development\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\GUI.cpp">
+      <Filter>Development</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Button.cpp">
+      <Filter>Development\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Element.cpp">
+      <Filter>Development\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Label.cpp">
+      <Filter>Development\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1InputBox.cpp">
+      <Filter>Development\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1App.cpp">
+      <Filter>Development\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1MainMenuUI.cpp">
+      <Filter>Development\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Scene.cpp">
+      <Filter>Development\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Scene2.cpp">
+      <Filter>Development\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1SceneManager.cpp">
+      <Filter>Development\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\PerfTimer.cpp">
+      <Filter>Development\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Timer.cpp">
+      <Filter>Development\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\p2Log.cpp">
+      <Filter>Programacio 2 ===========</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1MovingEntity.cpp">
+      <Filter>Development\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1EntityManager.cpp">
+      <Filter>Development\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1EntityPlayer.cpp">
+      <Filter>Development\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Entity.cpp">
+      <Filter>Development\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1InGameUI.cpp">
+      <Filter>Development\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Main.cpp">
+      <Filter>Development\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Map.cpp">
+      <Filter>Development\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\External\PugiXml\src\pugixml.cpp">
+      <Filter>Development\Tools</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Source\Deps\j1Render.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Textures.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Window.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\Pathfinding.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Animation.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Collision.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Fonts.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Input.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Map.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Module.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\AutonomousEntity.h">
+      <Filter>Development\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\Font.h">
+      <Filter>Development\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\GUI.h">
+      <Filter>Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\GUIElements.h">
+      <Filter>Development\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1App.h">
+      <Filter>Development\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\Color.h">
+      <Filter>Development\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1MainMenuUI.h">
+      <Filter>Development\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Scene.h">
+      <Filter>Development\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Scene2.h">
+      <Filter>Development\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1SceneManager.h">
+      <Filter>Development\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\SDL_ttf.h">
+      <Filter>Development\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\PerfTimer.h">
+      <Filter>Development\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Timer.h">
+      <Filter>Development\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\p2Defs.h">
+      <Filter>Programacio 2 ===========</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\p2DynArray.h">
+      <Filter>Programacio 2 ===========</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\p2List.h">
+      <Filter>Programacio 2 ===========</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\p2Log.h">
+      <Filter>Programacio 2 ===========</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\p2Point.h">
+      <Filter>Programacio 2 ===========</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\p2SString.h">
+      <Filter>Programacio 2 ===========</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1MovingEntity.h">
+      <Filter>Development\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1EntityManager.h">
+      <Filter>Development\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1EntityPlayer.h">
+      <Filter>Development\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1Entity.h">
+      <Filter>Development\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Deps\j1InGameUI.h">
+      <Filter>Development\Scenes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Programacio 2 ===========">
+      <UniqueIdentifier>{a8bfab6a-5472-4969-943e-861a8b493f08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development">
+      <UniqueIdentifier>{86ef9db5-82e0-4184-952e-e23dd1454d75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Core">
+      <UniqueIdentifier>{a0ce07c4-0f06-4188-a2d6-2668fc4f16c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\UI">
+      <UniqueIdentifier>{aa4360d0-92a1-49e9-b719-d194d4840a79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Entities">
+      <UniqueIdentifier>{01e8845d-5c26-4789-9f51-716c3b0e5a5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Scenes">
+      <UniqueIdentifier>{82fd0c97-46e4-4d05-9b08-2fa09caa31a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Development\Tools">
+      <UniqueIdentifier>{04d185d2-8e42-45e6-8a2c-77dc8caa8d0d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

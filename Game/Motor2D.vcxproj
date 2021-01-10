@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
+    <RootNamespace>programacio_2</RootNamespace>
+    <ProjectName>Random Element Project - REMAKE</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>..\Output\Intermediate</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\Output</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\Output</OutDir>
+    <IntDir>..\Output\Intermediate</IntDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\The-random-element\Game\Source\Deps\External;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\Documents\GitHub\The-random-element\Game\Source\Deps\External;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <ShowIncludes>false</ShowIncludes>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\The-random-element\Game\Source\Deps\External;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>D:\Documents\GitHub\The-random-element\Game\Source\Deps\External;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <ShowIncludes>false</ShowIncludes>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Deps\AutonomousEntity.cpp" />
+    <ClCompile Include="Source\Deps\External\PugiXml\src\pugixml.cpp" />
+    <ClCompile Include="Source\Deps\Font.cpp" />
+    <ClCompile Include="Source\Deps\GUI.cpp" />
+    <ClCompile Include="Source\Deps\j1App.cpp" />
+    <ClCompile Include="Source\Deps\j1Button.cpp" />
+    <ClCompile Include="Source\Deps\j1Collision.cpp" />
+    <ClCompile Include="Source\Deps\j1Element.cpp" />
+    <ClCompile Include="Source\Deps\j1Entity.cpp" />
+    <ClCompile Include="Source\Deps\j1EntityManager.cpp" />
+    <ClCompile Include="Source\Deps\j1EntityPlayer.cpp" />
+    <ClCompile Include="Source\Deps\j1Fonts.cpp" />
+    <ClCompile Include="Source\Deps\j1Image.cpp" />
+    <ClCompile Include="Source\Deps\j1InGameUI.cpp" />
+    <ClCompile Include="Source\Deps\j1Input.cpp" />
+    <ClCompile Include="Source\Deps\j1InputBox.cpp" />
+    <ClCompile Include="Source\Deps\j1Label.cpp" />
+    <ClCompile Include="Source\Deps\j1Main.cpp" />
+    <ClCompile Include="Source\Deps\j1MainMenuUI.cpp" />
+    <ClCompile Include="Source\Deps\j1Map.cpp" />
+    <ClCompile Include="Source\Deps\j1MovingEntity.cpp" />
+    <ClCompile Include="Source\Deps\j1Render.cpp" />
+    <ClCompile Include="Source\Deps\j1Scene.cpp" />
+    <ClCompile Include="Source\Deps\j1Scene2.cpp" />
+    <ClCompile Include="Source\Deps\j1SceneManager.cpp" />
+    <ClCompile Include="Source\Deps\j1ScrollBar.cpp" />
+    <ClCompile Include="Source\Deps\j1Textures.cpp" />
+    <ClCompile Include="Source\Deps\j1Timer.cpp" />
+    <ClCompile Include="Source\Deps\j1Window.cpp" />
+    <ClCompile Include="Source\Deps\p2Log.cpp" />
+    <ClCompile Include="Source\Deps\Pathfinding.cpp" />
+    <ClCompile Include="Source\Deps\PerfTimer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Source\Deps\AutonomousEntity.h" />
+    <ClInclude Include="Source\Deps\Color.h" />
+    <ClInclude Include="Source\Deps\Font.h" />
+    <ClInclude Include="Source\Deps\GUI.h" />
+    <ClInclude Include="Source\Deps\GUIElements.h" />
+    <ClInclude Include="Source\Deps\j1Animation.h" />
+    <ClInclude Include="Source\Deps\j1App.h" />
+    <ClInclude Include="Source\Deps\j1Collision.h" />
+    <ClInclude Include="Source\Deps\j1Entity.h" />
+    <ClInclude Include="Source\Deps\j1EntityManager.h" />
+    <ClInclude Include="Source\Deps\j1EntityPlayer.h" />
+    <ClInclude Include="Source\Deps\j1Fonts.h" />
+    <ClInclude Include="Source\Deps\j1InGameUI.h" />
+    <ClInclude Include="Source\Deps\j1Input.h" />
+    <ClInclude Include="Source\Deps\j1MainMenuUI.h" />
+    <ClInclude Include="Source\Deps\j1Map.h" />
+    <ClInclude Include="Source\Deps\j1Module.h" />
+    <ClInclude Include="Source\Deps\j1MovingEntity.h" />
+    <ClInclude Include="Source\Deps\j1Render.h" />
+    <ClInclude Include="Source\Deps\j1Scene.h" />
+    <ClInclude Include="Source\Deps\j1Scene2.h" />
+    <ClInclude Include="Source\Deps\j1SceneManager.h" />
+    <ClInclude Include="Source\Deps\j1Textures.h" />
+    <ClInclude Include="Source\Deps\j1Timer.h" />
+    <ClInclude Include="Source\Deps\j1Window.h" />
+    <ClInclude Include="Source\Deps\p2Defs.h" />
+    <ClInclude Include="Source\Deps\p2DynArray.h" />
+    <ClInclude Include="Source\Deps\p2List.h" />
+    <ClInclude Include="Source\Deps\p2Log.h" />
+    <ClInclude Include="Source\Deps\p2Point.h" />
+    <ClInclude Include="Source\Deps\p2SString.h" />
+    <ClInclude Include="Source\Deps\Pathfinding.h" />
+    <ClInclude Include="Source\Deps\PerfTimer.h" />
+    <ClInclude Include="Source\Deps\SDL_ttf.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
