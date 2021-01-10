@@ -75,7 +75,6 @@ void j1Element::OnLeftClick()
 
 }
 
-
 void j1Element::OnRelease()
 {
 

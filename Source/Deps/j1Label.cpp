@@ -42,8 +42,7 @@ bool j1Label::Update(float dt)
 	SDL_Rect rect_font = { 0,0,0,0 };
 	SDL_QueryTexture(texture, NULL, NULL, &rect_font.w, &rect_font.h);
 	if (enabled)
-		App->render->AddBlitEvent(5, texture, map_position.x + inside_position.x, map_position.y + inside_position.y, rect_font, false, true, 0, 0, 0, 255, true);
-
+		App->render->Blit(texture, map_position.x + inside_position.x, map_position.y + inside_position.y, &rect_font);
 
 	return true;
 }

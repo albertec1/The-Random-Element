@@ -71,19 +71,19 @@ bool j1Button::Update(float dt)
 		if (above)
 		{
 			App->gui->disable_click = true;
-			if (App->input->GetMouseButton(1) == KEYKEY_DOWN)
+			if (App->input->GetMouseButton(1) == j1KeyState::KEY_DOWN)
 				OnClick();
 
-			if (App->input->GetMouseButton(3) == KEY_DOWN)
+			if (App->input->GetMouseButton(3) == j1KeyState::KEY_DOWN)
 				OnLeftClick();
 
-			if (App->input->GetMouseButton(1) == KEY_REPEAT)
+			if (App->input->GetMouseButton(1) == j1KeyState::KEY_REPEAT)
 			{
 				if (X_drag || Y_drag)
 					dragging = true;
 
-				if(textureType != TEXTURE::BUTON && textureType != TEXTURE::OPTIONS && textureType != TEXTURE::QUEST_CLOSE && textureType != TEXTURE::BOTON_SCROLL)
-				App->render->AddBlitEvent(6, texture_click, map_position.x, map_position.y, rect, false, true, 0u, 0u, 0u, 255, true);
+				if(textureType != TEXTURE::BUTON && textureType != TEXTURE::OPTIONS && textureType != TEXTURE::BOTON_SCROLL)
+				App->render->Blit(texture_click, map_position.x, map_position.y, &rect);
 
 				iPoint mouseClick = { 0,0 };
 				App->input->GetMousePosition(mouseClick.x, mouseClick.y);
@@ -95,7 +95,7 @@ bool j1Button::Update(float dt)
 
 		if (dragging) {
 
-			if (App->input->GetMouseButtonDown(1) == KEY_IDLE || App->input->GetMouseButtonDown(1) == KEY_UP)
+			if (App->input->GetMouseButton(1) == j1KeyState::KEY_IDLE || App->input->GetMouseButton(1) == j1KeyState::KEY_UP)
 				dragging = false;
 			else
 			{
@@ -106,45 +106,38 @@ bool j1Button::Update(float dt)
 	}
 
 	if (enabled) {
-
-
 		if (textureType == TEXTURE::BUTON) {
 			if (above && interactable)
 			{
-				App->render->AddBlitEvent(5, texture_hover, map_position.x - 10, map_position.y -3, { 0,0,220,72 }, false, true, 0u, 0u, 0u, 255, true);
+				SDL_Rect temp = { 0,0,220,72 };
+				App->render->Blit(texture_hover, map_position.x - 10, map_position.y -3, &temp);
 			}
 			else {
-				App->render->AddBlitEvent(5, texture, map_position.x, map_position.y, rect, false, true, 0u, 0u, 0u, 255, true);
+				App->render->Blit(texture, map_position.x, map_position.y, &rect);
 			}
 		}
 		else if (textureType == TEXTURE::BOTON_SCROLL) {
 
 			//LIMITING THE SCROLL BAR BUTTON VISUALY
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			if (inside_position.x > 0) {
-				App->render->AddBlitEvent(5, texture, map_position.x + inside_position.x, map_position.y, rect, false, true, 0u, 0u, 0u, 255, true);
+				App->render->Blit(texture, map_position.x + inside_position.x, map_position.y, &rect);
 			}
 			else if (inside_position.x < -235) {
-				App->render->AddBlitEvent(5, texture, map_position.x + inside_position.x + 235, map_position.y, rect, false, true, 0u, 0u, 0u, 255, true);
+				App->render->Blit(texture, map_position.x + inside_position.x + 235, map_position.y, &rect);
 			}
 			else 
-				App->render->AddBlitEvent(5, texture, map_position.x , map_position.y, rect, false, true, 0u, 0u, 0u, 255, true);
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		
+				App->render->Blit(texture, map_position.x , map_position.y, &rect);
 		}
 		else{
-			App->render->AddBlitEvent(5, texture, map_position.x, map_position.y, rect, false, true, 0u, 0u, 0u, 255, true);
+			App->render->Blit(texture, map_position.x, map_position.y, &rect);
 
 		}
 
-
-		if (above && textureType != TEXTURE::BUTON && textureType != TEXTURE::OPTIONS && textureType != TEXTURE::QUEST_CLOSE && textureType != TEXTURE::BOTON_SCROLL && App->input->GetMouseButtonDown(1) != KEY_REPEAT) {
-			App->render->AddBlitEvent(6, texture_hover_2, map_position.x, map_position.y, rect, false, true, 0u, 0u, 0u, 255, true);
+		if (above && textureType != TEXTURE::BUTON && textureType != TEXTURE::OPTIONS && textureType != TEXTURE::BOTON_SCROLL && App->input->GetMouseButton(1) != j1KeyState::KEY_REPEAT) {
+			App->render->Blit(texture_hover_2, map_position.x, map_position.y, &rect);
 		}
 
 		}
-	
 
 	return true;
 }
@@ -153,7 +146,6 @@ bool j1Button::PostUpdate()
 {
 	if(label != nullptr)
 	label->map_position = map_position;
-
 
 	return true;
 }

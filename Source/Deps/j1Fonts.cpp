@@ -89,8 +89,7 @@ void j1Fonts::BlitText(int x, int y, int font_id, const char* text) const
 				rect.y = rect.h * (j / font->row_chars); //x position of the rectangle in the texture
 				rect.x = rect.w * (j % font->row_chars);//y position of the rectangle in the texture
 
-				//App->render->Blit(font->graphic, x + (rect.w * charPosX), y, &rect, 0, false);//Blit of the font, each letter goes on a greater x pos
-				App->render->AddBlitEvent(5, font->graphic, x + (rect.w * charPosX), y, rect, false, true, 0, 0, 0, 255, true);
+				App->render->Blit(font->graphic, x + (rect.w * charPosX), y, &rect);//Blit of the font, each letter goes on a greater x pos
 				charPosX++;
 				break;
 			}

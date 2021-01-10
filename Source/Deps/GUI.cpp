@@ -240,12 +240,6 @@ SDL_Texture* j1GUI::Load_Texture(TEXTURE textureType)
 	case TEXTURE::EXPLANATION:
 		texture_load = App->tex->Load("textures/ui/explanation.png");
 		break;
-	case TEXTURE::DIALOG:
-		texture_load = App->tex->Load("textures/ui/dialog.png");
-		break;
-	case TEXTURE::INFORMATION_IMAGE:
-		texture_load = App->tex->Load("textures/ui/information-image.png");
-		break;
 	}
 	return texture_load;
 }

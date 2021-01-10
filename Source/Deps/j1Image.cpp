@@ -43,9 +43,6 @@ bool j1Image::Start()
 	if (textureType == TEXTURE::EXPLANATION)
 		texture = App->gui->Load_Texture(TEXTURE::EXPLANATION);
 
-	if (textureType == TEXTURE::INFORMATION_IMAGE)
-		texture = App->gui->Load_Texture(TEXTURE::INFORMATION_IMAGE);
-
 	return true; 
 }
 
@@ -57,19 +54,16 @@ bool j1Image::PreUpdate()
 
 bool j1Image::Update(float dt) {
 
-
 	if (enabled) {
 		if (textureType == TEXTURE::MAIN_IMAGE)
-		App->render->AddBlitEvent(3, texture, map_position.x, map_position.y, rect, false,true, 0, 0, 0, 255, true);
+		App->render->Blit(texture, map_position.x, map_position.y, &rect);
 		else if(textureType == TEXTURE::AUDIO_IMAGE)
-		App->render->AddBlitEvent(3, texture, map_position.x, map_position.y, rect, false, true, 0, 0, 0, 255, true);
+		App->render->Blit(texture, map_position.x, map_position.y, &rect);
 		else
-		App->render->AddBlitEvent(4, texture, map_position.x, map_position.y, rect, false, true, 0, 0, 0, 255, true);
-
-
+		App->render->Blit(texture, map_position.x, map_position.y, &rect);
 
 		if (textureType == TEXTURE::EXPLANATION) {
-			App->render->AddBlitEvent(5, texture, map_position.x, map_position.y, rect, false, true, 0, 0, 0, 255, true);
+			App->render->Blit(texture, map_position.x, map_position.y, &rect);
 		}
 	}
 	return true; 

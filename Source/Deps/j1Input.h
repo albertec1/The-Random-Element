@@ -60,8 +60,6 @@ public:
 
 	void GetMousePosFloat(float& x, float& y);
 	fPoint GetMouseWorldPosition();
-	void GetMouseMotion(int& x, int& y);
-
 
 	void EnableTextInput();
 	void DisableTextInput();

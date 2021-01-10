@@ -45,11 +45,11 @@ bool j1InputBox::Update(float dt)
 
 	if (above)
 	{
-		if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
+		if (App->input->GetMouseButton(1) == j1KeyState::KEY_DOWN)
 			OnClick();
 	}
 	else {
-		if (App->input->GetMouseButtonDown(1) == KEY_DOWN)
+		if (App->input->GetMouseButton(1) == j1KeyState::KEY_DOWN)
 			focus = false;
 	}
 
