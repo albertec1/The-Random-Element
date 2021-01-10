@@ -5,6 +5,7 @@
 #include "j1Entity.h"
 #include "j1EntityPlayer.h"
 #include "p2List.h"
+#include "j1MovingEntity.h"
 
 struct SDL_Rect;
 struct Collider;

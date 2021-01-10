@@ -20,13 +20,17 @@ public:
 	void GetWindowSize(uint& width, uint& height) const;
 	int GetScale() const;
 
+	void Fullscreen();
+
 public:
 	SDL_Window* window;//The window we'll be rendering to
 	SDL_Surface* screen_surface;//The surface contained by the window
 	int			scale;
+
 private:
 	p2SString		title;
 	uint			width;
 	uint			height;
+	bool fullscreen = false;
 
 };

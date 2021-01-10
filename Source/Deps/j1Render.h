@@ -43,4 +43,7 @@ public:
 	SDL_Rect		camera;
 	SDL_Rect		viewport;
 	SDL_Color		background;
+
+private:
+	bool camera_follows_player;
 };

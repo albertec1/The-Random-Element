@@ -23,13 +23,13 @@ bool j1Element::Start()
 	return true;
 }
 
-
 void j1Element::Draw()
 {
 
 
 }
 
+//returns true if the mouse is above the element
 bool j1Element::OnAbove()
 {
 	bool ret = false;
@@ -56,7 +56,6 @@ bool j1Element::ChangeLabel(names name)
 {
 	return false;
 }
-
 
 void j1Element::OnClick()
 {

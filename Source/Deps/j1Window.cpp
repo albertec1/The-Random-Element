@@ -3,7 +3,7 @@
 #include "j1App.h"
 #include "j1Window.h"
 #include "SDL/include/SDL.h"
-
+#include "j1Window.h"
 j1Window::j1Window() : j1Module()
 {
 	window = NULL;
@@ -104,4 +104,18 @@ void j1Window::GetWindowSize(uint& width, uint& height) const
 int j1Window::GetScale() const
 {
 	return scale;
+}
+
+void j1Window::Fullscreen()
+{
+	if (fullscreen == false) {
+		Uint32 flags = SDL_WINDOW_SHOWN;
+		flags |= SDL_WINDOW_FULLSCREEN;
+		SDL_SetWindowFullscreen(window, flags);
+		fullscreen = true;
+	}
+	else {
+		SDL_SetWindowFullscreen(window, 0);
+		fullscreen = false;
+	}
 }

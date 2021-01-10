@@ -167,8 +167,10 @@
     <ClCompile Include="j1InputBox.cpp" />
     <ClCompile Include="j1Label.cpp" />
     <ClCompile Include="j1Main.cpp" />
+    <ClCompile Include="j1MainMenuUI.cpp" />
     <ClCompile Include="j1Map.cpp" />
     <ClCompile Include="j1Scene.cpp" />
+    <ClCompile Include="j1ScrollBar.cpp" />
     <ClCompile Include="j1Textures.cpp" />
     <ClCompile Include="j1Timer.cpp" />
     <ClCompile Include="p2Log.cpp" />
@@ -189,6 +191,7 @@
     <ClInclude Include="GUI.h" />
     <ClInclude Include="GUIElements.h" />
     <ClInclude Include="j1Fonts.h" />
+    <ClInclude Include="j1MainMenuUI.h" />
     <ClInclude Include="j1Scene2.h" />
     <ClInclude Include="j1Animation.h" />
     <ClInclude Include="j1Collision.h" />

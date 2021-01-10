@@ -10,11 +10,11 @@
 //Scenes
 class j1Scene;
 class j1Scene2;
+class j1MainMenuUI;
 
 class j1SceneManager : public j1Module
 {
 public:
-
 	j1SceneManager();
 	virtual ~j1SceneManager();
 
@@ -43,16 +43,21 @@ public:
 	//the parallax will be applied from first(0) to last(path_list.lenght)
 	void SetBackgroundImages(p2List<p2SString>* path_list);
 
+	inline int GetCurrentScene()const
+	{
+		return current_scene;
+	}
+
 	void DrawBackground();
 
 public:
 	p2Point<int> camera_init_pos;
-	j1Scene2* scene0;
+	j1MainMenuUI* scene0;
 	j1Scene* scene1;
 	j1Scene2* scene2;
 
 	bool backgroundHasParallax = false;
-
+	bool exitMenu = false;
 private:
 	p2List<j1Module*> scenes;
 	int current_scene;

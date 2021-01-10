@@ -9,14 +9,15 @@
 #include "j1Map.h"
 #include "Pathfinding.h"
 #include "j1EntityManager.h"
+#include "j1MainMenuUI.h"
 #include "p2Log.h"
 
 j1SceneManager::j1SceneManager()
 {
 	name.create("SceneManager");
 	
-	current_scene = 1; //config plz
-	scene0 = new j1Scene2();
+	current_scene = 0; //config plz
+	scene0 = new j1MainMenuUI();
 	scene1 = new j1Scene();
 	scene2 = new j1Scene2();
 	
@@ -82,8 +83,12 @@ bool j1SceneManager::PreUpdate()
 	j1Module* pModule = NULL;
 	int scene_number = 0;
 
-	if (App->input->GetKey(SDL_SCANCODE_1) == j1KeyState::KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_1) == j1KeyState::KEY_DOWN || exitMenu)
+	{
 		ChangeScene(current_scene, 1);
+		if (exitMenu)
+			exitMenu = false;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == j1KeyState::KEY_DOWN)
 		ChangeScene(current_scene, 2);
@@ -110,40 +115,46 @@ bool j1SceneManager::Update(float dt)
 	j1Module* pModule = NULL;
 	int scene_number = 0;
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == j1KeyState::KEY_REPEAT)
-		App->render->camera.y += 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == j1KeyState::KEY_REPEAT)
-		App->render->camera.y -= 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == j1KeyState::KEY_REPEAT)
-		App->render->camera.x += 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == j1KeyState::KEY_REPEAT)
-		App->render->camera.x -= 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_F9) == j1KeyState::KEY_UP)
+	if (current_scene != 0)
 	{
-		App->map->debug_metadata = !(App->map->debug_metadata);
-		App->map->debug_pathtiles = !(App->map->debug_pathtiles);
-		App->pathfinding->debug_pathList = !(App->pathfinding->debug_pathList);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_UP) == j1KeyState::KEY_REPEAT)
+			App->render->camera.y += 10;
 
-	if (App->input->GetKey(SDL_SCANCODE_F10) == j1KeyState::KEY_UP)
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == j1KeyState::KEY_REPEAT)
+			App->render->camera.y -= 10;
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == j1KeyState::KEY_REPEAT)
+			App->render->camera.x += 10;
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == j1KeyState::KEY_REPEAT)
+			App->render->camera.x -= 10;
+
+		if (App->input->GetKey(SDL_SCANCODE_F9) == j1KeyState::KEY_UP)
+		{
+			App->map->debug_metadata = !(App->map->debug_metadata);
+			App->map->debug_pathtiles = !(App->map->debug_pathtiles);
+			App->pathfinding->debug_pathList = !(App->pathfinding->debug_pathList);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_F10) == j1KeyState::KEY_UP)
+		{
+			App->manager->godMode = !(App->manager->godMode);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_F11) == j1KeyState::KEY_UP)
+		{
+			if (App->framerate_cap == 30) { App->framerate_cap = 60; }
+			else
+				App->framerate_cap = 30;
+		}
+
+		App->scene_manager->DrawBackground();
+		App->map->Draw();
+	}
+	else
 	{
-		App->manager->godMode = !(App->manager->godMode);
+		scene0->Activate_Menu();
 	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F11) == j1KeyState::KEY_UP)
-	{
-		if (App->framerate_cap == 30) { App->framerate_cap = 60; }
-		else
-			App->framerate_cap = 30;
-	}
-
-	App->scene_manager->DrawBackground();
-	App->map->Draw();
-
 
 	for (p2List_item<j1Module*>* scene = scenes.start; scene != NULL; scene = scene->next )
 	{
@@ -210,11 +221,17 @@ void j1SceneManager::ChangeScene(int old_scene, int new_scene)
 {
 	switch (old_scene)
 	{
+	case 0:
+		scene0->CleanUp();
+		scene0->Deactivate_Menu();
+		App->pathfinding->CleanUp();
+		App->manager->CleanUp();
+		break;
+
 	case 1:
 		scene1->CleanUp();
 		App->pathfinding->CleanUp();
 		App->manager->CleanUp();
-
 		break;
 
 	case 2:
@@ -224,9 +241,12 @@ void j1SceneManager::ChangeScene(int old_scene, int new_scene)
 		break;
 	}
 
-
 	switch (new_scene)
 	{
+	case 0:
+		scene0->Start();
+		break;
+
 	case 1:
 		scene1->Start();
 		break;

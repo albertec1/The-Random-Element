@@ -7,17 +7,14 @@
 #include "j1Input.h"
 //#include "j1MainMenuUI.h"
 
-
 j1GUI::j1GUI() : j1Module()
 {
 	name.create("gui");
 }
 
-	
 // Destructor
 j1GUI::~j1GUI()
 {}
-
 
 bool j1GUI::Awake(pugi::xml_node& config)
 {
@@ -26,13 +23,10 @@ bool j1GUI::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-
 bool j1GUI::Start()
 {
-
 	return true;
 }
-
 
 bool j1GUI::PreUpdate()
 {
@@ -45,9 +39,7 @@ bool j1GUI::PreUpdate()
 	}
 
 	return ret;
-
 }
-
 
 bool j1GUI::Update(float dt)
 {
@@ -62,12 +54,10 @@ bool j1GUI::Update(float dt)
 	}
 
 	return ret;
-
 }
 
 bool j1GUI::PostUpdate()
 {
-
 	bool ret = true;
 
 	p2List_item<j1Element*>* tmp = GUI_ELEMENTS.start;
@@ -145,8 +135,6 @@ void j1GUI::Spining_UI()
 	//{
 	//	Move_Ui_Element(4 - s, 0, App->mainmenu->menu.quit);
 	//}
-
-
 
 	//if (!Correct_y(App->mainmenu->menu.continue_button->map_position.y, 215))
 	//	Move_Ui_Element(0, 4 - s, App->mainmenu->menu.continue_button);
@@ -250,7 +238,6 @@ j1Element* j1GUI::AddElement(GUItype type, j1Element* parent, fPoint map_positio
 
 	switch (type)
 	{
-
 	case GUItype::GUI_BUTTON:
 		temp = new j1Button();
 		break;
@@ -283,7 +270,7 @@ j1Element* j1GUI::AddElement(GUItype type, j1Element* parent, fPoint map_positio
 		temp->text = text;
 		temp->textureType = textureType;
 
-		GUI_ELEMENTS.add(temp)->data->Start();
+                                                                                                                                                                                                    		GUI_ELEMENTS.add(temp)->data->Start();
 	}
 	return temp;
 }

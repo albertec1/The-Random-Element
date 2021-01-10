@@ -88,6 +88,12 @@
     <ClCompile Include="j1Fonts.cpp">
       <Filter>Development\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="j1MainMenuUI.cpp">
+      <Filter>Development\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="j1ScrollBar.cpp">
+      <Filter>Development\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="p2Defs.h">
@@ -189,6 +195,9 @@
     </ClInclude>
     <ClInclude Include="j1Fonts.h">
       <Filter>Development\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1MainMenuUI.h">
+      <Filter>Development\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

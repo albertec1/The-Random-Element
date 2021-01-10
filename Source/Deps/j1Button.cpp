@@ -65,6 +65,7 @@ bool j1Button::PreUpdate()
 }
 
 bool j1Button::Update(float dt)
+
 {
 	if (interactable)
 	{
@@ -93,7 +94,8 @@ bool j1Button::Update(float dt)
 
 		}
 
-		if (dragging) {
+		if (dragging) 
+		{
 
 			if (App->input->GetMouseButton(1) == j1KeyState::KEY_IDLE || App->input->GetMouseButton(1) == j1KeyState::KEY_UP)
 				dragging = false;
@@ -105,8 +107,10 @@ bool j1Button::Update(float dt)
 		}
 	}
 
-	if (enabled) {
-		if (textureType == TEXTURE::BUTON) {
+	if (enabled) 
+	{
+		if (textureType == TEXTURE::BUTON) 
+		{
 			if (above && interactable)
 			{
 				SDL_Rect temp = { 0,0,220,72 };
@@ -116,7 +120,9 @@ bool j1Button::Update(float dt)
 				App->render->Blit(texture, map_position.x, map_position.y, &rect);
 			}
 		}
-		else if (textureType == TEXTURE::BOTON_SCROLL) {
+
+		else if (textureType == TEXTURE::BOTON_SCROLL) 
+		{
 
 			//LIMITING THE SCROLL BAR BUTTON VISUALY
 			if (inside_position.x > 0) {
@@ -128,7 +134,8 @@ bool j1Button::Update(float dt)
 			else 
 				App->render->Blit(texture, map_position.x , map_position.y, &rect);
 		}
-		else{
+		else
+		{
 			App->render->Blit(texture, map_position.x, map_position.y, &rect);
 
 		}
@@ -137,7 +144,7 @@ bool j1Button::Update(float dt)
 			App->render->Blit(texture_hover_2, map_position.x, map_position.y, &rect);
 		}
 
-		}
+	}
 
 	return true;
 }

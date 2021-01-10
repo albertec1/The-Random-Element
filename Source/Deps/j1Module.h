@@ -7,7 +7,18 @@
 #include "PugiXml\src\pugixml.hpp"
 
 class j1App;
+class j1Element;
 //class Collider;
+
+enum class GUI_Event
+{
+	EVENT_UNKOWNN = -1,
+
+	EVENT_ONCLICK,
+	EVENT_LEFTCLICK,
+	EVENT_DRAG,
+	EVENT_HOVER,
+};
 
 class j1Module
 {
@@ -67,6 +78,10 @@ public:
 		return true;
 	}
 
+	virtual void GUI_Event_Manager(GUI_Event type, j1Element* element)
+	{
+
+	}
 public:
 
 	p2SString name;

@@ -121,6 +121,11 @@ public:
 	float dt = 0.1f;
 	uint32 getFpsCap() { return framerate_cap; };
 	void setFpsCap(uint64 fps);
+
+	bool				game_pause = false;
+	bool				clicking_ui = false;
+
+	int font_name = -1;
 };
 
 extern j1App* App;
