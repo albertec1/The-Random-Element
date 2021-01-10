@@ -60,7 +60,7 @@ bool j1SceneManager::Start()
 	j1Module* pModule = NULL;
 	int scene_number = 0;
 
-	mainScreenBackground = App->tex->Load("Assets/textures/ui/main-screen-background.png");
+	mainScreenBackground = App->tex->Load("Assets/textures/ui/main_screen_background.png");
 
 	for (p2List_item<j1Module*>* scene = scenes.start; scene != nullptr; scene = scene->next)
 	{

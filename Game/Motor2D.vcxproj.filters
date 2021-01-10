@@ -91,11 +91,11 @@
     <ClCompile Include="Source\Deps\j1Main.cpp">
       <Filter>Development\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Deps\j1Map.cpp">
-      <Filter>Development\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Deps\External\PugiXml\src\pugixml.cpp">
       <Filter>Development\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Deps\j1Map.cpp">
+      <Filter>Development</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

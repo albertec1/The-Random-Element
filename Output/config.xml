@@ -27,7 +27,7 @@
   <SceneManager>
     <folder value="Assets/maps/"/>
     <scene1>
-      <path value="first-map-v01"/>
+      <path value="first_map_v01"/>
       <camera initial_pos_x="0" initial_pos_y="0"/>
       <id value="1"/>
       <bg_image_path value="background1.png"/>
@@ -36,7 +36,7 @@
       <bg_image_path value="background4.png"/>
     </scene1>
     <scene2>
-      <path value="second-map-v01"/>
+      <path value="second_map_v01"/>
       <camera initial_pos_x="0" initial_pos_y="0"/>
       <id value="2"/>
     </scene2> 
@@ -60,7 +60,7 @@
         <gravity value="3.0f"/>
         <movement_speed value="220"/>
         <special_range value="128"/>
-        <texture_path value="Assets/spritesheets/character-spritesheet.png"/>
+        <texture_path value="Assets/spritesheets/character_spritesheet.png"/>
       </player_stats>
       <sprites>
         <animation            name ="craft"   coll="0" row="0" width="32" height="32" collumns="6" frames="6" speed="0.4" loop="true"/>
@@ -82,7 +82,7 @@
         <gravity value="4.0f"/>
         <movement_speed value="150"/>
         <special_range value="128"/>
-        <texture_path value="Assets/spritesheets/enemies-tileset.png"/>
+        <texture_path value="Assets/spritesheets/enemies_tileset.png"/>
       </entity_stats>
      </autonomousEntity>
   </EntityManager> 

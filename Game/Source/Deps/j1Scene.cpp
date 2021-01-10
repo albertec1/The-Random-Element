@@ -34,7 +34,7 @@ bool j1Scene::Awake(pugi::xml_node& _config)
 bool j1Scene::Start()
 {
 	App->sceneManager->SetBackgroundImages(&BackroundImages);
-	App->map->Load("first-map-v01.tmx");
+	App->map->Load("first_map_v01.tmx");
 
 	App->manager->player = (j1EntityPlayer*)App->manager->CreateEntity(ENTITY_TYPE::PLAYER, { 808, 700 });
 

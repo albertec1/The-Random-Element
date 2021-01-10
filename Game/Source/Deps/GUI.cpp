@@ -184,7 +184,7 @@ SDL_Texture* j1GUI::LoadTexture(Texture textureType)
 		textureLoad = App->tex->Load("Assets/textures/ui/image.png");
 		break;
 	case Texture::MANAGER_IMAGE:
-		textureLoad = App->tex->Load("Assets/textures/ui/manager-image.png");
+		textureLoad = App->tex->Load("Assets/textures/ui/manager_image.png");
 		break;
 	case Texture::NEXT:
 		textureLoad = App->tex->Load("Assets/textures/ui/next.png");
@@ -196,10 +196,10 @@ SDL_Texture* j1GUI::LoadTexture(Texture textureType)
 		textureLoad = App->tex->Load("Assets/textures/ui/options.png");
 		break;
 	case Texture::BUTON_HOVER:
-		textureLoad = App->tex->Load("Assets/textures/ui/button-1.png");
+		textureLoad = App->tex->Load("Assets/textures/ui/button_1.png");
 		break;
 	case Texture::MAIN_IMAGE:
-		textureLoad = App->tex->Load("Assets/textures/ui/ui-image.png");
+		textureLoad = App->tex->Load("Assets/textures/ui/ui_image.png");
 		break;
 	case Texture::RESOURCES_IMAGE:
 		textureLoad = App->tex->Load("Assets/textures/ui/resources.png");
@@ -208,7 +208,7 @@ SDL_Texture* j1GUI::LoadTexture(Texture textureType)
 		textureLoad = App->tex->Load("Assets/textures/ui/scroll.png");
 		break;
 	case Texture::BOTON_SCROLL:
-		textureLoad = App->tex->Load("Assets/textures/ui/scroll-button.png");
+		textureLoad = App->tex->Load("Assets/textures/ui/scroll_button.png");
 		break;
 	case Texture::AUDIO_IMAGE:
 		textureLoad = App->tex->Load("Assets/textures/ui/audio-image.png");
@@ -220,7 +220,7 @@ SDL_Texture* j1GUI::LoadTexture(Texture textureType)
 		textureLoad = App->tex->Load("Assets/textures/ui/info.png");
 		break;
 	case Texture::INFO_IMAGE:
-		textureLoad = App->tex->Load("Assets/textures/ui/info-image.png");
+		textureLoad = App->tex->Load("Assets/textures/ui/info_image.png");
 		break;
 	case Texture::COIN:
 		textureLoad = App->tex->Load("Assets/textures/ui/coin.png");
